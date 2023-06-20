@@ -7,5 +7,6 @@
   <div>
     <h1 class="text-primary text-headline-medium">Welcome to my portfolio</h1>
     <p>Initial push to production.</p>
+    <DarkToggleButton/>
   </div>
 </template>

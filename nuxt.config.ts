@@ -1,8 +1,9 @@
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  experimental: {viewTransition: true},
+  experimental: { viewTransition: true },
 
   srcDir: 'src',
+
+  css: ['~/assets/css/main.css'],
 
   modules: [
     'nuxt-icon',
@@ -14,14 +15,22 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/image-edge',
     '@nuxtjs/google-fonts',
-    '@/modules/theme/module.ts'
+    '~/modules/theme/module.ts'
   ],
+
+  postcss: {
+    plugins: {
+      'postcss-import': true,
+      'tailwindcss/nesting': {},
+      'postcss-nested': {}
+    }
+  },
 
   tailwindcss: {
     configPath: 'tailwind.config',
     cssPath: '@/assets/css/tailwind.css',
     exposeConfig: true,
-    viewer: false,
+    viewer: false
   },
 
   googleFonts: {
@@ -58,6 +67,9 @@ export default defineNuxtConfig({
   },
 
   pwa: {
+    client: {
+      installPrompt: false
+    },
     registerType: 'autoUpdate',
     manifest: {
       name: 'Maikel Portfolio',
@@ -96,13 +108,6 @@ export default defineNuxtConfig({
           purpose: 'any maskable'
         }
       ]
-    },
-    workbox: {
-      navigateFallback: '/'
-    },
-    client: {
-      installPrompt: true
     }
-  },
-
+  }
 })

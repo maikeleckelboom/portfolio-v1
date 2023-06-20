@@ -1,13 +1,13 @@
-import {Config} from 'tailwindcss'
-import {materialPreset} from '~~/lib/material-preset'
+import { Config } from 'tailwindcss'
+import { materialPreset } from './src/modules/theme/lib/material-preset'
 
 export default {
-  // future: {
-  //   hoverOnlyWhenSupported: true,
-  //   respectDefaultRingColorOpacity: true,
-  //   disableColorOpacityUtilitiesByDefault: true,
-  //   relativeContentPathsByDefault: true
-  // },
+  future: {
+    hoverOnlyWhenSupported: true,
+    respectDefaultRingColorOpacity: true,
+    disableColorOpacityUtilitiesByDefault: true,
+    relativeContentPathsByDefault: true
+  },
   content: [
     './src/components/**/*.{vue,ts}',
     './src/layouts/**/*.vue',
