@@ -54,7 +54,11 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'assets/img',
-    domains: ['localhost', 'maikeleckelboom.nl']
+    domains: [
+      'localhost',
+      'maikeleckelboom.nl',
+      'https://github.com/maikeleckelboom/portfolio-v1'
+    ]
   },
 
   colorMode: {

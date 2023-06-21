@@ -13,10 +13,12 @@ watch(
   () => props.modelValue,
   (value) => {
     // HTML
-    const isSame = editor.value!.getHTML() === value
+    // const isSame = editor.value!.getHTML() === value
 
+    console.log(this.editor.getJSON())
     // JSON
-    // const isSame = JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
+    const isSame =
+      JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
 
     if (isSame) {
       return
