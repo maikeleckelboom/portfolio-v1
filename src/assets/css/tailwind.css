@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+.ProseMirror,
+select {
+    @apply flex  min-h-[48px] w-full rounded-xl bg-surface p-2 ;
+}
+
+
+[contenteditable='true'] {
+
+}
+
+textarea,
+select,
+input {
+    @apply rounded-xl border border-outline-variant bg-surface ;
+}
+
+input {
+    @apply h-12 p-2;
+}

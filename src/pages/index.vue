@@ -17,7 +17,7 @@ const selected = useState()
       >
         <NuxtLink to="/picture" @click.native="selected = 'picture'">
           <NuxtImg
-            :class="selected === 'picture' ? 'selected' : 'selected'"
+            :class="{ selected: selected === 'picture' }"
             :modifiers="{ grayscale: true, rounded: true }"
             alt="Maikel Eckelboom"
             class="rounded-full border border-surface-container-high bg-surface-container"
@@ -45,6 +45,7 @@ const selected = useState()
           </NuxtLink>
         </template>
       </ProfileHero>
+      <Experiences />
     </div>
   </PageContainer>
 </template>

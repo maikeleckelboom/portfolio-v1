@@ -1,8 +1,4 @@
-<script lang="ts" setup>
-import ProfileHero from '~/components/ProfileHero.vue'
-import BaseButton from '~/components/BaseButton.vue'
-import Breadcrumbs from '~/components/Breadcrumbs.vue'
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <TopAppHeader>
@@ -24,13 +20,9 @@ import Breadcrumbs from '~/components/Breadcrumbs.vue'
           Dagelijks bezig met ontwikkeling, ontwerp en onderhoud van
           webapplicaties.
         </template>
-        <template #button>
-          <!--          <NuxtLink to="/">-->
-          <!--            <BaseButton> Ga Terug</BaseButton>-->
-          <!--          </NuxtLink>-->
-        </template>
       </ProfileHero>
     </div>
+    <div class="px-2"></div>
     <div class="px-2">
       <Breadcrumbs />
     </div>
