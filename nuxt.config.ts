@@ -59,7 +59,7 @@ export default defineNuxtConfig({
     domains: [
       'localhost',
       'maikeleckelboom.nl',
-      'github.com/maikeleckelboom/portfolio-v1/src/assets/img'
+      'https://github.com/maikeleckelboom/portfolio-v1.git'
     ]
   },
 
