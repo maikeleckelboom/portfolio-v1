@@ -17,12 +17,11 @@ const defaultContent = {
 }
 
 const formModel = reactive<IExperience>({
-  type: 'internship',
-  startDate: '',
-  endDate: '',
+  type: '',
+  dateStart: '',
+  dateEnd: '',
   roleName: '',
-  roleDesc: '',
-  companyDesc: '',
+  roleDescriptionLabel: '',
   roleDescription: '',
   companyName: '',
   companyLocation: '',
@@ -52,45 +51,63 @@ const onSubmit = async (ev) => {
     <PageContainer>
       <div class="grid gap-4 p-4">
         <fieldset>
-          <label for="role">Functienaam</label>
+          <label class="mb-2" for="role">Functienaam</label>
           <input id="role" v-model="formModel.roleName" type="text" />
         </fieldset>
         <fieldset>
-          <label for="type"> Type </label>
+          <label class="mb-2" for="type"> Type </label>
           <select id="type" v-model="formModel.type">
             <option value="internship">Stage</option>
             <option value="job">Werk</option>
           </select>
         </fieldset>
         <fieldset>
-          <label for="role-about"> Functieomschrijving </label>
-          <AppTextEditor v-model="formModel.roleDesc" :max-limit="200" />
+          <label class="mb-2" for="role-description-label">
+            Functieomschrijving label
+          </label>
+          <input
+            id="role-description-label"
+            v-model="formModel.roleDescriptionLabel"
+            type="text"
+          />
+        </fieldset>
+        <fieldset>
+          <label class="mb-2" for="role-about"> Functieomschrijving </label>
+          <textarea
+            id="role-about"
+            v-model="formModel.roleDescription"
+            type="text"
+          />
         </fieldset>
         <fieldset>
           <fieldset class="grid-cols-2">
             <div class="grid gap-2">
-              <label for="start-date">Startdatum</label>
+              <label class="mb-2" for="start-date">Startdatum</label>
               <input
                 id="start-date"
-                v-model="formModel.startDate"
+                v-model="formModel.dateStart"
                 type="date"
               />
             </div>
             <div class="grid gap-2">
-              <label for="end-date"> Einddatum </label>
-              <input id="end-date" v-model="formModel.endDate" type="date" />
+              <label class="mb-2" for="end-date"> Einddatum </label>
+              <input id="end-date" v-model="formModel.dateEnd" type="date" />
             </div>
           </fieldset>
-          <label for="company"> Bedrijfsnaam </label>
+          <label class="mb-2" for="company"> Bedrijfsnaam </label>
           <input id="company" v-model="formModel.companyName" type="text" />
         </fieldset>
         <fieldset>
-          <label for="about"> Bedrijfsomschrijving </label>
-          <input id="about" v-model="formModel.companyDesc" type="text" />
+          <label class="mb-2" for="about"> Bedrijfsomschrijving </label>
+          <input
+            id="about"
+            v-model="formModel.companyDescription"
+            type="text"
+          />
         </fieldset>
         <fieldset class="grid-cols-2">
           <div class="grid gap-2">
-            <label for="location"> Bedrijfslocatie </label>
+            <label class="mb-2" for="location"> Bedrijfslocatie </label>
             <input
               id="location"
               v-model="formModel.companyLocation"
@@ -98,7 +115,7 @@ const onSubmit = async (ev) => {
             />
           </div>
           <div class="grid gap-2">
-            <label for="website"> Bedrijfswebsite </label>
+            <label class="mb-2" for="website"> Bedrijfswebsite </label>
             <input
               id="website"
               v-model="formModel.companyWebsite"

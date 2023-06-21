@@ -2,14 +2,21 @@ import { JSONContent } from '@tiptap/vue-3'
 
 declare interface IExperience {
   id: number
-  type: 'internship' | 'work'
-  startDate: string
-  endDate: string
+  type: 'internship' | 'job'
+  tags: string[]
+  dateStart: string
+  dateEnd: string
   roleName: string
-  roleDescription: JSONContent
+  roleDescription: string
+  roleDescriptionLabel?: string
   companyName: string
   companyWebsite: string
-  companyDescription: JSONContent
+  companyDescription: string
   companyLocation: string
   createdAt: string
+}
+
+declare interface IExperienceJSON extends JSONContent {
+  type: 'experience'
+  attrs: IExperience
 }

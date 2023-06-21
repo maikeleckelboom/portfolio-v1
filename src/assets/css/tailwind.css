@@ -21,3 +21,20 @@ input {
 input {
     @apply h-12 p-2;
 }
+
+a:focus-visible,
+input[type="reset"]:focus-visible,
+input[type="button"]:focus-visible,
+input[type="submit"]:focus-visible,
+button:focus-visible {
+    @apply outline-none;
+}
+
+a:focus,
+button:focus-visible,
+input[type="reset"]:focus-visible,
+input[type="button"]:focus-visible,
+input[type="submit"]:focus-visible,
+button:focus {
+    @apply outline-none;
+}

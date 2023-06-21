@@ -4,7 +4,7 @@
   <TopAppHeader>
     <template #leading-icons>
       <NuxtLink to="/">
-        <Logo />
+        <TheLogo />
       </NuxtLink>
     </template>
     <template #title> Portfolio</template>
@@ -22,8 +22,7 @@
         </template>
       </ProfileHero>
     </div>
-    <div class="px-2"></div>
-    <div class="px-2">
+    <div class="p-2">
       <Breadcrumbs />
     </div>
   </div>

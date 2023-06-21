@@ -4,8 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
 import CharacterCount from '@tiptap/extension-character-count'
-import { Link } from '@tiptap/extension-link'
-import Paragraph from '@tiptap/extension-paragraph'
+import Link from '@tiptap/extension-link'
 import Focus from '@tiptap/extension-focus'
 
 export default {

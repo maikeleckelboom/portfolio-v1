@@ -55,11 +55,11 @@ export default defineNuxtConfig({
   ],
 
   image: {
-    dir: 'assets/img',
+    dir: process.env.NODE_ENV === 'production' ? '' : 'assets/img',
     domains: [
       'localhost',
       'maikeleckelboom.nl',
-      'raw.githubusercontent.com/maikeleckelboom/portfolio-v1/main/src/assets/img'
+      'raw.githubusercontent.com/maikeleckelboom/portfolio-v1/main/src/assets/img/picture.webp'
     ]
   },
 
