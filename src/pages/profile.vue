@@ -1,23 +1,25 @@
 <script lang="ts" setup>
-const selected = useState()
+import ProfileHero from '~/components/ProfileHero.vue'
+import BaseButton from '~/components/BaseButton.vue'
+import Breadcrumbs from '~/components/Breadcrumbs.vue'
 </script>
 
 <template>
   <TopAppHeader>
     <template #leading-icons>
-      <Logo />
+      <NuxtLink to="/">
+        <Logo />
+      </NuxtLink>
     </template>
-    <template #title>Portfolio</template>
-    <template #trailing-icons></template>
+    <template #title> Portfolio</template>
   </TopAppHeader>
-  <PageContainer>
+  <div class="mx-auto w-full max-w-5xl">
     <div class="grid grid-cols-[auto,1fr] gap-3.5 px-2 py-4">
       <div
-        class="h-ful group relative flex flex-col items-center justify-start pr-3"
+        class="group relative flex h-full flex-col items-center justify-start pr-3"
       >
-        <NuxtLink to="/picture" @click.native="selected = 'picture'">
+        <NuxtLink to="/picture">
           <NuxtImg
-            :class="selected === 'picture' ? 'selected' : 'selected'"
             :modifiers="{ grayscale: true, rounded: true }"
             alt="Maikel Eckelboom"
             class="rounded-full border border-surface-container-high bg-surface-container"
@@ -40,17 +42,14 @@ const selected = useState()
           webapplicaties.
         </template>
         <template #button>
-          <NuxtLink to="/profile" @click.native="selected = 'profile'">
-            <BaseButton> Meer over mij</BaseButton>
+          <NuxtLink to="/">
+            <BaseButton> Ga Terug</BaseButton>
           </NuxtLink>
         </template>
       </ProfileHero>
     </div>
-  </PageContainer>
+    <div class="px-2">
+      <Breadcrumbs />
+    </div>
+  </div>
 </template>
-
-<style>
-html:not(.is-transitioning) img.selected {
-  view-transition-name: picture;
-}
-</style>

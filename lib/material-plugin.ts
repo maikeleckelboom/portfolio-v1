@@ -119,7 +119,6 @@ export const materialPlugin = plugin(
     */
     })
     addUtilities({
-      '.material-font': {},
       '.native-touch': {
         WebkitTapHighlightColor: 'transparent',
         WebkitTouchCallout: 'none'
@@ -134,9 +133,9 @@ export const materialPlugin = plugin(
         '@apply border-outline-variant': {}
       },
       body: {
-        '@apply antialiased native-touch material-font bg-background text-on-background text-body-medium':
+        '@apply antialiased native-touch bg-background text-on-background text-body-medium':
           {},
-        '@apply overflow-x-hidden overflow-y-scroll m-scrollbar': {}
+        '@apply overflow-x-hidden overflow-y-auto m-scrollbar': {}
       },
       '.icon': {
         '@apply h-6 w-6 text-on-surface': {}
@@ -406,11 +405,11 @@ export const materialPlugin = plugin(
       extend: {
         minWidth: {
           'd-screen': '100dvw',
-          'd-screen-1/2': '50dvw',
+          'd-screen-1/2': '50dvw'
         },
         maxWidth: {
           'd-screen': '100dvw',
-          'd-screen-1/2': '50dvw',
+          'd-screen-1/2': '50dvw'
         },
         width: {
           'd-screen': '100dvw'

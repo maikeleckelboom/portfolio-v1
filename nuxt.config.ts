@@ -3,10 +3,7 @@ export default defineNuxtConfig({
 
   srcDir: 'src',
 
-  css: [
-    '~/assets/css/tailwind.css',
-    '~/assets/css/main.css'
-  ],
+  css: ['~/assets/css/tailwind.css'],
 
   modules: [
     'nuxt-icon',
@@ -30,13 +27,22 @@ export default defineNuxtConfig({
     }
   },
 
-
   googleFonts: {
     preload: true,
     prefetch: true,
     families: {
       'Open+Sans': true
     }
+  },
+
+  theme: {
+    options: {
+      dark: true
+    }
+  },
+
+  icon: {
+    size: '24px'
   },
 
   components: [

@@ -4,7 +4,7 @@ type ComponentIcon = {
   icon: string
   onClick: () => void
 }
-const {trailingIcons = [], top} = defineProps<{
+const { trailingIcons = [], top } = defineProps<{
   trailingIcons?: ComponentIcon[]
   top?: string
 }>()
@@ -16,14 +16,12 @@ const emit = defineEmits<{
 
 <template>
   <div
-    :style="{top}"
-    @click="emit('clicked')"
+    :style="{ top }"
     class="fixed top-[calc(var(--height)_*_0.5_+_24px)] isolate z-40 min-w-[180px] overflow-hidden rounded-md bg-surface-container-high"
+    @click="emit('clicked')"
   >
-    <div
-      class="flex w-full flex-col flex-nowrap items-center"
-    >
-      <slot/>
+    <div class="flex w-full flex-col flex-nowrap items-center">
+      <slot />
       <template v-for="icon in trailingIcons">
         <slot :icon="icon" name="trailingIcon">
           <button
@@ -39,7 +37,7 @@ const emit = defineEmits<{
           </button>
         </slot>
       </template>
-      <DarkToggleButton v-slot="{mode}">
+      <DarkToggleButton v-slot="{ mode }">
         {{ mode.value === 'light' ? 'Donkere' : 'Lichte' }} modus
       </DarkToggleButton>
     </div>
