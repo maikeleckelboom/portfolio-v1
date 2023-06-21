@@ -35,9 +35,11 @@ export default defineNuxtConfig({
     }
   },
 
-  theme: {
-    options: {
-      dark: true
+  appConfig: {
+    theme: {
+      options: {
+        dark: true
+      }
     }
   },
 
@@ -57,7 +59,7 @@ export default defineNuxtConfig({
     domains: [
       'localhost',
       'maikeleckelboom.nl',
-      'https://github.com/maikeleckelboom/portfolio-v1/src/assets/img'
+      'github.com/maikeleckelboom/portfolio-v1/src/assets/img'
     ]
   },
 
