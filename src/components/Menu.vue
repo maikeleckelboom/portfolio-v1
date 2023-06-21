@@ -17,13 +17,13 @@ const emit = defineEmits<{
 <template>
   <div
     :style="{top}"
+    @click="emit('clicked')"
     class="fixed top-[calc(var(--height)_*_0.5_+_24px)] isolate z-40 min-w-[180px] overflow-hidden rounded-md bg-surface-container-high"
   >
     <div
       class="flex w-full flex-col flex-nowrap items-center"
-      @click.passive="emit('clicked')"
     >
-      <slot></slot>
+      <slot/>
       <template v-for="icon in trailingIcons">
         <slot :icon="icon" name="trailingIcon">
           <button
@@ -39,7 +39,6 @@ const emit = defineEmits<{
           </button>
         </slot>
       </template>
-
       <DarkToggleButton v-slot="{mode}">
         {{ mode.value === 'light' ? 'Donkere' : 'Lichte' }} modus
       </DarkToggleButton>

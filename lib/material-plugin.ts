@@ -405,26 +405,12 @@ export const materialPlugin = plugin(
       },
       extend: {
         minWidth: {
-          '1/2': '50%',
-          '1/3': '33.333333%',
-          '2/3': '66.666667%',
-          '1/4': '25%',
           'd-screen': '100dvw',
           'd-screen-1/2': '50dvw',
-          'd-screen-1/3': '33.333333dvw',
-          'd-screen-2/3': '66.666667dvw',
-          'd-screen-1/4': '25dvw'
         },
         maxWidth: {
-          '1/2': '50%',
-          '1/3': '33.333333%',
-          '2/3': '66.666667%',
-          '1/4': '25%',
           'd-screen': '100dvw',
           'd-screen-1/2': '50dvw',
-          'd-screen-1/3': '33.333333dvw',
-          'd-screen-2/3': '66.666667dvw',
-          'd-screen-1/4': '25dvw'
         },
         width: {
           'd-screen': '100dvw'

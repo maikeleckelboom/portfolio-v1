@@ -3,11 +3,13 @@ export default defineNuxtConfig({
 
   srcDir: 'src',
 
-  css: ['~/assets/css/main.css'],
+  css: [
+    '~/assets/css/tailwind.css',
+    '~/assets/css/main.css'
+  ],
 
   modules: [
     'nuxt-icon',
-    '@nuxtjs/tailwindcss',
     '@vite-pwa/nuxt',
     '@pinia/nuxt',
     '@vueuse/nuxt',
@@ -20,18 +22,14 @@ export default defineNuxtConfig({
 
   postcss: {
     plugins: {
-      'postcss-import': true,
+      'postcss-import': {},
+      'postcss-nested': {},
       'tailwindcss/nesting': {},
-      'postcss-nested': {}
+      tailwindcss: {},
+      autoprefixer: {}
     }
   },
 
-  tailwindcss: {
-    configPath: 'tailwind.config',
-    cssPath: '@/assets/css/tailwind.css',
-    exposeConfig: true,
-    viewer: false
-  },
 
   googleFonts: {
     preload: true,
@@ -49,6 +47,7 @@ export default defineNuxtConfig({
   ],
 
   image: {
+    dir: 'assets/img',
     domains: ['localhost', 'maikeleckelboom.nl']
   },
 
