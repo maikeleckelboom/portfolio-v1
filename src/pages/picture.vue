@@ -15,7 +15,7 @@ whenever(escape, goBack)
 
 <template>
   <div
-    class="fixed z-10 grid w-full grid-rows-[auto,1fr] place-content-center px-2 py-4 text-surface"
+    class="fixed z-10 mt-4 grid w-full grid-rows-[auto,1fr] place-items-center px-2 py-4 text-surface md:mt-12"
   >
     <div class="relative flex justify-center">
       <NuxtImg
@@ -29,16 +29,16 @@ whenever(escape, goBack)
       />
     </div>
     <div
-      class="relative flex w-full max-w-md flex-col items-center justify-center p-8 text-on-secondary-container"
+      class="relative flex w-full max-w-md flex-col items-center justify-start p-8 text-on-secondary-container"
     >
-      <h1 class="mb-2 text-center text-headline-large font-semibold">
+      <h1 class="mb-2 text-center text-headline-large font-bold">
         Maikel Eckelboom
       </h1>
       <p class="-skew-x-5 text-center text-headline-small text-[balance]">
         "Dagelijks bezig met ontwikkeling, ontwerp en onderhoud van
         webapplicaties."
       </p>
-      <div class="mt-24 opacity-70">
+      <div class="mt-14 opacity-70">
         <p class="inline-flex flex-nowrap items-center">
           <Icon
             class="h-8 w-8 rotate-90 text-on-secondary-container opacity-90"

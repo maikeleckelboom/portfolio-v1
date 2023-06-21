@@ -38,7 +38,7 @@ const { data: experienceList } = await useAsyncData(
     <div
       v-for="(experience, key) in experienceList"
       :key="key"
-      class="grid grid-cols-[auto,1fr] gap-x-3 gap-y-1.5 p-2 py-4 md:gap-x-6"
+      class="grid grid-cols-[auto,1fr] gap-x-3 gap-y-1.5 md:gap-x-6"
     >
       <div class="flex flex-col border-r-outline-variant p-1">
         <span class="text-end text-label-medium tabular-nums">
@@ -60,7 +60,7 @@ const { data: experienceList } = await useAsyncData(
             <span class="mb-0.5 text-title-medium">
               {{ experience.roleName }}
             </span>
-            <span class="mb-0.5 ml-1 mr-0.5 text-title-medium">@</span>
+            <span class="mb-0.5 px-0.5 text-title-medium">@</span>
             <a :href="experience.companyWebsite" class="text-title-medium"
               >{{ experience.companyName }}
             </a>
@@ -76,8 +76,7 @@ const { data: experienceList } = await useAsyncData(
           <ul class="pl-2">
             <li
               v-for="bulletPoint in experience.roleDescription
-                .trim()
-                .split('- ')
+                .split('--')
                 .slice(1)"
               class="list-disc"
             >

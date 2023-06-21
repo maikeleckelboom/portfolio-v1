@@ -12,23 +12,21 @@ const selected = useState()
   </TopAppHeader>
   <PageContainer>
     <div class="flex flex-col">
-      <div class="grid grid-cols-[auto,1fr] gap-3.5 px-2 py-4">
-        <div
-          class="h-ful group relative flex flex-col items-center justify-start pr-3"
-        >
+      <div class="grid grid-cols-[auto,1fr]">
+        <div class="group relative flex flex-col items-center justify-start">
           <NuxtLink to="/picture" @click.native="selected = 'picture'">
             <NuxtImg
               :class="{ selected: selected === 'picture' }"
               :modifiers="{ grayscale: true }"
               alt="Maikel Eckelboom"
               class="rounded-full border border-surface-container-high bg-surface-container"
+              sizes="sm:60px md:80px"
               src="picture.webp"
-              width="80"
             />
           </NuxtLink>
-          <div
-            class="absolute right-0 top-2 flex h-[60px] w-[1px] rounded-md bg-outline-variant"
-          />
+          <!--          <div-->
+          <!--            class="absolute right-0 top-2 flex h-[60px] w-[1px] rounded-md bg-outline-variant"-->
+          <!--          />-->
         </div>
         <ProfileHero>
           <template #title> Maikel Eckelboom</template>
