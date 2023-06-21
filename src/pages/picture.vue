@@ -15,7 +15,7 @@ whenever(escape, goBack)
 
 <template>
   <div
-    class="fixed z-10 flex h-24 h-full w-full flex-col items-center px-2 py-14 text-surface"
+    class="fixed z-10 flex h-full w-full flex-col items-center px-2 py-14 text-surface"
   >
     <div>
       <NuxtImg
