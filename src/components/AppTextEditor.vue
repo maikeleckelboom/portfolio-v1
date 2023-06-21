@@ -1,5 +1,5 @@
-<script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
+<script lang="ts" setup>
+import { EditorContent, EditorOptions, useEditor } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
@@ -7,179 +7,185 @@ import CharacterCount from '@tiptap/extension-character-count'
 import Link from '@tiptap/extension-link'
 import Focus from '@tiptap/extension-focus'
 
-export default {
-  components: {
-    EditorContent
-  },
-  props: {
-    modelValue: {
-      type: String,
-      default: ''
-    },
-    maxLimit: {
-      type: Number,
-      default: null
-    }
-  },
-  data() {
-    return {
-      editor: null,
-      textActions: [
-        {
-          slug: 'bold',
-          icon: 'ic:baseline-format-bold',
-          active: 'bold'
-        },
-        {
-          slug: 'italic',
-          icon: 'ic:baseline-format-italic',
-          active: 'italic'
-        },
-        {
-          slug: 'underline',
-          icon: 'ic:baseline-format-underlined',
-          active: 'underline'
-        },
-        {
-          slug: 'strike',
-          icon: 'ic:baseline-strikethrough-s',
-          active: 'strike'
-        },
-        {
-          slug: 'link',
-          icon: 'ic:baseline-link',
-          active: 'link'
-        },
-        {
-          slug: 'align',
-          option: 'left',
-          icon: 'ic:baseline-format-align-left',
-          active: {
-            textAlign: 'left'
-          }
-        },
-        {
-          slug: 'align',
-          option: 'center',
-          icon: 'ic:baseline-format-align-center',
-          active: { textAlign: 'center' }
-        },
-        {
-          slug: 'align',
-          option: 'right',
-          icon: 'ic:baseline-format-align-right',
-          active: { textAlign: 'right' }
-        },
-        {
-          slug: 'align',
-          option: 'justify',
-          icon: 'ic:baseline-format-align-justify',
-          active: { textAlign: 'justify' }
-        },
-        {
-          slug: 'bulletList',
-          icon: 'ic:baseline-format-list-bulleted',
-          active: 'bulletList'
-        },
-        {
-          slug: 'orderedList',
-          icon: 'ic:baseline-format-list-numbered',
-          active: 'orderedList'
-        },
-        {
-          slug: 'undo',
-          icon: 'ic:baseline-undo',
-          active: 'undo'
-        },
-        {
-          slug: 'redo',
-          icon: 'ic:baseline-redo',
-          active: 'redo'
-        },
-        {
-          slug: 'clear',
-          icon: 'ic:baseline-clear',
-          active: 'clear'
-        }
-      ]
-    }
-  },
-  computed: {
-    charactersCount() {
-      return this.editor.storage.characterCount.characters()
-    },
-    wordsCount() {
-      return this.editor.storage.characterCount.words()
-    }
-  },
-  watch: {
-    modelValue(value) {
-      if (this.editor.getHTML() === value) return
-      this.editor.commands.setContent(this.modelValue, false)
-    }
-  },
-  methods: {
-    onActionClick(slug, option = null) {
-      const vm = this.editor.chain().focus()
-      const actionTriggers = {
-        bold: () => vm.toggleBold().run(),
-        italic: () => vm.toggleItalic().run(),
-        underline: () => vm.toggleUnderline().run(),
-        strike: () => vm.toggleStrike().run(),
-        bulletList: () => vm.toggleBulletList().run(),
-        orderedList: () => vm.toggleOrderedList().run(),
-        align: () => vm.setTextAlign(option).run(),
-        undo: () => vm.undo().run(),
-        redo: () => vm.redo().run(),
-        link: () => {
-          const url = prompt('URL')
-          vm.toggleLink({ href: url }).run()
-        },
-        clear: () => {
-          vm.clearNodes().run()
-          vm.unsetAllMarks().run()
-        }
-      }
+const editorContent = ref<InstanceType<typeof EditorContent>>()
 
-      actionTriggers[slug]()
+const keepFocused = () => {
+  if (!editorContent.value?.$el) return
+  editorContent.value!.$el.classList.add('keep-focused')
+}
+
+const removeKeepFocused = () => {
+  if (!editorContent.value?.$el) return
+  editorContent.value!.$el.classList.remove('keep-focused')
+}
+
+const focusContentEditor = () => {
+  if (!editorContent.value?.$el) return
+  editorContent.value!.$el.focus()
+}
+
+const emit = defineEmits<{
+  'update:modelValue': (value: string) => void
+}>()
+
+const { modelValue = '', maxLimit = 0 } = defineProps<{
+  modelValue: string
+  maxLimit: number
+}>()
+
+const editor = useEditor({
+  content: modelValue,
+  extensions: [
+    Underline,
+    Focus.configure({
+      className: 'bg-tertiary-container/50 text-on-tertiary-container',
+      forceSelection: true,
+      onBlur: removeKeepFocused,
+      onFocus: keepFocused,
+      onMousedown: focusContentEditor
+    }),
+    Document,
+    Text,
+    Link.configure({
+      HTMLAttributes: {
+        class: 'text-primary'
+      }
+    }),
+    CharacterCount.configure({
+      limit: maxLimit
+    }),
+    TextAlign.configure({
+      types: ['heading', 'paragraph']
+    }),
+    StarterKit
+  ],
+  onUpdate: () => {
+    if (!editor.value) return
+    emit('update:modelValue', editor.value.getHTML() as any)
+  }
+} as EditorOptions)
+
+const onActionClick = (slug, option = null) => {
+  if (!editor.value) return
+  const vm = editor.value.chain().focus()
+
+  const actionTriggers = {
+    bold: () => vm.toggleBold().run(),
+    italic: () => vm.toggleItalic().run(),
+    underline: () => vm.toggleUnderline().run(),
+    strike: () => vm.toggleStrike().run(),
+    bulletList: () => vm.toggleBulletList().run(),
+    orderedList: () => vm.toggleOrderedList().run(),
+    align: () => vm.setTextAlign(option).run(),
+    undo: () => vm.undo().run(),
+    redo: () => vm.redo().run(),
+    link: () => {
+      const url = prompt('URL')
+      vm.toggleLink({ href: url }).run()
     },
-    onHeadingClick(index) {
-      const vm = this.editor.chain().focus()
-      console.log('value', index)
-      vm.toggleHeading({ level: index }).run()
+    clear: () => {
+      vm.clearNodes().run()
+      vm.unsetAllMarks().run()
+    }
+  }
+
+  actionTriggers[slug]()
+}
+
+const charactersCount = computed(() =>
+  editor.value?.storage.characterCount.characters()
+)
+const wordsCount = computed(() => editor.value?.storage.characterCount.words())
+
+const textActions = ref([
+  {
+    slug: 'bold',
+    icon: 'ic:baseline-format-bold',
+    active: 'bold'
+  },
+  {
+    slug: 'italic',
+    icon: 'ic:baseline-format-italic',
+    active: 'italic'
+  },
+  {
+    slug: 'underline',
+    icon: 'ic:baseline-format-underlined',
+    active: 'underline'
+  },
+  {
+    slug: 'strike',
+    icon: 'ic:baseline-strikethrough-s',
+    active: 'strike'
+  },
+  {
+    slug: 'link',
+    icon: 'ic:baseline-link',
+    active: 'link'
+  },
+  {
+    slug: 'align',
+    option: 'left',
+    icon: 'ic:baseline-format-align-left',
+    active: {
+      textAlign: 'left'
     }
   },
-  mounted() {
-    this.editor = new Editor({
-      content: this.modelValue,
-      extensions: [
-        Underline,
-        Focus.configure({
-          className: 'bg-tertiary-container/50 text-on-tertiary-container'
-        }),
-        Document,
-        Text,
-        Link.configure({
-          HTMLAttributes: {
-            class: 'text-primary'
-          }
-        }),
-        CharacterCount.configure({
-          limit: this.maxLimit
-        }),
-        TextAlign.configure({
-          types: ['heading', 'paragraph']
-        }),
-        StarterKit
-      ],
-      onUpdate: () => {
-        this.$emit('update:modelValue', this.editor.getHTML())
-      }
-    })
+  {
+    slug: 'align',
+    option: 'center',
+    icon: 'ic:baseline-format-align-center',
+    active: { textAlign: 'center' }
   },
-  beforeUnmount() {
-    this.editor.destroy()
+  {
+    slug: 'align',
+    option: 'right',
+    icon: 'ic:baseline-format-align-right',
+    active: { textAlign: 'right' }
+  },
+  {
+    slug: 'align',
+    option: 'justify',
+    icon: 'ic:baseline-format-align-justify',
+    active: { textAlign: 'justify' }
+  },
+  {
+    slug: 'bulletList',
+    icon: 'ic:baseline-format-list-bulleted',
+    active: 'bulletList'
+  },
+  {
+    slug: 'orderedList',
+    icon: 'ic:baseline-format-list-numbered',
+    active: 'orderedList'
+  },
+  {
+    slug: 'undo',
+    icon: 'ic:baseline-undo',
+    active: 'undo'
+  },
+  {
+    slug: 'redo',
+    icon: 'ic:baseline-redo',
+    active: 'redo'
+  },
+  {
+    slug: 'clear',
+    icon: 'ic:baseline-clear',
+    active: 'clear'
   }
+])
+
+watch(
+  () => modelValue,
+  (value) => {
+    if (editor.value?.getHTML() === value) return
+    editor.value?.commands.setContent(value, false)
+  }
+)
+const onHeadingClick = (index) => {
+  const vm = editor.value?.chain().focus()
+  vm.toggleHeading({ level: index }).run()
 }
 </script>
 
@@ -226,7 +232,9 @@ export default {
     </button>
   </div>
 
-  <EditorContent :editor="editor" />
+  <div v-if="editor">
+    <EditorContent :editor="editor" />
+  </div>
 
   <div
     v-if="editor"

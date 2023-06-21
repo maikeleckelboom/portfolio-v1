@@ -2,39 +2,56 @@
 @tailwind utilities;
 @tailwind components;
 
-.ProseMirror,
-select {
-    @apply flex  min-h-[48px] w-full rounded-xl bg-surface p-2 ;
+@layer utilities {
+    .subgrid {
+        display: subgrid;
+    }
+
+    .grid-cols-subgrid {
+        grid-template-columns: subgrid;
+    }
+
+    .grid-rows-subgrid {
+        grid-template-rows: subgrid;
+    }
+
+    .grid-cols-container {
+        @apply grid grid-cols-[60px,1fr] md:grid-cols-[80px,1fr] ;
+
+            > :nth-child(2),
+            > :nth-child(1):only-child{
+                @apply  px-6;
+            }
+        }
+
 }
 
 
-[contenteditable='true'] {
+@layer base {
 
-}
+    .ProseMirror,
+    textarea,
+    select,
+    input {
+        @apply rounded-xl border border-outline-variant bg-surface p-2 min-h-[48px] ;
+    }
 
-textarea,
-select,
-input {
-    @apply rounded-xl border border-outline-variant bg-surface ;
-}
 
-input {
-    @apply h-12 p-2;
-}
+    a:focus-visible,
+    input[type="reset"]:focus-visible,
+    input[type="button"]:focus-visible,
+    input[type="submit"]:focus-visible,
+    button:focus-visible {
+        @apply outline-none;
+    }
 
-a:focus-visible,
-input[type="reset"]:focus-visible,
-input[type="button"]:focus-visible,
-input[type="submit"]:focus-visible,
-button:focus-visible {
-    @apply outline-none;
-}
+    a:focus,
+    button:focus-visible,
+    input[type="reset"]:focus-visible,
+    input[type="button"]:focus-visible,
+    input[type="submit"]:focus-visible,
+    button:focus {
+        @apply outline-none;
+    }
 
-a:focus,
-button:focus-visible,
-input[type="reset"]:focus-visible,
-input[type="button"]:focus-visible,
-input[type="submit"]:focus-visible,
-button:focus {
-    @apply outline-none;
 }

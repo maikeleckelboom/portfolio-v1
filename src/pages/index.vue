@@ -5,49 +5,37 @@ const selected = useState()
 <template>
   <TopAppHeader>
     <template #leading-icons>
-      <TheLogo />
+      <NuxtLink class="flex h-full w-full items-center justify-center" to="/">
+        <TheLogo />
+      </NuxtLink>
     </template>
     <template #title>Portfolio</template>
     <template #trailing-icons></template>
   </TopAppHeader>
   <PageContainer>
-    <div class="flex flex-col">
-      <div class="grid grid-cols-[auto,1fr]">
-        <div class="group relative flex flex-col items-center justify-start">
-          <NuxtLink to="/picture" @click.native="selected = 'picture'">
-            <NuxtImg
-              :class="{ selected: selected === 'picture' }"
-              :modifiers="{ grayscale: true }"
-              alt="Maikel Eckelboom"
-              class="rounded-full border border-surface-container-high bg-surface-container"
-              sizes="sm:60px md:80px"
-              src="picture.webp"
-            />
-          </NuxtLink>
-          <!--          <div-->
-          <!--            class="absolute right-0 top-2 flex h-[60px] w-[1px] rounded-md bg-outline-variant"-->
-          <!--          />-->
-        </div>
-        <ProfileHero>
-          <template #title> Maikel Eckelboom</template>
-          <template #subtitle>
-            Full-stack developer met een passie voor ontwerp en technologie.
-          </template>
-          <template #supportingText>
-            <!--            Dagelijks bezig met ontwikkeling, ontwerp en onderhoud van-->
-            <!--            webapplicaties.-->
-          </template>
-          <template #button>
-            <!--          <NuxtLink to="/profile" @click.native="selected = 'profile'">-->
-            <!--            <BaseButton> Meer over mij</BaseButton>-->
-            <!--          </NuxtLink>-->
-          </template>
-        </ProfileHero>
+    <div class="grid-cols-container grid">
+      <div class="flex w-full flex-col items-center justify-start">
+        <NuxtLink to="/picture" @click.native="selected = 'picture'">
+          <NuxtImg
+            :class="{ selected: selected === 'picture' }"
+            alt="Maikel Eckelboom"
+            class="rounded-full border border-outline-variant bg-surface-container"
+            preset="picture"
+            src="picture.webp"
+          />
+        </NuxtLink>
       </div>
-      <div>
-        <Experiences />
-      </div>
+      <ProfileHero>
+        <template #title> Maikel Eckelboom</template>
+        <template #subtitle>
+          Full-stack developer met een passie voor ontwerp en technologie.
+        </template>
+        <template #supportingText>
+          <!--          Creatief, analytisch en een teamspeler.-->
+        </template>
+      </ProfileHero>
     </div>
+    <Experiences />
   </PageContainer>
 </template>
 

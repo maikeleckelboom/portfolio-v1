@@ -14,8 +14,8 @@ const iconsVisible = ref<boolean>(false)
 </script>
 
 <template>
-  <div class="">
-    <h3 v-if="label" class="my-2 flex text-title-medium leading-loose">
+  <div class="flex flex-col">
+    <h3 v-if="label" class="my-2 flex text-title-small leading-loose">
       {{ label }}
     </h3>
     <div class="flex flex-wrap gap-1">

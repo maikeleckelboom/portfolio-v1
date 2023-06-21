@@ -9,7 +9,7 @@
     </template>
     <template #title> Portfolio</template>
   </TopAppHeader>
-  <div class="mx-auto w-full max-w-5xl">
+  <div class="mx-auto w-full max-w-4xl">
     <div class="grid grid-cols-[auto,1fr] gap-3.5 px-2 py-4">
       <ProfileHero>
         <template #title> Maikel Eckelboom</template>

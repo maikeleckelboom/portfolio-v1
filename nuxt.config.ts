@@ -56,11 +56,27 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'assets/img',
-    domains: [
-      'localhost',
-      'maikeleckelboom.nl',
-      'githubusercontent.com/maikeleckelboom/portfolio-v1/main/src/assets/img'
-    ]
+    domains: ['localhost', 'maikeleckelboom.nl'],
+    presets: {
+      avatar: {
+        modifiers: {
+          grayscale: true,
+          fit: 'contain',
+          format: 'webp',
+          sizes: 'sm:48px md:56px',
+          roundCorner: '100'
+        }
+      },
+      picture: {
+        modifiers: {
+          grayscale: true,
+          fit: 'cover',
+          format: 'webp',
+          sizes: 'sm:360px md:480px',
+          roundCorner: '100'
+        }
+      }
+    }
   },
 
   colorMode: {

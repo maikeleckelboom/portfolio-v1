@@ -20,12 +20,10 @@ whenever(escape, goBack)
     <div class="relative flex justify-center">
       <NuxtImg
         ref="elPicture"
-        :modifiers="{ grayscale: false }"
         alt="Maikel Eckelboom"
         class="max-w-full rounded-full border-1 border-outline-variant bg-surface-container"
-        format="webp"
+        preset="picture"
         src="/picture.webp"
-        width="360"
       />
     </div>
     <div

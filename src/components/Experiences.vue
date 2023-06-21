@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { IExperience } from '~/types/experience'
 
-const { data: experienceList } = await useAsyncData(
+const { data } = await useAsyncData(
   'experiences',
   async () =>
     await $fetch('/api/experiences', {
@@ -13,45 +13,90 @@ const { data: experienceList } = await useAsyncData(
       if (!Array.isArray(data)) return data
 
       return (data as IExperience[]).map((experience: IExperience) => {
-        return {
-          ...experience,
-          dateStart: new Date(experience.dateStart).toLocaleDateString(
-            'nl-NL',
-            {
-              month: 'short',
-              year: 'numeric'
-            }
-          ),
-          dateEnd: new Date(experience.dateEnd).toLocaleDateString('nl-NL', {
+        const dateStart = new Date(experience.dateStart).toLocaleDateString(
+          'nl-NL',
+          {
             month: 'short',
             year: 'numeric'
-          })
+          }
+        )
+        const dateEnd = new Date(experience.dateEnd).toLocaleDateString(
+          'nl-NL',
+          {
+            month: 'short',
+            year: 'numeric'
+          }
+        )
+
+        return {
+          ...experience,
+          dateStart,
+          dateEnd
         }
-      })
+      }) satisfies IExperience[]
     }
   }
 )
+
+const yearFromDate = (date: string) => {
+  return new Date(date).getFullYear()
+}
+
+const getYearsOfExperience = () => {
+  if (!data.value) return 0
+  return data
+    .value!.map(
+      (experience) =>
+        yearFromDate(experience.dateEnd) - yearFromDate(experience.dateStart)
+    )
+    .reduce((a, b) => a + b, 0)
+}
+
+const yearFromShortDate = (date: string) => {
+  return new Date(date).toLocaleDateString('nl-NL', {
+    year: 'numeric'
+  })
+}
+
+const monthFromShortDate = (date: string) => {
+  return new Date(date).toLocaleDateString('nl-NL', {
+    month: 'short'
+  })
+}
+
+const getYearsOfExperienceRange = () => {
+  if (!data.value) return ''
+  const years = data.value.map((experience) => {
+    return yearFromShortDate(experience.dateStart)
+  })
+  return `${Math.min(...years)} - ${Math.max(...years)}`
+}
+
+const yearsOfExperience = computed(getYearsOfExperienceRange)
 </script>
 
 <template>
-  <div class="flex max-w-xl flex-col">
+  <div class="flex flex-col">
+    <div>
+      <!--      {{ yearsOfExperience }}-->
+    </div>
     <div
-      v-for="(experience, key) in experienceList"
+      v-for="(experience, key) in data"
       :key="key"
-      class="grid grid-cols-[auto,1fr] gap-x-3 gap-y-1.5 md:gap-x-6"
+      class="grid-cols-container grid"
     >
-      <div class="flex flex-col border-r-outline-variant p-1">
+      <div class="flex flex-col">
         <span class="text-end text-label-medium tabular-nums">
-          <span class="italic opacity-70">{{
-            experience.dateEnd.split(' ').at(0)
-          }}</span>
-          {{ experience.dateEnd.split(' ').at(1) }}
+          <span class="italic opacity-70">
+            {{ monthFromShortDate(experience.dateEnd) }}
+          </span>
+          {{ yearFromShortDate(experience.dateEnd) }}
         </span>
         <span class="text-end text-label-small tabular-nums">
-          <span class="italic opacity-70">{{
-            experience.dateStart.split(' ').at(0)
-          }}</span>
-          {{ experience.dateStart.split(' ').at(1) }}
+          <span class="italic opacity-70">
+            {{ monthFromShortDate(experience.dateStart) }}
+          </span>
+          {{ yearFromShortDate(experience.dateStart) }}
         </span>
       </div>
       <div class="">
@@ -65,7 +110,7 @@ const { data: experienceList } = await useAsyncData(
               >{{ experience.companyName }}
             </a>
           </h3>
-          <p class="mb-1.5 -skew-x-6 text-on-surface-variant">
+          <p class="mb-1.5 -skew-x-2 text-on-surface-variant">
             {{ experience.companyDescription }}
           </p>
           <strong v-if="experience.roleDescriptionLabel" class="mb-1.5">
@@ -86,9 +131,10 @@ const { data: experienceList } = await useAsyncData(
             </li>
           </ul>
         </div>
-      </div>
-      <div class="col-start-2">
-        <TheTags :tags="experience.tags" />
+
+        <div class="col-start-2 mb-4 mt-3">
+          <TheTags :tags="experience.tags" />
+        </div>
       </div>
     </div>
   </div>

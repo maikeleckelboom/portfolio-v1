@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="h-8 w-8 text-on-surface subpixel-antialiased"
+    class="h-9 w-9 text-on-surface subpixel-antialiased"
     viewBox="59.84 146.21 365.41 220.61"
     xmlns="http://www.w3.org/2000/svg"
   >
