@@ -21,7 +21,7 @@ const { Placeholder, toggle, hide, visible } = useMenu(
     class="fixed inset-x-0 top-0 z-20 flex h-[64px] max-h-[128px] w-d-screen py-2"
   >
     <div
-      class="mx-auto grid h-full max-w-5xl flex-1 grid-cols-[auto,1fr,auto] gap-6 pl-4 pr-2"
+      class="mx-auto grid h-full max-w-5xl flex-1 grid-cols-[auto,1fr,auto] gap-6 pl-4 pr-1"
     >
       <div class="flex flex-nowrap items-center">
         <slot name="leading-icons" />

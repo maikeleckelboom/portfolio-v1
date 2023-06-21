@@ -56,7 +56,6 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'assets/img',
-    presets: {},
     domains: [
       'localhost',
       'maikeleckelboom.nl',
