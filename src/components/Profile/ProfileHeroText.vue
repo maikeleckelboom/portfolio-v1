@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="mb-1 text-headline-small md:text-headline-medium">
+    <h2 class="mb-0.5 text-headline-small md:text-headline-medium">
       <slot name="title" />
     </h2>
     <p class="text-bold mb-1.5 -skew-x-3 text-on-surface-variant">

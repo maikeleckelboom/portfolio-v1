@@ -28,7 +28,9 @@ const { Placeholder, toggle, hide, visible } = useMenu(
           <slot name="leading-icons" />
         </div>
         <div class="flex h-full flex-nowrap items-center pl-6 pr-6">
-          <span class="pt-1 text-title-medium md:text-title-medium">
+          <span
+            class="pt-1 text-title-medium text-on-surface-variant md:text-title-medium"
+          >
             <slot name="title" />
           </span>
         </div>

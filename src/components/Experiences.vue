@@ -66,7 +66,7 @@ const monthFromShortDate = (date: string) => {
 
 const getYearsOfExperienceRange = () => {
   if (!data.value) return ''
-  const years = data.value.map((experience) => {
+  const years = data.value?.map((experience) => {
     return yearFromShortDate(experience.dateStart)
   })
   return `${Math.min(...years)} - ${Math.max(...years)}`
@@ -77,15 +77,15 @@ const yearsOfExperience = computed(getYearsOfExperienceRange)
 
 <template>
   <div class="flex flex-col">
-    <div>
-      <!--      {{ yearsOfExperience }}-->
+    <div class="pb-4">
+      <CardsToolbar />
     </div>
     <div
       v-for="(experience, key) in data"
       :key="key"
       class="grid-cols-container grid"
     >
-      <div class="flex flex-col">
+      <div class="flex flex-col py-1">
         <span class="text-end text-label-medium tabular-nums">
           <span class="italic opacity-70">
             {{ monthFromShortDate(experience.dateEnd) }}
@@ -118,7 +118,7 @@ const yearsOfExperience = computed(getYearsOfExperienceRange)
           </strong>
         </div>
         <div class="mb-1.5 flex flex-col gap-1">
-          <ul class="pl-2">
+          <ul class="pl-3">
             <li
               v-for="bulletPoint in experience.roleDescription
                 .split('--')
@@ -148,7 +148,7 @@ ul:has(.list-disc) {
     list-style-type: disc;
 
     &::marker {
-      @apply ml-8 flex items-center justify-center;
+      @apply flex items-center justify-center;
     }
   }
 }

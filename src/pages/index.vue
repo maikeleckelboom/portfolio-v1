@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const selected = useState()
+import ProfileHeroCard from '~/components/Profile/ProfileHeroCard.vue'
 </script>
 
 <template>
@@ -13,29 +13,12 @@ const selected = useState()
     <template #trailing-icons></template>
   </TopAppHeader>
   <PageContainer>
-    <div class="grid-cols-container grid">
-      <div class="flex w-full flex-col items-center justify-start">
-        <NuxtLink to="/picture" @click.native="selected = 'picture'">
-          <NuxtImg
-            :class="{ selected: selected === 'picture' }"
-            alt="Maikel Eckelboom"
-            class="rounded-full border border-outline-variant bg-surface-container"
-            preset="picture"
-            src="picture.webp"
-          />
-        </NuxtLink>
-      </div>
-      <ProfileHero>
-        <template #title> Maikel Eckelboom</template>
-        <template #subtitle>
-          Full-stack developer met een passie voor ontwerp en technologie.
-        </template>
-        <template #supportingText>
-          <!--          Creatief, analytisch en een teamspeler.-->
-        </template>
-      </ProfileHero>
+    <div class="">
+      <ProfileHeroCard />
     </div>
-    <Experiences />
+    <div class="">
+      <Experiences />
+    </div>
   </PageContainer>
 </template>
 

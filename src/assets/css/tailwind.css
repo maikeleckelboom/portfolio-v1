@@ -2,6 +2,36 @@
 @tailwind utilities;
 @tailwind components;
 
+
+@layer base {
+
+    .ProseMirror,
+    textarea,
+    select,
+    input {
+        @apply rounded-xl border border-outline-variant bg-surface p-2 min-h-[48px] ;
+    }
+
+
+    a:focus-visible,
+    input[type="reset"]:focus-visible,
+    input[type="button"]:focus-visible,
+    input[type="submit"]:focus-visible,
+    button:focus-visible {
+        @apply outline-none;
+    }
+
+    a:focus,
+    button:focus-visible,
+    input[type="reset"]:focus-visible,
+    input[type="button"]:focus-visible,
+    input[type="submit"]:focus-visible,
+    button:focus {
+        @apply outline-none;
+    }
+
+}
+
 @layer utilities {
     .subgrid {
         display: subgrid;
@@ -18,14 +48,13 @@
     .grid-cols-container {
         @apply grid grid-cols-[60px,1fr] md:grid-cols-[80px,1fr] ;
 
-            > :nth-child(2),
-            > :nth-child(1):only-child{
-                @apply  px-6;
-            }
-        }
+    }
 
+    .grid-cols-container > :nth-child(2),
+    .grid-cols-container > :nth-child(1):only-child {
+        @apply px-4 md:px-6;
+    }
 }
-
 
 @layer base {
 

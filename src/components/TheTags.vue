@@ -31,7 +31,7 @@ const iconsVisible = ref<boolean>(false)
           :title="tag.trim().toLowerCase()"
           class="min-w-5 h-5 shrink-0"
         />
-        <span v-else class="text-label-small capitalize">{{ tag }}</span>
+        <span v-else class="text-label-small capitalize font-bold">{{ tag }}</span>
       </div>
     </div>
   </div>

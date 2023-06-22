@@ -1,9 +1,10 @@
 export default defineNuxtConfig({
+
   experimental: { viewTransition: true },
 
   srcDir: 'src',
 
-  css: ['~/assets/css/tailwind.css'],
+  css: [ '~/assets/css/tailwind.css',],
 
   modules: [
     'nuxt-icon',
@@ -61,10 +62,9 @@ export default defineNuxtConfig({
       avatar: {
         modifiers: {
           grayscale: true,
-          fit: 'contain',
           format: 'webp',
-          sizes: 'sm:48px md:56px',
-          roundCorner: '100'
+          width: 54,
+          height: 54,
         }
       },
       picture: {
@@ -72,7 +72,7 @@ export default defineNuxtConfig({
           grayscale: true,
           fit: 'cover',
           format: 'webp',
-          sizes: 'sm:360px md:480px',
+          width: 360,
           roundCorner: '100'
         }
       }
