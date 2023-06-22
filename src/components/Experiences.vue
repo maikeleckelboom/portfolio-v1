@@ -38,9 +38,7 @@ const { data } = await useAsyncData(
   }
 )
 
-const yearFromDate = (date: string) => {
-  return new Date(date).getFullYear()
-}
+const yearFromDate = (date: string) => new Date(date).getFullYear()
 
 const getYearsOfExperience = () => {
   if (!data.value) return 0
@@ -52,33 +50,31 @@ const getYearsOfExperience = () => {
     .reduce((a, b) => a + b, 0)
 }
 
-const yearFromShortDate = (date: string) => {
-  return new Date(date).toLocaleDateString('nl-NL', {
+const yearFromShortDate = (date: string) =>
+  new Date(date).toLocaleDateString('nl-NL', {
     year: 'numeric'
   })
-}
 
-const monthFromShortDate = (date: string) => {
-  return new Date(date).toLocaleDateString('nl-NL', {
+const monthFromShortDate = (date: string) =>
+  new Date(date).toLocaleDateString('nl-NL', {
     month: 'short'
   })
-}
 
 const getYearsOfExperienceRange = () => {
   if (!data.value) return ''
-  const years = data.value?.map((experience) => {
-    return yearFromShortDate(experience.dateStart)
-  })
+  const years = data.value?.map((experience) =>
+    yearFromShortDate(experience.dateStart)
+  )
   return `${Math.min(...years)} - ${Math.max(...years)}`
 }
 
-const yearsOfExperience = computed(getYearsOfExperienceRange)
+const yearsOfExperienceRange = computed(getYearsOfExperienceRange)
 </script>
 
 <template>
   <div class="flex flex-col">
     <div class="pb-4">
-      <CardsToolbar />
+      <CardsToolbar class="hidden md:flex" />
     </div>
     <div
       v-for="(experience, key) in data"
