@@ -6,7 +6,7 @@
     <p class="text-bold mb-1.5 -skew-x-3 text-on-surface-variant">
       <slot name="subtitle" />
     </p>
-    <p class="mb-4 text-on-surface-variant">
+    <p class="text-on-surface-variant">
       <slot name="supportingText" />
     </p>
     <div class="flex flex-row gap-2">

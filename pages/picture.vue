@@ -13,9 +13,7 @@ const { escape } = useMagicKeys()
 whenever(escape, goBack)
 
 const maikelQuotes = ref([
-  'Dagelijks bezig met ontwikkeling, ontwerp en onderhoud van webapplicaties.',
-  'Een native ervaring met webtechnologieën',
-  'Toegankelijkheid is een recht, geen privilege.'
+  'Dagelijks bezig met ontwikkeling, ontwerp en onderhoud van webapplicaties.'
 ])
 </script>
 
@@ -47,31 +45,33 @@ const maikelQuotes = ref([
         <!-- Socials -->
         <ul class="my-2 grid grid-flow-col-dense">
           <li>
-            <NuxtLink class="p-2" to="/github">
+            <a class="p-2" href="https://github.com/">
               <Icon class="h-8 w-8" name="ci:github" />
-            </NuxtLink>
+            </a>
           </li>
           <li>
-            <NuxtLink class="p-2" to="/linkedin">
+            <a class="p-2" href="https://www.linkedin.com/in/">
               <Icon class="h-8 w-8" name="ci:linkedin" />
-            </NuxtLink>
+            </a>
           </li>
           <li>
-            <NuxtLink class="p-2" to="/twitter">
+            <a class="p-2" href="https://twitter.com/">
               <Icon class="h-8 w-8" name="ci:twitter" />
-            </NuxtLink>
+            </a>
           </li>
         </ul>
       </div>
       <div class="mt-14 opacity-70">
         <p class="inline-flex flex-nowrap items-center">
           <Icon
-            class="h-8 w-8 rotate-90 text-on-secondary-container opacity-90"
+            class="h-5 rotate-90 text-on-secondary-container opacity-90"
             name="mdi:keyboard-space"
           />
-          <span class="mb-0.5 text-title-small">click anywhere to close</span>
+          <span class="text-title-small">
+            Klik <span class="font-bold">ESC</span> om terug te gaan
+          </span>
           <Icon
-            class="h-8 w-8 -rotate-90 text-on-secondary-container opacity-90"
+            class="h-5 -rotate-90 text-on-secondary-container opacity-90"
             name="mdi:keyboard-space"
           />
         </p>

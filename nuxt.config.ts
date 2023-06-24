@@ -58,6 +58,7 @@ export default defineNuxtConfig({
         modifiers: {
           grayscale: true,
           format: 'webp',
+          fit: 'contain',
           width: 60,
           height: 60
         }
@@ -67,8 +68,7 @@ export default defineNuxtConfig({
           grayscale: true,
           fit: 'cover',
           format: 'webp',
-          width: 360,
-          roundCorner: '100'
+          width: 360
         }
       }
     }
@@ -99,7 +99,7 @@ export default defineNuxtConfig({
     manifest: {
       name: 'Maikel Portfolio',
       short_name: 'Maikel Portfolio',
-      theme_color: '#9dd6ee',
+      theme_color: '#19191d',
       icons: [
         {
           src: '/assets/icon/icon-72-72.png',

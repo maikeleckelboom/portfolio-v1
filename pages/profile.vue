@@ -11,7 +11,7 @@
   </TopAppHeader>
   <div class="mx-auto w-full max-w-4xl">
     <div class="grid grid-cols-[auto,1fr] gap-3.5 px-2 py-4">
-      <ProfileHero>
+      <ProfileHeroText>
         <template #title> Maikel Eckelboom</template>
         <template #subtitle>
           Full-stack developer met een passie voor ontwerp en technologie.
@@ -20,7 +20,7 @@
           Dagelijks bezig met ontwikkeling, ontwerp en onderhoud van
           webapplicaties.
         </template>
-      </ProfileHero>
+      </ProfileHeroText>
     </div>
     <div class="p-2">
       <Breadcrumbs />

@@ -84,14 +84,6 @@ const filteredData = computed(() => {
 
 <template>
   <div class="flex flex-col">
-    <div class="pb-4">
-      <CardsToolbar
-        ref="toolbar"
-        :filters="filters"
-        @filter="onFilterChange"
-        @sort="onSortChange"
-      />
-    </div>
     <div v-for="experience in filteredData" :key="experience.id">
       <div class="grid-cols-container grid">
         <div class="flex flex-col py-1">
@@ -121,9 +113,6 @@ const filteredData = computed(() => {
             <p class="mb-1.5 -skew-x-2 text-on-surface-variant">
               {{ experience.companyDescription }}
             </p>
-            <strong v-if="experience.roleDescriptionLabel" class="mb-1.5">
-              {{ experience.roleDescriptionLabel }}
-            </strong>
           </div>
           <div class="mb-1.5 flex flex-col gap-1">
             <ul class="pl-3">
@@ -144,6 +133,14 @@ const filteredData = computed(() => {
           </div>
         </div>
       </div>
+    </div>
+    <div class="py-6">
+      <CardsToolbar
+        ref="toolbar"
+        :filters="filters"
+        @filter="onFilterChange"
+        @sort="onSortChange"
+      />
     </div>
   </div>
 </template>
