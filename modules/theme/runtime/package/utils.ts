@@ -21,15 +21,6 @@ const tokenize = (str: string) => {
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
 /**
- * Converts a camelCase or pascalCase string to human-readable form.
- *
- * @param {string} str The string to convert.
- * @returns {string} The humanized string.
- */
-const humanize = (str: string) =>
-  str.replace(/([A-Z]|\d+)/g, ' $1').replace(/^./, (str) => str.toUpperCase())
-
-/**
  * Converts a hyphen-separated string into camelCase.
  *
  * @param {string} str The string to convert.
@@ -41,44 +32,6 @@ const camelize = (str: string) =>
     .map((word, index) => (index === 0 ? word : capitalize(word)))
     .join('')
     .replace(/^[A-Z]/, (str) => str.toLowerCase())
-
-/**
- * Generates a contrast token from a given key.
- *
- * @param {string} token The key to generate the contrast token from.
- * @param {Object} options An optional object that contains the prefix and suffix for the token.
- * @param {string} options.prefix The prefix to add to the token (default: 'md-sys-color-').
- * @param {string} options.suffix The suffix to add to the token (default: '').
- * @returns {string} The generated contrast token.
- */
-function contrastToken(
-  token: string,
-  options: {
-    prefix?: string
-    suffix?: string
-  } = {}
-) {
-  const { prefix = 'md-sys-color-', suffix = '' } = options
-  const name = humanize(token).toLowerCase().split(' ')
-
-  // Check if the token specifies a text color
-  const isTextColor = name.includes('on')
-  if (isTextColor) {
-    name.splice(name.indexOf('on'), 1)
-    return `${prefix}${name.join('-')}${suffix}`
-  }
-
-  // Check if the token specifies an inverse color
-  const isInverseColor = name.includes('inverse')
-  if (isInverseColor) {
-    name.splice(name.indexOf('inverse'), 1)
-    return `${prefix}${name.join('-')}${suffix}`
-  }
-
-  // If the token doesn't specify a text color
-  // or an inverse color, use the default prefix
-  return `${prefix}on-${name.join('-')}${suffix}`
-}
 
 /**
  * Converts a hexadecimal color code to an RGB color value.
@@ -114,12 +67,4 @@ const hexAFromArgb = (value: number, alpha: number) => {
   return `${colorHex}${alphaHex}`
 }
 
-export {
-  hexAFromArgb,
-  rgbFromHex,
-  tokenize,
-  capitalize,
-  humanize,
-  camelize,
-  contrastToken
-}
+export { tokenize, hexAFromArgb, rgbFromHex }

@@ -1,23 +1,39 @@
 <script lang="ts" setup></script>
 
 <template>
-  <TopAppHeader class="relative">
-    <template #leading-icons>
-      <NuxtLink class="flex h-full w-full items-center justify-center" to="/">
-        <TheLogo />
-      </NuxtLink>
-    </template>
-    <template #title>Portfolio</template>
-    <template #trailing-icons></template>
-  </TopAppHeader>
+  <!--  <TopAppHeader class="relative">-->
+  <!--    <template #leading-icons>-->
+  <!--      <NuxtLink class="flex h-full w-full items-center justify-center" to="/">-->
+  <!--        <TheLogo />-->
+  <!--      </NuxtLink>-->
+  <!--    </template>-->
+  <!--    <template #title></template>-->
+  <!--    <template #trailing-icons></template>-->
+  <!--  </TopAppHeader>-->
   <PageContainer>
-    <div class="grid gap-y-12 md:grid-cols-[420px,1fr]">
+    <div class="mt-8 grid gap-x-4 gap-y-12 md:grid-cols-[420px,1fr]">
+      <DarkToggleButton />
+
+      <div class="flex flex-col gap-y-4 p-12">
+        <Tooltip
+          subhead="Subhead Tooltip"
+          text="Supporting Text"
+          variant="plain"
+        />
+        <Tooltip
+          :buttons="[
+            { label: 'Action 1', onClick: () => console.log('Action 1') },
+            { label: 'Action 2', onClick: () => console.log('Action 2') }
+          ]"
+          subhead="Subhead Tooltip"
+          text="Supporting Text"
+          variant="rich"
+        />
+      </div>
       <div class="">
-        <h1 class="mb-4 px-2 text-title-large">Profiel</h1>
         <ProfileHeroCard />
       </div>
       <div class="">
-        <h1 class="mb-4 px-2 text-title-large">Werkervaring</h1>
         <Experiences />
       </div>
     </div>

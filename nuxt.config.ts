@@ -54,13 +54,6 @@ export default defineNuxtConfig({
   image: {
     domains: ['localhost', 'maikeleckelboom.nl', 'maikel.tech'],
     presets: {
-      avatar: {
-        modifiers: {
-          format: 'webp',
-          width: 60,
-          height: 60
-        }
-      },
       picture: {
         modifiers: {
           format: 'webp',
@@ -95,7 +88,7 @@ export default defineNuxtConfig({
     manifest: {
       name: 'Maikel Portfolio',
       short_name: 'Maikel Portfolio',
-      theme_color: '#19191d',
+      theme_color: '#101418',
       icons: [
         {
           src: '/assets/icon/icon-72-72.png',

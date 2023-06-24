@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 const selected = useState()
 </script>
+
 <template>
-  <div class="grid-cols-container grid">
-    <div class="flex w-full flex-col items-end justify-start pt-1 md:pt-0">
+  <div class="grid-cols-container grid rounded-md p-2">
+    <div class="flex w-full flex-col items-center justify-start pt-1.5">
       <NuxtLink to="/picture" @click.native="selected = 'picture'">
         <NuxtImg
           :class="{ selected: selected === 'picture' }"
           alt="Maikel E."
-          class="rounded-full border border-outline-variant bg-surface-container"
+          class="picture rounded-full border border-outline-variant bg-surface-container"
           height="60"
-          preset="avatar"
           src="/assets/img/picture.webp"
           width="60"
         />
@@ -24,3 +24,5 @@ const selected = useState()
     </ProfileHeroText>
   </div>
 </template>
+
+<style lang="postcss"></style>

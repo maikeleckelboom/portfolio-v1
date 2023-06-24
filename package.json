@@ -53,6 +53,7 @@
   "dependencies": {
     "@nuxt/image": "1.0.0-rc.1",
     "@nuxt/image-edge": "1.0.0-rc.1-28126030.07836ae",
-    "humanize-duration": "^3.28.0"
+    "humanize-duration": "^3.28.0",
+    "tailwind-variants": "^0.1.8"
   }
 }

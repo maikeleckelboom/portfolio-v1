@@ -83,10 +83,10 @@ const filteredData = computed(() => {
 </script>
 
 <template>
-  <div class="grid">
+  <div class="grid gap-4">
     <div v-for="experience in filteredData" :key="experience.id">
-      <div class="grid-cols-container grid">
-        <div class="flex flex-col py-1">
+      <div class="grid-cols-container grid gap-2 rounded-md p-4">
+        <div class="flex h-full flex-col py-1">
           <span class="text-end text-label-medium tabular-nums">
             <span class="italic opacity-70">
               {{ monthFromShortDate(experience.dateEnd) }}
@@ -128,7 +128,7 @@ const filteredData = computed(() => {
               </li>
             </ul>
           </div>
-          <div v-if="experience.tags" class="col-start-2 mb-4 mt-3">
+          <div v-if="experience.tags" class="col-start-2 mt-2">
             <TheTags :tags="experience.tags" />
           </div>
         </div>

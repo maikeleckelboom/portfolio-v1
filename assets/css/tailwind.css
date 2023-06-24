@@ -6,7 +6,8 @@
 @layer base {
 
     body {
-        @apply overflow-x-clip overflow-y-scroll
+        @apply overflow-x-clip overflow-y-scroll;
+        font-feature-settings: 'liga' 0
     }
 
     .ProseMirror,

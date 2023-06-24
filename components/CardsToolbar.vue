@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const emit = defineEmits<{
   (event: 'sort', sort: string): void
-  (event: 'filter', filter: string)
+  (event: 'filter', filter: string): void
 }>()
 
 const props = defineProps<{
@@ -30,13 +30,15 @@ const toggleSortDirection = () => {
 <template>
   <div class="flex flex-wrap justify-start gap-2 px-2 md:justify-end">
     <div class="flex flex-col justify-end">
-      <label class="mb-2 mr-2 text-label-medium text-on-surface-variant">
+      <label
+        class="sr-only mb-2 mr-2 text-label-medium text-on-surface-variant"
+      >
         Sorteren op:
       </label>
       <div class="flex flex-row gap-2">
         <button
           :disabled="!filters.some((f) => f.active)"
-          class="flex h-[32px] w-[128px] min-w-fit items-center rounded-lg border border-outline-variant px-4 hover:bg-surface-level-2 active:bg-surface-level-3 disabled:pointer-events-none disabled:opacity-60"
+          class="flex h-[32px] min-w-fit items-center rounded-lg border border-outline-variant px-4 hover:bg-surface-level-2 active:bg-surface-level-3 disabled:pointer-events-none disabled:opacity-60"
           @click="toggleSortDirection"
         >
           <Icon
@@ -44,7 +46,7 @@ const toggleSortDirection = () => {
             class="h-[18px] w-[18px] text-center text-on-surface-variant"
             name="ic:round-keyboard-arrow-up"
           />
-          <span class="ml-2 text-label-medium text-on-surface">
+          <span class="sr-only ml-2 text-label-medium text-on-surface">
             {{ sortDirection === 'ascend' ? 'Nieuwste' : 'Oudste' }}
           </span>
         </button>
@@ -52,7 +54,7 @@ const toggleSortDirection = () => {
     </div>
     <div class="flex flex-col">
       <label
-        class="mb-2 text-label-small text-on-surface-variant md:text-label-medium"
+        class="sr-only mb-2 text-label-small text-on-surface-variant md:text-label-medium"
       >
         Filteren op:
       </label>
