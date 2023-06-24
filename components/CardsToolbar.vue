@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const emit = defineEmits<{
-  (event: 'sort', sort: string): void
-  (event: 'filter', filter: string): void
+  (event: 'sort', sort: 'ascend' | 'descend'): void
+  (event: 'filter', filters: IFilter): void
 }>()
 
 const props = defineProps<{
@@ -11,11 +11,11 @@ const props = defineProps<{
 
 const filters = ref(props.filters)
 
-watch(filters, (f) => emit('filter', f))
-
-const toggleFilter = (filter: string) => {
+const toggleFilter = async (filter: string) => {
   const filterIndex = filters.value.findIndex((f) => f.name === filter)
   filters.value[filterIndex].active = !filters.value[filterIndex].active
+  await nextTick()
+  emit('filter', filters.value[filterIndex])
 }
 
 const sortDirection = ref<'ascend' | 'descend'>('ascend')

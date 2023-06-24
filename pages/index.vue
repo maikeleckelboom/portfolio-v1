@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const profileHeroCard = ref<HTMLElement>()
+</script>
 
 <template>
   <!--  <TopAppHeader class="relative">-->
@@ -12,26 +14,8 @@
   <!--  </TopAppHeader>-->
   <PageContainer>
     <div class="mt-8 grid gap-x-4 gap-y-12 md:grid-cols-[420px,1fr]">
-      <DarkToggleButton />
-
-      <div class="flex flex-col gap-y-4 p-12">
-        <Tooltip
-          subhead="Subhead Tooltip"
-          text="Supporting Text"
-          variant="plain"
-        />
-        <Tooltip
-          :buttons="[
-            { label: 'Action 1', onClick: () => console.log('Action 1') },
-            { label: 'Action 2', onClick: () => console.log('Action 2') }
-          ]"
-          subhead="Subhead Tooltip"
-          text="Supporting Text"
-          variant="rich"
-        />
-      </div>
-      <div class="">
-        <ProfileHeroCard />
+      <div class="flex flex-col">
+        <ProfileHeroCard ref="profileHeroCard" />
       </div>
       <div class="">
         <Experiences />

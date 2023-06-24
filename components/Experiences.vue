@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { CardsToolbar } from '#components'
 import { IExperience } from '~/types/experience'
 import humanizeDuration from 'humanize-duration'
+import { ComputedRef } from 'vue'
 
 const { data } = await useAsyncData(
   'experiences',
@@ -16,26 +16,34 @@ const { data } = await useAsyncData(
         (experience) =>
           ({
             ...experience,
-            dateStart: new Date(experience.dateStart).toLocaleDateString(
-              'nl-NL',
-              {
+            date: {
+              start: new Date(experience.dateStart).toLocaleDateString(
+                'nl-NL',
+                {
+                  month: 'short',
+                  year: 'numeric'
+                }
+              ),
+              end: new Date(experience.dateEnd).toLocaleDateString('nl-NL', {
                 month: 'short',
                 year: 'numeric'
-              }
-            ),
-            dateEnd: new Date(experience.dateEnd).toLocaleDateString('nl-NL', {
-              month: 'short',
-              year: 'numeric'
-            }),
-            duration: humanizeDuration(
-              new Date(experience.dateEnd).getTime() -
-                new Date(experience.dateStart).getTime(),
-              {
-                language: 'nl',
-                largest: 1
-              }
-            )
-          } as IExperience & { duration: string })
+              }),
+              duration: humanizeDuration(
+                new Date(experience.dateEnd).getTime() -
+                  new Date(experience.dateStart).getTime(),
+                {
+                  language: 'nl',
+                  largest: 1
+                }
+              )
+            }
+          } as IExperience & {
+            date: {
+              start: string
+              end: string
+              duration: string
+            }
+          })
       )
   }
 )
@@ -55,9 +63,9 @@ const filters = ref<IFilter[]>([
   }
 ])
 
-const onFilterChange = (filter: string) => {
-  const findFn = (f) => f.name === filter
-  const f = filters.value[filters.value.findIndex(findFn)]
+const onFilterChange = (filter: IFilter) => {
+  const f =
+    filters.value[filters.value.findIndex((f) => f.name === filter.name)]
   f.active = !f.active
 }
 
@@ -79,7 +87,15 @@ const filteredData = computed(() => {
   return sortDirection.value === 'ascend'
     ? filtered.sort(sortFilter)
     : filtered.sort((a, b) => sortFilter(b, a))
-})
+}) as ComputedRef<
+  (IExperience & {
+    date: {
+      start: string
+      end: string
+      duration: string
+    }
+  })[]
+>
 </script>
 
 <template>
@@ -89,15 +105,15 @@ const filteredData = computed(() => {
         <div class="flex h-full flex-col py-1">
           <span class="text-end text-label-medium tabular-nums">
             <span class="italic opacity-70">
-              {{ monthFromShortDate(experience.dateEnd) }}
+              {{ monthFromShortDate(experience.date.end) }}
             </span>
-            {{ yearFromShortDate(experience.dateEnd) }}
+            {{ yearFromShortDate(experience.date.end) }}
           </span>
           <span class="text-end text-label-medium tabular-nums">
             <span class="italic opacity-70">
-              {{ monthFromShortDate(experience.dateStart) }}
+              {{ monthFromShortDate(experience.date.start) }}
             </span>
-            {{ yearFromShortDate(experience.dateStart) }}
+            {{ yearFromShortDate(experience.date.start) }}
           </span>
         </div>
         <div class="flex flex-col">
@@ -133,14 +149,6 @@ const filteredData = computed(() => {
           </div>
         </div>
       </div>
-    </div>
-    <div class="py-6">
-      <CardsToolbar
-        ref="toolbar"
-        :filters="filters"
-        @filter="onFilterChange"
-        @sort="onSortChange"
-      />
     </div>
   </div>
 </template>
