@@ -102,14 +102,14 @@ const filteredData = computed(() => {
   <div class="grid gap-4">
     <div v-for="experience in filteredData" :key="experience.id">
       <div class="grid-cols-container grid gap-2 rounded-md p-4">
-        <div class="flex h-full flex-col py-1">
-          <span class="text-end text-label-medium tabular-nums">
+        <div class="flex h-full flex-col px-0.5 py-2.5 text-end">
+          <span class="text-label-medium tabular-nums">
             <span class="italic opacity-70">
               {{ monthFromShortDate(experience.date.end) }}
             </span>
             {{ yearFromShortDate(experience.date.end) }}
           </span>
-          <span class="text-end text-label-medium tabular-nums">
+          <span class="text-label-medium tabular-nums">
             <span class="italic opacity-70">
               {{ monthFromShortDate(experience.date.start) }}
             </span>
@@ -118,12 +118,17 @@ const filteredData = computed(() => {
         </div>
         <div class="flex flex-col">
           <div class="flex flex-col">
-            <h3 class="text-on-surface-variant">
+            <h3 class="text-title-large">
               <span class="mb-0.5 text-title-medium">
                 {{ experience.roleName }}
               </span>
+              <span class="text-sm"> @ </span>
               <a :href="experience.companyWebsite" class="text-title-medium">
-                @{{ experience.companyName }}
+                {{ experience.companyName }}
+                <Icon
+                  class="h-3 w-3 text-primary"
+                  name="ic:baseline-open-in-new"
+                />
               </a>
             </h3>
             <p class="mb-1.5 -skew-x-2 text-on-surface-variant">
@@ -131,7 +136,7 @@ const filteredData = computed(() => {
             </p>
           </div>
           <div class="mb-1.5 flex flex-col gap-1">
-            <ul class="pl-3">
+            <ul class="pl-1">
               <li
                 v-for="bulletPoint in experience.roleDescription
                   .split('--')
@@ -144,9 +149,9 @@ const filteredData = computed(() => {
               </li>
             </ul>
           </div>
-          <div v-if="experience.tags" class="col-start-2 mt-2">
-            <TheTags :tags="experience.tags" />
-          </div>
+        </div>
+        <div v-if="experience.tags" class="col-start-2">
+          <TheTags :tags="experience.tags" />
         </div>
       </div>
     </div>
