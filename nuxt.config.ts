@@ -56,17 +56,13 @@ export default defineNuxtConfig({
     presets: {
       avatar: {
         modifiers: {
-          grayscale: true,
           format: 'webp',
-          fit: 'contain',
           width: 60,
           height: 60
         }
       },
       picture: {
         modifiers: {
-          grayscale: true,
-          fit: 'cover',
           format: 'webp',
           width: 360
         }

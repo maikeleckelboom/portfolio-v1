@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <TopAppHeader>
+  <TopAppHeader class="relative">
     <template #leading-icons>
       <NuxtLink class="flex h-full w-full items-center justify-center" to="/">
         <TheLogo />
@@ -13,10 +13,11 @@
   <PageContainer>
     <div class="grid gap-y-12 md:grid-cols-[420px,1fr]">
       <div class="">
+        <h1 class="mb-4 px-2 text-title-large">Profiel</h1>
         <ProfileHeroCard />
       </div>
       <div class="">
-        <h1 class="text-title-large">Werkervaring</h1>
+        <h1 class="mb-4 px-2 text-title-large">Werkervaring</h1>
         <Experiences />
       </div>
     </div>

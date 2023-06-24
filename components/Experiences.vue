@@ -83,7 +83,7 @@ const filteredData = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="grid">
     <div v-for="experience in filteredData" :key="experience.id">
       <div class="grid-cols-container grid">
         <div class="flex flex-col py-1">

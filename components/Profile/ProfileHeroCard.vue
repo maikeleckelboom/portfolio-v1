@@ -3,9 +3,7 @@ const selected = useState()
 </script>
 <template>
   <div class="grid-cols-container grid">
-    <div
-      class="flex w-full flex-col items-end justify-start pl-2.5 pr-0 pt-1 md:pt-0"
-    >
+    <div class="flex w-full flex-col items-end justify-start pt-1 md:pt-0">
       <NuxtLink to="/picture" @click.native="selected = 'picture'">
         <NuxtImg
           :class="{ selected: selected === 'picture' }"

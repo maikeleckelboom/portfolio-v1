@@ -12,13 +12,14 @@ const { Placeholder, toggle, hide, visible } = useMenu(
     }
   }
 )
+
+//     :style="{ '--translateY': `-${translateY}px` }"
 </script>
 
 <template>
   <header
     ref="elTopBar"
-    :style="{ '--translateY': `-${translateY}px` }"
-    class="fixed inset-x-0 top-0 z-20 grid h-[64px] w-screen translate-y-[--translateY] items-center bg-surface"
+    class="inset-x-0 top-0 z-20 grid h-[64px] w-screen translate-y-[--translateY] items-center bg-surface"
   >
     <PageContainer>
       <div
@@ -51,7 +52,7 @@ const { Placeholder, toggle, hide, visible } = useMenu(
       </div>
     </PageContainer>
   </header>
-  <div class="flex h-[64px]" />
+  <!--  <div class="flex h-[64px]" />-->
   <div class="mx-auto mb-2 flex w-full max-w-4xl justify-end">
     <Placeholder />
   </div>
