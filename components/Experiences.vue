@@ -16,6 +16,7 @@ const { data } = await useAsyncData(
         (experience) =>
           ({
             ...experience,
+            expanded: false,
             date: {
               start: new Date(experience.dateStart).toLocaleDateString(
                 'nl-NL',
@@ -38,6 +39,7 @@ const { data } = await useAsyncData(
               )
             }
           } as IExperience & {
+            expanded: boolean
             date: {
               start: string
               end: string
@@ -89,6 +91,7 @@ const filteredData = computed(() => {
     : filtered.sort((a, b) => sortFilter(b, a))
 }) as ComputedRef<
   (IExperience & {
+    expanded: boolean
     date: {
       start: string
       end: string
@@ -118,40 +121,44 @@ const filteredData = computed(() => {
         </div>
         <div class="flex flex-col">
           <div class="flex flex-col">
-            <h3 class="text-title-large">
+            <h3 class="text-title-large leading-none">
               <span class="mb-0.5 text-title-medium">
                 {{ experience.roleName }}
               </span>
-              <span class="text-sm"> @ </span>
-              <a :href="experience.companyWebsite" class="text-title-medium">
-                {{ experience.companyName }}
-                <Icon
-                  class="h-3 w-3 text-primary"
-                  name="ic:baseline-open-in-new"
-                />
-              </a>
+              <span class="h-0 w-full whitespace-nowrap">
+                <span class="text-sm"> @ </span>
+                <a :href="experience.companyWebsite" class="text-title-medium">
+                  {{ experience.companyName }}
+                  <Icon
+                    class="h-3 w-3 text-primary"
+                    name="ic:baseline-open-in-new"
+                  />
+                </a>
+              </span>
             </h3>
             <p class="mb-1.5 -skew-x-2 text-on-surface-variant">
               {{ experience.companyDescription }}
             </p>
           </div>
-          <div class="mb-1.5 flex flex-col gap-1">
-            <ul class="pl-1">
-              <li
-                v-for="bulletPoint in experience.roleDescription
-                  .split('--')
-                  .slice(1)"
-                class="list-disc"
-              >
-                <span class="text-body-medium">
-                  {{ bulletPoint }}
-                </span>
-              </li>
-            </ul>
+          <div v-if="experience.expanded">
+            <div class="mb-1.5 flex flex-col gap-1">
+              <ul class="pl-1">
+                <li
+                  v-for="bulletPoint in experience.roleDescription
+                    .split('--')
+                    .slice(1)"
+                  class="list-disc"
+                >
+                  <span class="text-body-medium">
+                    {{ bulletPoint }}
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div v-if="experience.tags" class="col-start-2">
+              <TheTags :tags="experience.tags" />
+            </div>
           </div>
-        </div>
-        <div v-if="experience.tags" class="col-start-2">
-          <TheTags :tags="experience.tags" />
         </div>
       </div>
     </div>
@@ -159,6 +166,15 @@ const filteredData = computed(() => {
 </template>
 
 <style lang="postcss">
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
 ul:has(.list-disc) {
   list-style-position: inside;
 

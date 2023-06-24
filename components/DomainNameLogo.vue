@@ -1,11 +1,11 @@
 <template>
   <div
-    class="relative h-auto w-full max-w-[220px] overflow-hidden md:max-w-[280px]"
+    class="relative h-auto w-full max-w-[120px] overflow-hidden md:max-w-[200px]"
   >
     <svg
       class="h-full w-full object-cover"
       fill="var(--md-sys-color-on-surface, #111111)"
-      viewBox="0 0 370.19 39"
+      viewBox="0 0 370 40"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g

@@ -10,10 +10,10 @@ const selected = useState()
         Full-stack developer met een passie voor ontwerp en technologie.
       </template>
       <template #button>
-        <div class="mt-4 inline-flex items-center gap-2">
+        <div class="inline-flex items-center gap-2">
           <DarkToggleButton />
-          <BaseButton> Mijn werk</BaseButton>
-          <BaseButton> Contact</BaseButton>
+          <BaseButton> mijn werk</BaseButton>
+          <BaseButton> maak contact</BaseButton>
         </div>
       </template>
     </ProfileHeroText>
