@@ -1,5 +1,5 @@
 import { Config } from 'tailwindcss'
-import { materialPreset } from './src/modules/theme/lib/material-preset'
+import { materialPreset } from './modules/theme/lib/material-preset'
 
 export default {
   future: {
@@ -10,9 +10,9 @@ export default {
   },
   presets: [materialPreset],
   content: [
-    './src/components/**/*.{vue,ts}',
-    './src/layouts/**/*.vue',
-    './src/pages/**/*.vue',
-    './src/plugins/**/*.{js,ts}'
+    './components/**/*.{vue,ts}',
+    './layouts/**/*.vue',
+    './pages/**/*.vue',
+    './plugins/**/*.{js,ts}'
   ]
 } satisfies Config

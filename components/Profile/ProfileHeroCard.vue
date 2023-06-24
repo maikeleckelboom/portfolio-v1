@@ -13,7 +13,7 @@ const selected = useState()
           class="rounded-full border border-outline-variant bg-surface-container"
           height="60"
           preset="avatar"
-          src="picture.webp"
+          src="/assets/img/picture.webp"
           width="60"
         />
       </NuxtLink>

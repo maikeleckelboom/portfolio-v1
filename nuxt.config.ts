@@ -1,8 +1,6 @@
 export default defineNuxtConfig({
   experimental: { viewTransition: true },
 
-  srcDir: 'src',
-
   css: ['~/assets/css/tailwind.css'],
 
   modules: [
@@ -54,7 +52,6 @@ export default defineNuxtConfig({
   ],
 
   image: {
-    dir: 'assets/img',
     domains: ['localhost', 'maikeleckelboom.nl', 'maikel.tech'],
     presets: {
       avatar: {
@@ -96,7 +93,7 @@ export default defineNuxtConfig({
       navigateFallback: '/'
     },
     client: {
-      installPrompt: false
+      installPrompt: true
     },
     registerType: 'autoUpdate',
     manifest: {
@@ -132,8 +129,7 @@ export default defineNuxtConfig({
         {
           src: '/assets/icon/icon-512-512.png',
           sizes: '512x512',
-          type: 'image/png',
-          purpose: 'any maskable'
+          type: 'image/png'
         }
       ]
     }
