@@ -1,6 +1,9 @@
 <template>
-  <div class="">
+  <div
+    class="relative h-auto w-full max-w-[220px] overflow-hidden md:max-w-[280px]"
+  >
     <svg
+      class="h-full w-full object-cover"
       fill="var(--md-sys-color-on-surface, #111111)"
       viewBox="0 0 370.19 39"
       xmlns="http://www.w3.org/2000/svg"

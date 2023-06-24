@@ -13,9 +13,9 @@ import DomainNameLogo from '~/components/DomainNameLogo.vue'
   <!--    <template #trailing-icons></template>-->
   <!--  </TopAppHeader>-->
   <PageContainer>
-    <div class="grid md:grid-cols-[420px,1fr]">
-      <div class="flex flex-col">
-        <DomainNameLogo class="pl-4 pr-20 pt-7" />
+    <div class="grid px-4 md:grid-cols-[420px,1fr]">
+      <div class="mb-4 flex flex-col">
+        <DomainNameLogo class="mb-6 mt-4" />
         <ProfileHeroCard />
       </div>
       <div class="flex flex-col">

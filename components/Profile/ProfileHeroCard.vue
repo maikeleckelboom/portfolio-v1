@@ -3,7 +3,7 @@ const selected = useState()
 </script>
 
 <template>
-  <div class="flex px-4 py-6">
+  <div class="flex">
     <ProfileHeroText>
       <template #title> Maikel Eckelboom</template>
       <template #subtitle>

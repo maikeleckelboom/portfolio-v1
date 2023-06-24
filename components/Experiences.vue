@@ -101,7 +101,7 @@ const filteredData = computed(() => {
 <template>
   <div class="grid gap-4">
     <div v-for="experience in filteredData" :key="experience.id">
-      <div class="grid-cols-container grid gap-2 rounded-md p-4">
+      <div class="grid-cols-container grid gap-2 rounded-md">
         <div class="flex h-full flex-col px-0.5 py-2.5 text-end">
           <span class="text-label-medium tabular-nums">
             <span class="italic opacity-70">
