@@ -101,105 +101,61 @@ const filteredData = computed(() => {
 </script>
 
 <template>
-  <div class="grid pb-2 pt-3">
-    <div
-      v-for="(portfolio, i) in filteredData"
-      :key="portfolio.id"
-      class="portfolio-card relative flex flex-col gap-2 pl-4"
-    >
+  <ol
+    class="relative flex h-[calc(100dvh-66px)] flex-col gap-y-8 border-l py-2 pt-4"
+  >
+    <li v-for="(portfolio, n) in filteredData" :key="n" class="ml-6 gap-1">
       <div
-        :class="`absolute inset-y-0 left-0 flex w-1 bg-primary-container/50 ${
-          i === 0 ? 'rounded-tl-md rounded-tr-md' : ''
-        } ${
-          i === filteredData.length - 1 ? 'rounded-bl-md rounded-br-md' : ''
-        }`"
-        class="absolute inset-y-0 left-0 flex w-1"
-      >
-        <!-- if not first and not last -->
+        class="absolute -left-1.5 mt-2 h-3 w-3 rounded-full border border-outline bg-surface-container hover:bg-primary"
+      />
 
-        <div
-          class="flex flex-col items-center justify-center rounded-full bg-surface text-body-small text-on-primary-container"
+      <h3 class="mb-1 text-base font-normal">
+        <span class="mb-0.5 text-title-medium">
+          {{ portfolio.roleName }}
+        </span>
+        <span class="w-full whitespace-nowrap">
+          <span class="text-sm"> @ </span>
+          <a :href="portfolio.companyWebsite" class="mt-1 text-title-medium">
+            {{ portfolio.companyName }}
+            <Icon class="h-3 w-3 text-primary" name="ic:baseline-open-in-new" />
+          </a>
+        </span>
+        <span
+          v-if="n === 0"
+          class="ml-3 inline-flex items-center rounded-md border border-primary-container bg-primary-container px-2.5 py-1 text-label-small font-bold uppercase leading-4 text-on-primary-container"
         >
-          <span class="timeline-milestone">
-            {{ yearFromShortDate(portfolio.date.end) }}
+          Laatste
+        </span>
+      </h3>
+      <time class="mb-0.5 flex text-sm font-normal leading-none">
+        <span class="text-label-medium tabular-nums">
+          <span class="italic opacity-70">
+            {{ monthFromShortDate(portfolio.date.end) }}
           </span>
-          <span class="timeline-milestone">
-            {{ yearFromShortDate(portfolio.date.start) }}
+          {{ yearFromShortDate(portfolio.date.end) }}
+        </span>
+        <span class="mx-1">-</span>
+        <span class="text-label-medium tabular-nums">
+          <span class="italic opacity-70">
+            {{ monthFromShortDate(portfolio.date.start) }}
           </span>
-        </div>
-      </div>
-      <div>
-        <div
-          class="relative mb-2 grid gap-y-2 rounded-md bg-surface-level-2 px-4 py-2 hover:bg-surface-level-3 active:bg-surface-level-4"
-        >
-          <!--          <div class="flex h-full flex-col px-0.5 py-1.5 text-end">-->
-          <!--            <span class="text-label-medium tabular-nums">-->
-          <!--              <span class="italic opacity-70">-->
-          <!--                {{ monthFromShortDate(portfolio.date.end) }}-->
-          <!--              </span>-->
-          <!--              {{ yearFromShortDate(portfolio.date.end) }}-->
-          <!--            </span>-->
-          <!--            <span class="text-label-medium tabular-nums">-->
-          <!--              <span class="italic opacity-70">-->
-          <!--                {{ monthFromShortDate(portfolio.date.start) }}-->
-          <!--              </span>-->
-          <!--              {{ yearFromShortDate(portfolio.date.start) }}-->
-          <!--            </span>-->
-          <!--          </div>-->
-          <div class="flex flex-col">
-            <div class="flex flex-col">
-              <h3 class="text-title-large leading-none">
-                <span class="mb-0.5 text-title-medium">
-                  {{ portfolio.roleName }}
-                </span>
-                <span class="h-0 w-full whitespace-nowrap">
-                  <span class="text-sm"> @ </span>
-                  <a :href="portfolio.companyWebsite" class="text-title-medium">
-                    {{ portfolio.companyName }}
-                    <Icon
-                      class="h-3 w-3 text-primary"
-                      name="ic:baseline-open-in-new"
-                    />
-                  </a>
-                </span>
-              </h3>
-              <p class="mb-1.5 -skew-x-2 text-on-surface-variant">
-                {{ portfolio.companyDescription }}
-              </p>
-            </div>
-            <div v-if="portfolio.expanded">
-              <div class="mb-1.5 flex flex-col gap-1">
-                <ul class="pl-1">
-                  <li
-                    v-for="bulletPoint in portfolio.roleDescription
-                      .split('--')
-                      .slice(1)"
-                    class="list-disc"
-                  >
-                    <span class="text-body-medium">
-                      {{ bulletPoint }}
-                    </span>
-                  </li>
-                </ul>
-              </div>
-              <div v-if="portfolio.tags" class="col-start-2">
-                <TheTags :tags="portfolio.tags" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          {{ yearFromShortDate(portfolio.date.start) }}
+        </span>
+        <span class="ml-2 text-label-medium tabular-nums">
+          ({{ portfolio.date.duration }})
+        </span>
+      </time>
+      <!--      <p-->
+      <!--        class="skew-x-3 text-label-small font-normal leading-none text-on-surface-variant"-->
+      <!--      >-->
+      <!--        {{ portfolio.companyDescription }}-->
+      <!--      </p>-->
+      <div></div>
+    </li>
+  </ol>
 </template>
 
 <style lang="postcss">
-.timeline-milestone {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
 h1,
 h2,
 h3,

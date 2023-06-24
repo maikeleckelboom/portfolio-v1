@@ -10,8 +10,6 @@ import MaikelSignature from '~/pages/MaikelSignature.vue'
     <div
       class="mx-auto flex h-full w-full max-w-5xl items-center justify-end px-4 py-4"
     >
-      <MaikelSignature class="relative top-0" />
-
       <DomainNameLogo class=" " />
     </div>
   </div>
