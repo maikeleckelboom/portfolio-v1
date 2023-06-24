@@ -9,12 +9,12 @@ const selected = useState()
       <NuxtLink to="/picture" @click.native="selected = 'picture'">
         <NuxtImg
           :class="{ selected: selected === 'picture' }"
-          alt="Maikel Eckelboom"
-          class="h-full w-full rounded-full border border-outline-variant bg-surface-container"
-          height="54"
+          alt="Maikel E."
+          class="rounded-full border border-outline-variant bg-surface-container"
+          height="60"
           preset="avatar"
           src="picture.webp"
-          width="54"
+          width="60"
         />
       </NuxtLink>
     </div>

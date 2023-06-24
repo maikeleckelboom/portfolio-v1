@@ -1,58 +1,56 @@
 <script lang="ts" setup>
-const activeFilters = ref([
-  {
-    name: 'stage',
-    active: true,
-    icon: ['ic:outline-psychology', 'ic:baseline-psychology', 'ic:round-check']
-  },
-  {
-    name: 'werk',
-    active: true,
-    icon: ['ic:outline-cases', 'ic:round-cases', 'ic:round-check']
-  }
-  // {
-  //   name: 'school',
-  //   active: true,
-  //   icon: ['ic:outline-school', 'ic:baseline-school']
-  // }
-])
+const emit = defineEmits<{
+  (event: 'sort', sort: string): void
+  (event: 'filter', filter: string)
+}>()
+
+const props = defineProps<{
+  sort?: 'ascend' | 'descend'
+  filters: IFilter[]
+}>()
+
+const filters = ref(props.filters)
+
+watch(filters, (f) => emit('filter', f))
 
 const toggleFilter = (filter: string) => {
-  const filterIndex = activeFilters.value.findIndex((f) => f.name === filter)
-  activeFilters.value[filterIndex].active =
-    !activeFilters.value[filterIndex].active
+  const filterIndex = filters.value.findIndex((f) => f.name === filter)
+  filters.value[filterIndex].active = !filters.value[filterIndex].active
 }
 
-const sortMenuOpened = ref<boolean>(true)
+const sortDirection = ref<'ascend' | 'descend'>('ascend')
+
+watch(sortDirection, (dir) => emit('sort', dir))
+
+const toggleSortDirection = () => {
+  sortDirection.value = sortDirection.value === 'ascend' ? 'descend' : 'ascend'
+}
 </script>
 
 <template>
-  <div class="flex flex-wrap justify-start gap-2 px-2 pb-4 md:justify-end">
-    <div class="flex w-40 flex-col justify-end">
+  <div class="flex flex-wrap justify-start gap-2 px-2 md:justify-end">
+    <div class="flex flex-col justify-end">
       <label class="mb-2 mr-2 text-label-medium text-on-surface-variant">
         Sorteren op:
       </label>
       <div class="flex flex-row gap-2">
         <button
-          :class="{
-            'border-secondary-container bg-secondary-container': sortMenuOpened
-          }"
-          class="flex h-[32px] w-fit items-center rounded-lg border border-outline px-4 text-label-medium text-on-surface"
-          @click="sortMenuOpened = !sortMenuOpened"
+          :disabled="!filters.some((f) => f.active)"
+          class="flex h-[32px] w-[128px] min-w-fit items-center rounded-lg border border-outline-variant px-4 hover:bg-surface-level-2 active:bg-surface-level-3 disabled:pointer-events-none disabled:opacity-60"
+          @click="toggleSortDirection"
         >
           <Icon
-            :class="{ 'rotate-180 text-primary': sortMenuOpened }"
-            class="h-[18px] w-[18px] text-on-surface-variant"
+            :class="{ 'rotate-180 text-primary': sortDirection === 'ascend' }"
+            class="h-[18px] w-[18px] text-center text-on-surface-variant"
             name="ic:round-keyboard-arrow-up"
           />
-          <span class="ml-2">
-            {{ sortMenuOpened ? 'Nieuwste eerst' : 'Oudste eerst' }}
+          <span class="ml-2 text-label-medium text-on-surface">
+            {{ sortDirection === 'ascend' ? 'Nieuwste' : 'Oudste' }}
           </span>
         </button>
       </div>
     </div>
-
-    <div class="flex w-52 flex-col">
+    <div class="flex flex-col">
       <label
         class="mb-2 text-label-small text-on-surface-variant md:text-label-medium"
       >
@@ -60,20 +58,32 @@ const sortMenuOpened = ref<boolean>(true)
       </label>
       <div class="flex flex-row gap-2">
         <button
-          v-for="filter in activeFilters"
+          v-for="filter in filters"
           :class="{
-            'border-secondary-container bg-secondary-container': filter.active
+            'border-secondary-container bg-secondary-container': filter.active,
+            'pointer-events-none opacity-50': filter.disabled
           }"
-          class="flex h-[32px] w-fit items-center rounded-lg border border-outline px-4 text-label-large text-on-surface"
+          class="flex h-[32px] w-fit items-center rounded-lg border border-outline-variant px-4 hover:bg-surface-level-2 active:bg-surface-level-3"
           @click="toggleFilter(filter.name)"
         >
           <Icon
+            v-if="filter.icon"
             :class="{ 'h-6 w-6 text-primary': filter.active }"
-            :name="filter.icon[filter.active ? 2 : 0]"
+            :name="
+              Array.isArray(filter.icon)
+                ? filter.icon[filter.active ? 1 : 0]
+                : filter.icon
+            "
             class="h-[18px] w-[18px] text-on-surface-variant"
           />
-          <span class="ml-2 capitalize">
-            {{ filter.name }}
+          <span
+            :class="{
+              'text-on-surface': filter.active,
+              'text-on-surface-variant': !filter.active
+            }"
+            class="ml-2 text-label-large capitalize"
+          >
+            {{ filter.label }}
           </span>
         </button>
       </div>

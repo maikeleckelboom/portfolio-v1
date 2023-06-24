@@ -1,10 +1,9 @@
 export default defineNuxtConfig({
-
   experimental: { viewTransition: true },
 
   srcDir: 'src',
 
-  css: [ '~/assets/css/tailwind.css',],
+  css: ['~/assets/css/tailwind.css'],
 
   modules: [
     'nuxt-icon',
@@ -30,7 +29,6 @@ export default defineNuxtConfig({
 
   googleFonts: {
     preload: true,
-    prefetch: true,
     families: {
       'Open+Sans': true
     }
@@ -57,14 +55,14 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'assets/img',
-    domains: ['localhost', 'maikeleckelboom.nl'],
+    domains: ['localhost', 'maikeleckelboom.nl', 'maikel.tech'],
     presets: {
       avatar: {
         modifiers: {
           grayscale: true,
           format: 'webp',
-          width: 54,
-          height: 54,
+          width: 60,
+          height: 60
         }
       },
       picture: {
@@ -94,6 +92,9 @@ export default defineNuxtConfig({
   },
 
   pwa: {
+    workbox: {
+      navigateFallback: '/'
+    },
     client: {
       installPrompt: false
     },

@@ -1,5 +1,5 @@
 import { Config } from 'tailwindcss'
-import { materialPreset } from './lib/material-preset'
+import { materialPreset } from './src/modules/theme/lib/material-preset'
 
 export default {
   future: {

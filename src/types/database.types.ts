@@ -15,8 +15,9 @@ export interface Database {
         Row: {
           id: number
           type: string
-          startDate: string
-          endDate: string
+          dateStart: string
+          dateEnd: string
+          tags: string[]
           roleName: string
           roleDescription: JSONContent
           companyName: string
@@ -29,27 +30,6 @@ export interface Database {
           type: string | null
         }
         Update: {}
-      }
-      files: {
-        Row: {
-          id: number
-          name: string
-          filepath: string
-          size: number
-          mimetype: string
-          description: string | null
-          created_at: string | null
-        }
-        Insert: {
-          name: string | null
-          description: string | null
-          created_at?: string | null
-        }
-        Update: {
-          name: string | null
-          description: string | null
-          created_at?: string | null
-        }
       }
     }
     Views: {

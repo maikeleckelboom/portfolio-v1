@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-import ProfileHeroCard from '~/components/Profile/ProfileHeroCard.vue'
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <TopAppHeader>

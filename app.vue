@@ -1,4 +1,4 @@
-<script lang='ts' setup>
+<script lang="ts" setup>
 useHead({
   title: 'Portfolio - Maikel Eckelboom'
 })
@@ -6,13 +6,13 @@ useHead({
 
 <template>
   <NuxtLayout>
-    <NuxtLoadingIndicator :color='useColorGradient()' />
+    <NuxtLoadingIndicator :color="useColorGradient()" />
     <NuxtPage />
   </NuxtLayout>
   <VitePwaManifest />
 </template>
 
-<style lang='postcss'>
+<style lang="postcss">
 body {
   @apply bg-background text-on-background;
 }

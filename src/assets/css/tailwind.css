@@ -5,6 +5,10 @@
 
 @layer base {
 
+    body {
+        @apply overflow-x-clip overflow-y-scroll
+    }
+
     .ProseMirror,
     textarea,
     select,
