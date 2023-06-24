@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 const emit = defineEmits<{
-  (event: 'sort', sort: 'ascend' | 'descend'): void
-  (event: 'filter', filters: IFilter): void
+  (event: 'sortChange', sort: 1 | -1): void
+  (event: 'filterChange', filter: IFilter): void
 }>()
 
 const props = defineProps<{
-  sort?: 'ascend' | 'descend'
+  sortDirection?: 1 | -1
   filters: IFilter[]
 }>()
 
@@ -15,15 +15,17 @@ const toggleFilter = async (filter: string) => {
   const filterIndex = filters.value.findIndex((f) => f.name === filter)
   filters.value[filterIndex].active = !filters.value[filterIndex].active
   await nextTick()
-  emit('filter', filters.value[filterIndex])
+  emit('filterChange', filters.value[filterIndex])
 }
 
-const sortDirection = ref<'ascend' | 'descend'>('ascend')
+const sortDirection = ref<1 | -1>(
+  !props.sortDirection ? 1 : props.sortDirection
+)
 
-watch(sortDirection, (dir) => emit('sort', dir))
+watch(sortDirection, (dir) => emit('sortChange', dir))
 
 const toggleSortDirection = () => {
-  sortDirection.value = sortDirection.value === 'ascend' ? 'descend' : 'ascend'
+  sortDirection.value = sortDirection.value === 1 ? -1 : 1
 }
 </script>
 
@@ -42,12 +44,12 @@ const toggleSortDirection = () => {
           @click="toggleSortDirection"
         >
           <Icon
-            :class="{ 'rotate-180 text-primary': sortDirection === 'ascend' }"
+            :class="{ 'rotate-180 text-primary': sortDirection === -1 }"
             class="h-[18px] w-[18px] text-center text-on-surface-variant"
             name="ic:round-keyboard-arrow-up"
           />
           <span class="sr-only ml-2 text-label-medium text-on-surface">
-            {{ sortDirection === 'ascend' ? 'Nieuwste' : 'Oudste' }}
+            {{ sortDirection === 1 ? 'Oplopend' : 'Aflopend' }}
           </span>
         </button>
       </div>

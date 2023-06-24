@@ -14,6 +14,8 @@ declare interface IExperience {
   companyLocation: string
   createdAt: string
 
+  shortDescription?: string
+
   periodDuration?: string
   periodMilliseconds?: number
 }

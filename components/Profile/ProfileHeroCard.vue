@@ -11,8 +11,6 @@ const selected = useState()
       </template>
       <template #button>
         <div class="inline-flex items-center gap-2">
-          <DarkToggleButton />
-          <BaseButton> mijn werk</BaseButton>
           <BaseButton> maak contact</BaseButton>
         </div>
       </template>
