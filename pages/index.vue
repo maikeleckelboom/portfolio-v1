@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import DomainNameLogo from '~/components/DomainNameLogo.vue'
+</script>
 
 <template>
   <!--  <TopAppHeader class="relative">-->
@@ -11,15 +13,16 @@
   <!--    <template #trailing-icons></template>-->
   <!--  </TopAppHeader>-->
   <PageContainer>
-    <div class="grid gap-x-4 md:grid-cols-[420px,1fr]">
+    <div class="grid md:grid-cols-[420px,1fr]">
       <div class="flex flex-col">
+        <DomainNameLogo class="pl-4 pr-20 pt-7" />
         <ProfileHeroCard />
       </div>
       <div class="flex flex-col">
         <Experiences />
       </div>
     </div>
-    <div class="flex w-full flex-col items-center justify-start">
+    <div class="mt-20 flex w-full flex-col items-center justify-start">
       <svg
         class="hand-signature absolute bottom-4 left-6 -z-10 h-8 mix-blend-hard-light"
         data-signature="true"
