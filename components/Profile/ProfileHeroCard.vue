@@ -3,15 +3,23 @@ const selected = useState()
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex items-center">
+    <div
+      class="relative mr-4 grid h-[112px] w-[90px] place-items-center overflow-hidden rounded-lg border-2"
+    >
+      <NuxtImg
+        class="absolute inset-0 aspect-[1/1.4] h-auto w-auto"
+        src="/assets/img/picture-alt.webp"
+      />
+    </div>
     <ProfileHeroText>
       <template #title> Maikel Eckelboom</template>
       <template #subtitle>
         Full-stack developer met een passie voor ontwerp en technologie.
       </template>
       <template #button>
-        <div class="inline-flex items-center gap-2">
-          <BaseButton> maak contact</BaseButton>
+        <div class="mt-2 inline-flex items-center gap-2">
+          <BaseButton>meer over mij</BaseButton>
         </div>
       </template>
     </ProfileHeroText>

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { IExperience } from '~/types/experience'
 import humanizeDuration from 'humanize-duration'
-import { ComputedRef } from 'vue'
 
 const { data } = await useAsyncData(
   'experiences',
@@ -12,7 +10,7 @@ const { data } = await useAsyncData(
     }),
   {
     transform: ({ data }) =>
-      (data as IExperience[]).map(
+      (data as any[]).map(
         (experience) =>
           ({
             ...experience,
@@ -38,7 +36,7 @@ const { data } = await useAsyncData(
                 }
               )
             }
-          } as IExperience & {
+          } as any & {
             expanded: boolean
             date: {
               start: string
@@ -49,64 +47,19 @@ const { data } = await useAsyncData(
       )
   }
 )
-
-const filters = ref<IFilter[]>([
-  {
-    name: 'job',
-    label: 'Werk',
-    icon: ['ic:round-cases', 'ic:round-check'],
-    active: true
-  },
-  {
-    name: 'internship',
-    label: 'Stage',
-    icon: ['ic:baseline-psychology', 'ic:round-check'],
-    active: true
-  }
-])
-
-const onFilterChange = (filter: IFilter) => {
-  const f =
-    filters.value[filters.value.findIndex((f) => f.name === filter.name)]
-  f.active = !f.active
-}
-
-const sortDirection = ref<1 | -1>(-1)
-const onSortChange = (sort: 1 | -1) => (sortDirection.value = sort)
-
-const filtersFilter = (experience: IExperience) =>
-  filters.value.filter((f) => f.active).some((f) => f.name === experience.type)
-
-const sortFilter = (a: IExperience, b: IExperience) =>
-  new Date(b.dateStart).getTime() - new Date(a.dateStart).getTime()
-
-const filteredData = computed(() => {
-  if (!data.value) {
-    return []
-  }
-  const filtered = data.value!.filter(filtersFilter)
-  return sortDirection.value === -1
-    ? filtered.sort(sortFilter)
-    : filtered.sort((a, b) => sortFilter(b, a))
-}) as ComputedRef<
-  (IExperience & {
-    expanded: boolean
-    date: {
-      start: string
-      end: string
-      duration: string
-    }
-  })[]
->
 </script>
 
 <template>
   <ol
     class="relative flex h-[calc(100dvh-66px)] flex-col gap-y-8 border-l py-2 pt-4"
   >
-    <li v-for="(portfolio, n) in filteredData" :key="n" class="ml-6 gap-1">
+    <li
+      v-for="(portfolio, n) in data"
+      :key="n"
+      class="ml-6 cursor-pointer gap-1 rounded-lg border-thin border-outline-variant px-4 py-4 first:pr-[96px] hover:border-outline hover:bg-surface-level-1"
+    >
       <div
-        class="absolute -left-1.5 mt-2 h-3 w-3 rounded-full border border-outline bg-surface-container hover:bg-primary"
+        class="absolute -left-1.5 mt-1 h-3 w-3 rounded-full border border-outline bg-surface-container hover:bg-primary"
       />
 
       <h3 class="mb-1 text-base font-normal">
@@ -122,7 +75,7 @@ const filteredData = computed(() => {
         </span>
         <span
           v-if="n === 0"
-          class="ml-3 inline-flex items-center rounded-md border border-primary-container bg-primary-container px-2.5 py-1 text-label-small font-bold uppercase leading-4 text-on-primary-container"
+          class="absolute right-4 top-8 inline-flex items-center rounded-md bg-primary-container px-2.5 py-0.5 text-label-small font-bold uppercase leading-4 text-on-primary-container"
         >
           Laatste
         </span>

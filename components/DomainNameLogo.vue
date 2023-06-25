@@ -1,6 +1,7 @@
 <template>
   <div class="relative flex w-fit">
     <svg
+      id="hand-signature"
       class="hand-signature mr-2 h-9 w-9 mix-blend-hard-light"
       data-signature="true"
       fill="var(--md-sys-color-on-surface, #111111)"
@@ -32,11 +33,9 @@
     </div>
   </div>
 </template>
-<script>
-import MaikelSignature from '~/pages/MaikelSignature.vue'
 
-export default {
-  name: 'DomainNameLogo',
-  components: { MaikelSignature }
+<style lang="postcss" scoped>
+#hand-signature {
+  image-rendering: pixelated;
 }
-</script>
+</style>

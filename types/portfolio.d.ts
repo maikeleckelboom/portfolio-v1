@@ -1,6 +1,6 @@
 import { JSONContent } from '@tiptap/vue-3'
 
-declare interface IExperience {
+export interface Portfolio {
   id: number
   type: 'internship' | 'job'
   tags?: string[]
@@ -20,7 +20,7 @@ declare interface IExperience {
   periodMilliseconds?: number
 }
 
-export interface IExperienceJSON extends JSONContent {
+export interface PortfolioJSONContent extends JSONContent {
   type: 'experience'
-  attrs: IExperience
+  attrs: Portfolio
 }

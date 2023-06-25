@@ -15,6 +15,7 @@ export interface Database {
         Row: {
           id: number
           type: string
+          contractType: string
           dateStart: string
           dateEnd: string
           tags: string[]
