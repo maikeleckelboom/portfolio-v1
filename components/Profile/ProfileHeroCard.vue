@@ -5,10 +5,10 @@ const selected = useState()
 <template>
   <div class="flex items-center">
     <div
-      class="relative mr-4 grid h-[112px] w-[90px] place-items-center overflow-hidden rounded-lg border-2"
+      class="relative mr-4 flex h-fit w-[80px] place-items-center overflow-hidden rounded-lg border-2"
     >
       <NuxtImg
-        class="absolute inset-0 aspect-[1/1.4] h-auto w-auto"
+        class="inset-0 h-auto w-auto"
         src="/assets/img/picture-alt.webp"
       />
     </div>
