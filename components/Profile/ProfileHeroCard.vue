@@ -3,14 +3,17 @@ const selected = useState()
 </script>
 
 <template>
-  <div class="flex items-center">
+  <div class="flex items-start">
     <div
-      class="relative mr-4 flex h-fit w-[80px] place-items-center overflow-hidden rounded-lg border-2"
+      class="relative mr-4 flex aspect-square w-fit items-start justify-start rounded-full pt-1 md:pt-0"
     >
-      <NuxtImg
-        class="inset-0 h-auto w-auto"
-        src="/assets/img/picture-alt.webp"
-      />
+      <NuxtLink to="/picture">
+        <NuxtImg
+          class="rounded-full border object-cover"
+          format="webp"
+          src="/assets/img/picture-alt-circle.webp"
+        />
+      </NuxtLink>
     </div>
     <ProfileHeroText>
       <template #title> Maikel Eckelboom</template>
@@ -19,11 +22,17 @@ const selected = useState()
       </template>
       <template #button>
         <div class="mt-2 inline-flex items-center gap-2">
-          <BaseButton>meer over mij</BaseButton>
+          <NuxtLink to="/profile">
+            <BaseButton>over mij</BaseButton>
+          </NuxtLink>
         </div>
       </template>
     </ProfileHeroText>
   </div>
 </template>
 
-<style lang="postcss"></style>
+<style lang="postcss" scoped>
+img {
+  view-transition-name: picture;
+}
+</style>

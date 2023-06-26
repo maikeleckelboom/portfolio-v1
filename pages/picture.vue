@@ -25,9 +25,9 @@ const maikelQuotes = ref([
       <NuxtImg
         ref="elPicture"
         alt="Maikel Eckelboom"
-        class="max-w-full rounded-full border-1 border-outline-variant bg-surface-container"
+        class="rounded-2xl border object-cover"
         preset="picture"
-        src="/assets/img/picture.webp"
+        src="/assets/img/picture-alt-sm.webp"
       />
     </div>
     <div
@@ -37,8 +37,6 @@ const maikelQuotes = ref([
         Maikel Eckelboom
       </h1>
       <p class="-skew-x-5 mb-4 text-center text-headline-small text-[balance]">
-        <!-- Quote Slideshow -->
-
         {{ maikelQuotes[Math.floor(Math.random() * maikelQuotes.length)] }}
       </p>
       <div class="flex flex-nowrap">

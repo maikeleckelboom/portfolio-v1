@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="hand-signature absolute bottom-4 left-6 -z-10 h-8 mix-blend-hard-light"
+    class="the-signature absolute bottom-4 left-6 -z-10 h-8 mix-blend-hard-light"
     data-signature="true"
     fill="var(--md-sys-color-on-surface-variant)"
     viewBox="3.05 23.76 46.83 58.76"
@@ -11,13 +11,3 @@
     />
   </svg>
 </template>
-<script>
-export default {
-  name: "MaikelSignature"
-};
-</script>
-<style>
-.hand-signature {
-}
-
-</style>

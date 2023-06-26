@@ -51,15 +51,15 @@ const { data } = await useAsyncData(
 
 <template>
   <ol
-    class="relative flex h-[calc(100dvh-66px)] flex-col gap-y-8 border-l py-2 pt-4"
+    class="relative flex h-full min-h-[calc(100dvh-66px)] flex-col gap-y-8 border-l py-2 pt-4"
   >
     <li
       v-for="(portfolio, n) in data"
       :key="n"
-      class="ml-6 cursor-pointer gap-1 rounded-lg border-thin border-outline-variant px-4 py-4 first:pr-[96px] hover:border-outline hover:bg-surface-level-1"
+      class="group ml-6 cursor-pointer gap-1 rounded-lg border-thin border-outline-variant px-4 py-4 first:pr-[96px] hover:border-outline hover:bg-surface-level-1"
     >
       <div
-        class="absolute -left-1.5 mt-1 h-3 w-3 rounded-full border border-outline bg-surface-container hover:bg-primary"
+        class="absolute -left-1.5 mt-1 h-3 w-3 rounded-full border border-outline bg-surface-container group-hover:bg-primary peer-hover:bg-primary hover:bg-primary"
       />
 
       <h3 class="mb-1 text-base font-normal">
@@ -83,16 +83,16 @@ const { data } = await useAsyncData(
       <time class="mb-0.5 flex text-sm font-normal leading-none">
         <span class="text-label-medium tabular-nums">
           <span class="italic opacity-70">
-            {{ monthFromShortDate(portfolio.date.end) }}
+            {{ monthFromShortDate(portfolio.date.start) }}
           </span>
-          {{ yearFromShortDate(portfolio.date.end) }}
+          {{ yearFromShortDate(portfolio.date.start) }}
         </span>
         <span class="mx-1">-</span>
         <span class="text-label-medium tabular-nums">
           <span class="italic opacity-70">
-            {{ monthFromShortDate(portfolio.date.start) }}
+            {{ monthFromShortDate(portfolio.date.end) }}
           </span>
-          {{ yearFromShortDate(portfolio.date.start) }}
+          {{ yearFromShortDate(portfolio.date.end) }}
         </span>
         <span class="ml-2 text-label-medium tabular-nums">
           ({{ portfolio.date.duration }})

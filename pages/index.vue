@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import DomainNameLogo from '~/components/DomainNameLogo.vue'
-import MaikelSignature from '~/pages/MaikelSignature.vue'
+import MaikelSignature from '~/components/TheSignature.vue'
 </script>
 
 <template>
