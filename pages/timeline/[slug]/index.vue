@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ITimelineItem } from '~/types/portfolio'
 import { getDates } from '~/utils/date'
 
 const route = useRoute()
@@ -64,8 +63,8 @@ const { data: item } = await useAsyncData(
           </template>
         </Timeline>
       </div>
-      <div class="relative flex flex-col gap-2 overflow-hidden">
-        <fieldset class="grid grid-cols-2">
+      <div class="relative flex flex-col gap-2 overflow-hidden pt-[4em]">
+        <fieldset class="grid grid-cols-2 gap-4">
           <div class="flex flex-col">
             <sub
               class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
@@ -86,7 +85,7 @@ const { data: item } = await useAsyncData(
             </h1>
           </div>
         </fieldset>
-        <fieldset class="grid grid-cols-2">
+        <fieldset class="grid grid-cols-2 gap-4">
           <div class="flex flex-col">
             <sub
               class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"

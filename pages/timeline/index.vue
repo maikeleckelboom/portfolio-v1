@@ -9,5 +9,7 @@
       <TheSignature />
     </div>
   </div>
-  <PageContainer></PageContainer>
+  <PageContainer>
+    <h1>This is a nice free space to put a overview of all items.</h1>
+  </PageContainer>
 </template>
