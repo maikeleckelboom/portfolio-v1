@@ -1,7 +1,4 @@
-<script lang="ts" setup>
-import DomainNameLogo from '~/components/DomainNameLogo.vue'
-import MaikelSignature from '~/components/TheSignature.vue'
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <div
@@ -15,18 +12,81 @@ import MaikelSignature from '~/components/TheSignature.vue'
   </div>
   <PageContainer>
     <div class="grid gap-4 px-4 md:grid-cols-2 md:gap-8">
-      <div class="mb-4 flex flex-col py-10 md:py-0">
+      <div
+        id="profile-section"
+        class="mb-4 flex flex-col pt-4 md:py-0"
+        data-dir="backwards"
+      >
         <ProfileHeroCard />
       </div>
-      <div class="flex flex-col">
-        <Experiences />
+      <div id="work-section" class="flex flex-col">
+        <TheTimeline />
       </div>
     </div>
   </PageContainer>
 </template>
 
-<style>
+<style scoped>
 html:not(.is-transitioning) img.selected {
   view-transition-name: picture;
 }
+
+html:not(.is-transitioning) #profile-section {
+  view-transition-name: profile-section;
+}
+
+html:not(.is-transitioning) #work-section {
+  view-transition-name: work-section;
+}
+</style>
+
+<style lang="postcss">
+@keyframes slide-to-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-fade-to-left {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes move-to-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+::view-transition-old(profile-section):only-child {
+  animation: slide-fade-to-left 0.5s ease-in-out;
+}
+
+::view-transition-new(profile-section):only-child {
+  animation: slide-fade-to-left reverse 0.5s ease-in-out;
+}
+
+::view-transition-old(work-section):only-child {
+  display: none;
+}
+
+::view-transition-new(work-section):only-child {
+  animation: move-to-right 0.5s ease-in-out;
+}
+
+/*::view-transition-new(profile-section) {
+  animation: slide-to-left 0.5s ease-in-out;
+}*/
 </style>

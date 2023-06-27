@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   experimental: { viewTransition: true },
 
-  css: ['~/assets/css/tailwind.css'],
+  css: ['~/assets/css/tailwind.css', '~/assets/css/transitions.css'],
 
   modules: [
     'nuxt-icon',

@@ -1,8 +1,8 @@
 <template>
-  <div class="relative flex w-fit">
+  <div class="relative flex w-auto">
     <svg
       id="hand-signature"
-      class="hand-signature mr-2 h-9 w-9 mix-blend-hard-light"
+      class="hand-signature mr-2 h-5 w-5 mix-blend-hard-light md:h-6 md:w-6"
       data-signature="true"
       fill="var(--md-sys-color-on-surface, #111111)"
       viewBox="3.05 23.76 46.83 58.76"
@@ -14,10 +14,10 @@
     </svg>
 
     <div
-      class="relative flex h-auto w-[120px] flex-nowrap items-center overflow-hidden md:max-w-[160px]"
+      class="relative flex h-auto w-full max-w-[80px] flex-nowrap items-center overflow-hidden md:max-w-[100px]"
     >
       <svg
-        class="object-cover"
+        class="h-full w-full object-cover"
         fill="var(--md-sys-color-on-surface, #111111)"
         viewBox="85 0 285.19 39"
         xmlns="http://www.w3.org/2000/svg"
