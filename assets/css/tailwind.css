@@ -23,7 +23,6 @@
     input[type="button"]:focus-visible,
     input[type="submit"]:focus-visible,
     button:focus-visible {
-        @apply outline-none;
     }
 
     a:focus,
@@ -32,58 +31,57 @@
     input[type="button"]:focus-visible,
     input[type="submit"]:focus-visible,
     button:focus {
-        @apply outline-none;
     }
 
 }
 
 @layer utilities {
-    .subgrid {
-        display: subgrid;
-    }
-
-    .grid-cols-subgrid {
-        grid-template-columns: subgrid;
-    }
-
-    .grid-rows-subgrid {
-        grid-template-rows: subgrid;
-    }
 
     .grid-cols-container {
         @apply grid grid-cols-[60px,1fr] md:grid-cols-[80px,1fr] gap-x-4;
 
     }
 
-    .grid-cols-container > :nth-child(2) {
+
+    .timeline-start-stripes {
+        position: relative;
+    }
+
+    .timeline-start-stripes::before {
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: repeating-linear-gradient(
+                0,
+                var(--md-sys-color-outline-variant) 0px,
+                var(--md-sys-color-outline-variant) 10px,
+                var(--md-sys-color-background) 10px,
+                var(--md-sys-color-background) 20px,
+                var(--md-sys-color-background) 20px
+        );
+        height: 100px;
     }
 }
 
 @layer base {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        text-wrap: balance;
+    }
 
     .ProseMirror,
     textarea,
     select,
     input {
         @apply rounded-xl border border-outline-variant bg-surface p-2 min-h-[48px] ;
-    }
-
-
-    a:focus-visible,
-    input[type="reset"]:focus-visible,
-    input[type="button"]:focus-visible,
-    input[type="submit"]:focus-visible,
-    button:focus-visible {
-        @apply outline-none;
-    }
-
-    a:focus,
-    button:focus-visible,
-    input[type="reset"]:focus-visible,
-    input[type="button"]:focus-visible,
-    input[type="submit"]:focus-visible,
-    button:focus {
-        @apply outline-none;
     }
 
 }

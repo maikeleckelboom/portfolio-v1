@@ -16,4 +16,16 @@ useHead({
 body {
   @apply bg-background text-on-background;
 }
+
+ul:has(.list-disc) {
+  list-style-position: inside;
+
+  .list-disc {
+    list-style-type: disc;
+
+    &::marker {
+      @apply flex items-center justify-center;
+    }
+  }
+}
 </style>

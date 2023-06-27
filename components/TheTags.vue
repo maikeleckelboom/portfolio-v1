@@ -4,8 +4,6 @@ const props = defineProps<{
 }>()
 
 const colorArr = ref(['bg-primary-container/50 text-on-primary-container'])
-
-const iconsVisible = ref<boolean>(false)
 </script>
 
 <template>
@@ -13,19 +11,9 @@ const iconsVisible = ref<boolean>(false)
     <div
       v-for="(tag, n) in tags"
       :key="n"
-      :class="`${colorArr[n % colorArr.length]}`"
-      class="title-small flex items-center justify-center rounded-2xl border border-outline-variant px-2 py-1 font-semibold"
+      class="title-small flex items-center justify-center rounded-2xl border border-outline-variant bg-primary-container/50 px-2 py-1 font-semibold text-on-primary-container"
     >
-      <Icon
-        v-if="iconsVisible"
-        :name="`logos:${tag.trim().toLowerCase()}`"
-        :title="tag.trim().toLowerCase()"
-        class="min-w-5 h-5 shrink-0"
-      />
-      <span
-        v-else
-        class="whitespace-nowrap text-label-small font-bold capitalize"
-      >
+      <span class="whitespace-nowrap text-label-small font-bold capitalize">
         {{ tag }}
       </span>
     </div>

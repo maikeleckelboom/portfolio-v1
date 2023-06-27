@@ -1,11 +1,9 @@
 import { JSONContent } from '@tiptap/vue-3'
 
-export interface Portfolio {
+export interface ITimelineItem {
   id: number
   type: 'internship' | 'job'
   tags?: string[]
-  dateStart: string
-  dateEnd: string
   roleName: string
   roleDescription: string
   companyName: string
@@ -14,13 +12,17 @@ export interface Portfolio {
   companyLocation: string
   createdAt: string
 
-  shortDescription?: string
+  dateStart: string
+  dateEnd: string
 
-  periodDuration?: string
-  periodMilliseconds?: number
+  dates: {
+    duration: string
+    start: string
+    end: string
+  }
 }
 
 export interface PortfolioJSONContent extends JSONContent {
   type: 'experience'
-  attrs: Portfolio
+  attrs: ITimelineItem
 }

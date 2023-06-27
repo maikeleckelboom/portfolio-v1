@@ -1,9 +1,23 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const { data } = await useAsyncData(
+  'timeline',
+  async () =>
+    await $fetch('/api/timeline', {
+      method: 'GET',
+      headers: useRequestHeaders(['cookie'])
+    }),
+  {
+    transform: ({ data }) =>
+      data.map((item) => ({
+        ...item,
+        dates: getDates(item)
+      }))
+  }
+)
+</script>
 
 <template>
-  <div
-    class="bg-surface-container-lower flex h-16 w-full items-start justify-start"
-  >
+  <div class="flex h-16 w-full items-start justify-start bg-surface-container">
     <div
       class="mx-auto flex h-full w-full max-w-5xl items-center justify-end px-4 py-4"
     >
@@ -11,16 +25,24 @@
     </div>
   </div>
   <PageContainer>
-    <div class="grid gap-4 px-4 md:grid-cols-2 md:gap-8">
-      <div
-        id="profile-section"
-        class="mb-4 flex flex-col pt-4 md:py-0"
-        data-dir="backwards"
-      >
+    <div
+      id="home-content"
+      class="grid gap-4 px-4 pt-6 md:grid-cols-[1fr,420px]"
+    >
+      <div class="flex flex-col">
         <ProfileHeroCard />
       </div>
-      <div id="work-section" class="flex flex-col">
-        <TheTimeline />
+      <div class="flex flex-col">
+        <Timeline v-if="data" :data="data">
+          <template #title> Werkervaring</template>
+          <template #item="{ item, index }">
+            <TimelineItem
+              :index="index"
+              :item="item"
+              :to="`/timeline/${item.id}`"
+            />
+          </template>
+        </Timeline>
       </div>
     </div>
   </PageContainer>
@@ -31,62 +53,13 @@ html:not(.is-transitioning) img.selected {
   view-transition-name: picture;
 }
 
-html:not(.is-transitioning) #profile-section {
-  view-transition-name: profile-section;
+html:not(.is-transitioning) #home-content {
+  view-transition-name: home-content;
+  mix-blend-mode: normal;
 }
 
-html:not(.is-transitioning) #work-section {
-  view-transition-name: work-section;
+html:not(.is-transitioning) #detail-content {
+  view-transition-name: detail-content;
+  mix-blend-mode: normal;
 }
-</style>
-
-<style lang="postcss">
-@keyframes slide-to-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes slide-fade-to-left {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-}
-
-@keyframes move-to-right {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-::view-transition-old(profile-section):only-child {
-  animation: slide-fade-to-left 0.5s ease-in-out;
-}
-
-::view-transition-new(profile-section):only-child {
-  animation: slide-fade-to-left reverse 0.5s ease-in-out;
-}
-
-::view-transition-old(work-section):only-child {
-  display: none;
-}
-
-::view-transition-new(work-section):only-child {
-  animation: move-to-right 0.5s ease-in-out;
-}
-
-/*::view-transition-new(profile-section) {
-  animation: slide-to-left 0.5s ease-in-out;
-}*/
 </style>

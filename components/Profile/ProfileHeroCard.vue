@@ -6,7 +6,7 @@ const selected = useState()
   <div class="flex flex-col">
     <div class="flex items-start">
       <div
-        class="relative mr-4 flex w-fit items-start justify-start rounded-full md:pt-0"
+        class="relative mr-4 flex w-fit items-start justify-start rounded-full"
       >
         <NuxtLink to="/picture">
           <NuxtImg
@@ -23,11 +23,11 @@ const selected = useState()
         </template>
         <template #button>
           <div class="flex flex-col">
-            <div class="mt-2 inline-flex items-center gap-2">
-              <NuxtLink to="/profile">
-                <BaseButton>over mij</BaseButton>
-              </NuxtLink>
-            </div>
+            <!--            <div class="mt-2 inline-flex items-center gap-2">-->
+            <!--              <NuxtLink to="/profile">-->
+            <!--                <BaseButton>over mij</BaseButton>-->
+            <!--              </NuxtLink>-->
+            <!--            </div>-->
             <TheSocials />
           </div>
         </template>
@@ -37,7 +37,7 @@ const selected = useState()
 </template>
 
 <style lang="postcss" scoped>
-/*img {
+img {
   view-transition-name: picture;
-}*/
+}
 </style>
