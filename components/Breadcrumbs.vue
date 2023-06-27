@@ -4,7 +4,7 @@ const { breadcrumbs, isNotFirstCrumb, isNotCurrentCrumb } = useBreadcrumbs()
 
 <template>
   <div
-    class="flex flex-nowrap items-center px-2 py-4 lowercase"
+    class="flex flex-nowrap items-center py-4 capitalize"
     data-component="breadcrumbs"
   >
     <ul class="flex flex-row items-center">
@@ -16,12 +16,9 @@ const { breadcrumbs, isNotFirstCrumb, isNotCurrentCrumb } = useBreadcrumbs()
         <div v-if="isNotFirstCrumb(crumb)" class="flex flex-row items-center">
           <NuxtLink
             :to="`/${crumb.path}`"
-            class="on-surface-variant hover:on-surface-variant/90 rounded-md"
+            class="on-surface-variant hover:on-surface-variant/90 rounded-md px-1"
           >
-            <Icon
-              class="h-4 w-4 rotate-[0deg]"
-              name="fluent:divider-short-16-filled"
-            />
+            <Icon class="h-4 w-4" name="fluent:divider-short-16-filled" />
           </NuxtLink>
         </div>
         <div v-if="isNotCurrentCrumb(crumb)" class="flex flex-row items-center">
@@ -33,7 +30,7 @@ const { breadcrumbs, isNotFirstCrumb, isNotCurrentCrumb } = useBreadcrumbs()
           </NuxtLink>
         </div>
         <div v-else class="flex flex-row items-center">
-          <span class="rounded-md px-1 font-bold text-on-surface-variant/90">
+          <span class="rounded-md font-bold text-on-surface-variant/90">
             {{ crumb.name }}
           </span>
         </div>

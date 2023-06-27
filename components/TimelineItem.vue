@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ITimelineItem } from '~/types/portfolio'
+import IsInternshipIcon from '~/components/IsInternshipIcon.vue'
 
 interface Props {
   item: ITimelineItem
@@ -29,6 +30,10 @@ const route = useRoute()
 const isAtCurrentRoute = computed(() => {
   return route.path === props.to
 })
+
+const isInternship = computed(() => {
+  return props.item.type === 'internship'
+})
 </script>
 
 <template>
@@ -39,14 +44,20 @@ const isAtCurrentRoute = computed(() => {
         isAtCurrentRoute
     }"
     :to="to"
-    class="group ml-3 flex max-w-full rounded-lg border-thin border-outline-variant px-4 py-4 transition-all hover:border-outline hover:bg-surface-level-1 md:ml-6"
+    class="group ml-4 flex max-w-full flex-col rounded-lg border-thin transition-all hover:border-primary hover:bg-surface-level-1"
   >
     <TimelineItemMilestone
       :class="isAtCurrentRoute ? ' bg-primary' : 'bg-surface'"
     />
-    <span class="relative flex w-full flex-col">
+
+    <span class="relative flex h-full w-full flex-col p-5">
       <TimelineItemTitle>
-        <span class="mb-0.5 text-start text-title-medium">
+        <span
+          :class="
+            item.type === 'job' ? 'text-title-medium' : 'text-title-medium'
+          "
+          class="mb-0.5 text-start"
+        >
           {{ item.roleName }}
         </span>
         <span class="mb-0.5 w-full whitespace-nowrap">
@@ -64,6 +75,20 @@ const isAtCurrentRoute = computed(() => {
         </TimelineBadge>
       </TimelineItemTitle>
       <TimelineItemDates :dates="item.dates" />
+      <IsInternshipIcon
+        v-if="item.type === 'internship'"
+        class="absolute right-2 top-1/2 -translate-y-1/2"
+      />
     </span>
+
+    <template v-if="item?.children?.length">
+      <div v-for="child in item.children" :key="child.id" class="h-full">
+        <TimelineItem
+          :item="child"
+          :to="`/timeline/${child.slug}`"
+          class="h-full"
+        />
+      </div>
+    </template>
   </Component>
 </template>

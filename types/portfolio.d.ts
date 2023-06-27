@@ -2,7 +2,6 @@ import { JSONContent } from '@tiptap/vue-3'
 
 export interface ITimelineItem {
   id: number
-  type: 'internship' | 'job'
   tags?: string[]
   roleName: string
   roleDescription: string
@@ -14,6 +13,9 @@ export interface ITimelineItem {
 
   dateStart: string
   dateEnd: string
+
+  type: 'internship' | 'job'
+  slug: string
 
   dates: {
     duration: string

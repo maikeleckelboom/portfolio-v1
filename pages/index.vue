@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ITimelineItem } from '~/types/portfolio'
+
 const { data } = await useAsyncData(
   'timeline',
   async () =>
@@ -8,26 +10,42 @@ const { data } = await useAsyncData(
     }),
   {
     transform: ({ data }) =>
-      data.map((item) => ({
+      (data as any[]).map((item) => ({
         ...item,
+        children: [],
         dates: getDates(item)
       }))
   }
 )
+
+const groupByCompany = (d) =>
+  d.reduce((acc, item) => {
+    const lastItem = acc[acc.length - 1]
+    if (lastItem?.companyName === item.companyName) {
+      lastItem.children.push(item)
+    } else {
+      acc.push({
+        ...item,
+        children: []
+      })
+    }
+    return acc
+  }, [] as ITimelineItem[])
 </script>
 
 <template>
   <div class="flex h-16 w-full items-start justify-start bg-surface-container">
     <div
-      class="mx-auto flex h-full w-full max-w-5xl items-center justify-end px-4 py-4"
+      class="mx-auto flex h-full w-full max-w-5xl items-center justify-between px-4 py-4"
     >
-      <DomainNameLogo />
+      <Breadcrumbs />
+      <TheSignature />
     </div>
   </div>
   <PageContainer>
     <div
       id="home-content"
-      class="grid gap-4 px-4 pt-6 md:grid-cols-[1fr,420px]"
+      class="mt-6 grid gap-8 px-4 md:grid-cols-[1fr,420px]"
     >
       <div class="flex flex-col">
         <ProfileHeroCard />
@@ -39,7 +57,7 @@ const { data } = await useAsyncData(
             <TimelineItem
               :index="index"
               :item="item"
-              :to="`/timeline/${item.id}`"
+              :to="`/timeline/${item.slug}`"
             />
           </template>
         </Timeline>

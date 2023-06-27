@@ -3,11 +3,12 @@ import { Database } from '../../../types/database.types'
 
 export default defineEventHandler(async (event) => {
   const url = new URL(getRequestURL(event))
-  const id = url.pathname.split('/').pop()
+  const slug = url.pathname.split('/').pop()
+  // const id = url.pathname.split('/').pop()
   const client = serverSupabaseServiceRole<Database>(event)
   const { data, error } = await client
     .from('experiences')
     .select('*')
-    .eq('id', id)
+    .eq('slug', slug)
   return { data, error }
 })

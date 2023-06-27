@@ -10,9 +10,10 @@ const selected = useState()
       >
         <NuxtLink to="/picture">
           <NuxtImg
-            class="max-w-[80px] rounded-full object-cover"
+            class="w-[68px] rounded-full object-cover"
             format="webp"
             src="/assets/img/picture-alt-circle.webp"
+            width="68"
           />
         </NuxtLink>
       </div>
@@ -23,12 +24,12 @@ const selected = useState()
         </template>
         <template #button>
           <div class="flex flex-col">
-            <!--            <div class="mt-2 inline-flex items-center gap-2">-->
-            <!--              <NuxtLink to="/profile">-->
-            <!--                <BaseButton>over mij</BaseButton>-->
-            <!--              </NuxtLink>-->
-            <!--            </div>-->
-            <TheSocials />
+            <div class="mt-2 inline-flex items-center gap-2">
+              <NuxtLink to="/profile">
+                <BaseButton>over mij</BaseButton>
+              </NuxtLink>
+            </div>
+            <!--            <TheSocials />-->
           </div>
         </template>
       </ProfileHeroText>

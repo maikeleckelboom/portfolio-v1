@@ -16,9 +16,7 @@ const props = defineProps<{
       </h1>
     </li>
     <li v-for="(item, index) in data" :key="item.id" class="mb-4">
-      <slot :index="index" :item="item" name="item">
-        <TimelineItem :index="index" :item="item" />
-      </slot>
+      <slot :index="index" :item="item" name="item"> </slot>
     </li>
   </ol>
 </template>

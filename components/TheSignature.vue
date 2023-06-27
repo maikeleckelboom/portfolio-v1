@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="the-signature absolute bottom-4 left-6 -z-10 h-8 mix-blend-hard-light"
+    class="h-8 w-8"
     data-signature="true"
     fill="var(--md-sys-color-on-surface-variant)"
     viewBox="3.05 23.76 46.83 58.76"

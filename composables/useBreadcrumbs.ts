@@ -13,7 +13,7 @@ export const useBreadcrumbs = () => {
   const breadcrumbs = computed<Crumb[]>(() => {
     const crumbs = removeFirstSlash(currentRoute.value.path).split('/')
     return [
-      { path: '', name: 'Home' },
+      { path: '', name: 'Portfolio' },
       ...crumbs.map((crumb, index) => ({
         path: crumbs.slice(0, index + 1).join('/'),
         name: crumb
