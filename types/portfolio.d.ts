@@ -14,6 +14,15 @@ export interface ITimelineItem {
   dateStart: string
   dateEnd: string
 
+  gallery?: {
+    id: number
+    name: string
+    path: string
+    size: number
+    mime: string
+    createdAt: string
+  }[]
+
   type: 'internship' | 'job'
   slug: string
 

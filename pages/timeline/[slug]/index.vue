@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getDates } from '~/utils/date'
+import { ITimelineItem } from '~/types/portfolio'
 
 const route = useRoute()
 
@@ -19,7 +19,7 @@ const { data: timelineData } = await useAsyncData(
   }
 )
 
-const { data: item } = await useAsyncData(
+const { data: itemData } = await useAsyncData(
   'timeline-item',
   async () =>
     await $fetch(`/api/timeline/${route.params.slug}`, {
@@ -28,9 +28,10 @@ const { data: item } = await useAsyncData(
     }),
   {
     transform: ({ data }) =>
-      data
+      (data as ITimelineItem[])
         .map((item) => ({
           ...item,
+          gallery: item?.gallery!.filter((item) => !item.hidden),
           dates: getDates(item)
         }))
         .at(0)
@@ -63,7 +64,7 @@ const { data: item } = await useAsyncData(
           </template>
         </Timeline>
       </div>
-      <div class="relative flex flex-col gap-2 overflow-hidden pt-[4em]">
+      <div class="relative flex flex-col gap-2 overflow-hidden pt-14">
         <fieldset class="grid grid-cols-2 gap-4">
           <div class="flex flex-col">
             <sub
@@ -71,7 +72,7 @@ const { data: item } = await useAsyncData(
             >
               Functietitel
             </sub>
-            <h1 class="mb-4 text-body-large">{{ item.roleName }}</h1>
+            <h1 class="mb-4 text-body-large">{{ itemData.roleName }}</h1>
           </div>
           <div class="flex flex-col">
             <sub
@@ -80,8 +81,8 @@ const { data: item } = await useAsyncData(
               Dienstverband
             </sub>
             <h1 class="mb-4 text-body-large capitalize">
-              {{ item.type === 'job' ? 'Baan' : 'Stage' }}
-              <span>- {{ item.contractType }}</span>
+              {{ itemData.type === 'job' ? 'Baan' : 'Stage' }}
+              <span>- {{ itemData.contractType }}</span>
             </h1>
           </div>
         </fieldset>
@@ -92,7 +93,7 @@ const { data: item } = await useAsyncData(
             >
               Bedrijf
             </sub>
-            <h1 class="mb-4 text-body-large">{{ item.companyName }}</h1>
+            <h1 class="mb-4 text-body-large">{{ itemData.companyName }}</h1>
           </div>
           <div class="flex flex-col">
             <sub
@@ -100,7 +101,7 @@ const { data: item } = await useAsyncData(
             >
               Locatie
             </sub>
-            <h1 class="mb-4 text-body-large">{{ item.companyLocation }}</h1>
+            <h1 class="mb-4 text-body-large">{{ itemData.companyLocation }}</h1>
           </div>
         </fieldset>
         <fieldset>
@@ -109,7 +110,9 @@ const { data: item } = await useAsyncData(
           >
             Bedrijfsomschrijving
           </sub>
-          <h1 class="mb-4 text-body-large">{{ item.companyDescription }}</h1>
+          <h1 class="mb-4 text-body-large">
+            {{ itemData.companyDescription }}
+          </h1>
         </fieldset>
         <fieldset>
           <sub
@@ -118,27 +121,43 @@ const { data: item } = await useAsyncData(
             Periode
           </sub>
           <h1 class="mb-4 text-body-large">
-            {{ item.dates.start }} - {{ item.dates.end }} ({{
-              item.dates.duration
+            {{ itemData.dates.start }} - {{ itemData.dates.end }} ({{
+              itemData.dates.duration
             }})
           </h1>
         </fieldset>
-
-        <sub
-          class="mb-0.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
-        >
-          Taken en verantwoordelijkheden
-        </sub>
-        <ul class="">
-          <li
-            v-for="listItem in item.roleDescription.split('--').slice(1)"
-            class="list-disc pl-6 text-body-large text-body-large"
+        <fieldset>
+          <sub
+            class="mb-0.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
           >
-            {{ listItem }}
-          </li>
-        </ul>
-        <div class="mt-6 flex">
-          <TheTags :tags="item.tags" />
+            Taken en verantwoordelijkheden
+          </sub>
+          <ul class="">
+            <li
+              v-for="listItem in itemData.roleDescription.split('--').slice(1)"
+              class="list-disc pl-6 text-body-large text-body-large"
+            >
+              {{ listItem }}
+            </li>
+          </ul>
+        </fieldset>
+        <fieldset class="mt-6 flex">
+          <TheTags :tags="itemData.tags" />
+        </fieldset>
+        <div v-if="itemData?.gallery" class="mt-8 flex flex-col">
+          <h1 class="mb-4 text-headline-large">Schermafbeeldingen</h1>
+          <div class="grid grid-cols-3 gap-4">
+            <div
+              v-for="image in itemData.gallery"
+              class="relative flex h-full min-h-full w-full min-w-full overflow-hidden rounded-lg border outline-offset-2 last:col-span-2 [&:nth-child(3)]:col-span-1"
+            >
+              <NuxtImg
+                :alt="image.name"
+                :src="image.path"
+                class="h-full w-full object-cover"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

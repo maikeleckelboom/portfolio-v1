@@ -21,19 +21,12 @@ const navigateToWebsite = (item: ITimelineItem) => {
   console.log('Stopped opening website')
 
   return
-
   // window.open(item.companyWebsite, '_blank')
 }
 
 const route = useRoute()
 
-const isAtCurrentRoute = computed(() => {
-  return route.path === props.to
-})
-
-const isInternship = computed(() => {
-  return props.item.type === 'internship'
-})
+const isAtCurrentRoute = computed(() => route.path === props.to)
 </script>
 
 <template>
@@ -44,7 +37,7 @@ const isInternship = computed(() => {
         isAtCurrentRoute
     }"
     :to="to"
-    class="group ml-4 flex max-w-full flex-col rounded-lg border-thin transition-all hover:border-primary hover:bg-surface-level-1"
+    class="group ml-6 flex max-w-full flex-col rounded-lg border-thin transition-all hover:border-primary hover:bg-surface-level-1"
   >
     <TimelineItemMilestone
       :class="isAtCurrentRoute ? ' bg-primary' : 'bg-surface'"
@@ -80,15 +73,5 @@ const isInternship = computed(() => {
         class="absolute right-2 top-1/2 -translate-y-1/2"
       />
     </span>
-
-    <template v-if="item?.children?.length">
-      <div v-for="child in item.children" :key="child.id" class="h-full">
-        <TimelineItem
-          :item="child"
-          :to="`/timeline/${child.slug}`"
-          class="h-full"
-        />
-      </div>
-    </template>
   </Component>
 </template>
