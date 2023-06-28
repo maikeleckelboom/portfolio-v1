@@ -42,7 +42,7 @@ const { data: itemData } = await useAsyncData(
 <template>
   <div class="flex h-16 w-full items-start justify-start bg-surface-container">
     <div
-      class="mx-auto flex h-full w-full max-w-5xl items-center justify-between"
+      class="mx-auto flex h-full w-full max-w-5xl items-center justify-between px-2"
     >
       <Breadcrumbs />
       <TheSignature />
@@ -50,7 +50,7 @@ const { data: itemData } = await useAsyncData(
   </div>
   <PageContainer>
     <div
-      class="mt-6 grid grid-cols-1 gap-4 overflow-hidden px-4 pb-8 md:grid-cols-[380px,1fr] md:gap-8 xl:gap-10"
+      class="mt-6 grid grid-cols-1 gap-4 overflow-hidden px-4 pb-8 md:grid-cols-[380px,1fr] md:gap-8 xl:gap-14"
     >
       <div class="flex flex-col">
         <Timeline v-if="timelineData" :data="timelineData">

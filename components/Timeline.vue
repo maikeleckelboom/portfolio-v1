@@ -10,12 +10,12 @@ const props = defineProps<{
   <ol class="relative flex h-full min-h-[calc(100dvh-112px)] flex-col border-l">
     <li>
       <h1
-        class="timeline-start-stripes mb-7 pl-6 text-headline-small md:text-headline-medium"
+        class="timeline-start-stripes mb-6 pl-6 text-headline-small md:text-headline-large"
       >
         <slot name="title" />
       </h1>
     </li>
-    <li v-for="(item, index) in data" :key="item.id" class="relative mb-6">
+    <li v-for="(item, index) in data" :key="item.id" class="relative mb-6 pt-2">
       <slot :index="index" :item="item" name="item" />
     </li>
   </ol>
