@@ -4,6 +4,9 @@ dependencies:
   '@nuxt/image-edge':
     specifier: 1.0.0-rc.1-28126030.07836ae
     version: 1.0.0-rc.1-28126030.07836ae(rollup@2.79.1)
+  formidable:
+    specifier: ^3.5.0
+    version: 3.5.0
   h3-formidable:
     specifier: 0.3.0
     version: 0.3.0(h3@1.7.0)
