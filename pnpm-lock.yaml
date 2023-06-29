@@ -5,8 +5,8 @@ dependencies:
     specifier: 1.0.0-rc.1-28126030.07836ae
     version: 1.0.0-rc.1-28126030.07836ae(rollup@2.79.1)
   h3-formidable:
-    specifier: ^0.3.6
-    version: 0.3.6(h3@1.7.0)
+    specifier: 0.3.0
+    version: 0.3.0(h3@1.7.0)
   humanize-duration:
     specifier: ^3.28.0
     version: 3.28.0
@@ -5232,8 +5232,8 @@ packages:
       duplexer: 0.1.2
     dev: true
 
-  /h3-formidable@0.3.6(h3@1.7.0):
-    resolution: {integrity: sha512-AH+XzWo+yYF22ghmavPs36ZlPZfqHO8lnR9+OaIJy0oVO64/e+QuglwSClWSpP2f2z6OCesBcR3uJ14IX5vaaw==}
+  /h3-formidable@0.3.0(h3@1.7.0):
+    resolution: {integrity: sha512-upJMCn9ogntyovllZ5ledRcbuTc7qsl3ahd+v1ZeD6fZsg9QT+LV9uM/brbxZXzsD1TqrMXT4tjwMQPcfirzPA==}
     peerDependencies:
       h3: '>=1.6.0'
     dependencies:
