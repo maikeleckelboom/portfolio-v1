@@ -2,7 +2,6 @@
 import { ITimelineItem } from '~/types/portfolio'
 import { Ref } from 'vue'
 import TimelineDropzone from '~/components/TimelineDropzone.vue'
-import { useToaster } from '~/modules/toaster'
 
 const route = useRoute()
 
@@ -33,8 +32,6 @@ watch(
   { immediate: true, deep: true }
 )
 
-const { toast } = useToaster()
-
 const onDeleteFile = async (id: number) => {
   setAction(id, 'delete')
 
@@ -52,7 +49,7 @@ const onDeleteFile = async (id: number) => {
     console.error(error)
   }
 
-  await toast('File deleted', 'success')
+  // await toast('File deleted', 'success')
 
   await refresh()
 }
@@ -300,17 +297,25 @@ const onUpload = async () => {
                 @refresh="refresh"
               />
             </div>
-            <ul v-if="dataModel?.timeline_files" class="grid grid-cols-3 gap-4">
+            <ul
+              v-if="dataModel?.timeline_files"
+              class="col-span-full col-start-1 grid grid-cols-3 gap-4"
+            >
               <li
                 v-for="attachment in dataModel.timeline_files"
                 class="group relative flex w-full min-w-full overflow-clip rounded-md border outline-offset-2"
               >
-                <NuxtImg
-                  :alt="attachment.file.filename"
-                  :src="attachment.file.filepath"
-                  class="mx-auto max-h-[260px] min-h-[200px] w-full rounded-md object-cover group-hover:opacity-90"
-                />
-
+                <NuxtLink
+                  v-for="attachment in data.timeline_files"
+                  :to="`/timeline/${data.slug}/files/${attachment.file.id}`"
+                  class="relative flex h-full max-h-[160px] min-h-[80px] w-full min-w-full overflow-hidden rounded-lg border outline-offset-2"
+                >
+                  <NuxtImg
+                    :alt="attachment.file.filename"
+                    :src="attachment.file.filepath"
+                    class="mx-auto rounded-md object-cover group-hover:opacity-80"
+                  />
+                </NuxtLink>
                 <!-- File Crud Bar / Toolbar -->
                 <div
                   class="absolute inset-x-1 bottom-2 z-20 flex flex-wrap justify-end gap-1 @container md:inset-x-2 md:gap-2"
@@ -347,7 +352,6 @@ const onUpload = async () => {
                     <span v-else> Delete </span>
                   </button>
                 </div>
-                <!-- / X File Crud Bar -->
               </li>
             </ul>
           </div>

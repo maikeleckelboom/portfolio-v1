@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { useToaster } from '~/modules/toaster'
-
 interface ClientFormModel {
   id: string
   url: string
@@ -61,9 +59,7 @@ const onSubmit = async () => {
     return
   }
 
-  const { toast } = useToaster()
-
-  await toast('Bestanden geüpload', 'success')
+  // await toast('Bestanden geüpload', 'success')
 
   formModel.value = []
 

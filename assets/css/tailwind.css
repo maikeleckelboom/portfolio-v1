@@ -3,6 +3,10 @@
 @tailwind components;
 
 
+@custom-media --motionOK (prefers-reduced-motion: no-preference);
+@custom-media --dark (prefers-color-scheme: dark);
+
+
 @layer base {
 
     body {
@@ -35,11 +39,11 @@
 
 }
 
+
 @layer utilities {
 
     .grid-cols-container {
         @apply grid grid-cols-[60px,1fr] md:grid-cols-[80px,1fr] gap-x-4;
-
     }
 
 

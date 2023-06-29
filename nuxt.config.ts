@@ -14,7 +14,8 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/image-edge',
     '@nuxtjs/google-fonts',
-    '~/modules/theme/module.ts'
+    '~/modules/theme/module.ts',
+    '~/modules/toast/module.ts'
   ],
 
   postcss: {

@@ -1,27 +1,26 @@
 <script lang="ts" setup>
-type ComponentIcon = {
-  name: string
-  icon: string
-  onClick: () => void
-}
-const { trailingIcons = [], top } = defineProps<{
-  trailingIcons?: ComponentIcon[]
+
+import {MenuItem} from "~/types/menu";
+
+const { trailingIcons, top } = defineProps<{
+  trailingIcons?: MenuItem[]
   top?: string
 }>()
 
 const emit = defineEmits<{
-  clicked: () => void
+  (event: 'clicked'): void
 }>()
 </script>
 
 <template>
   <div
     :style="{ top }"
-    class="fixed top-[calc(var(--height)_*_0.5_+_24px)] isolate z-40 min-w-[180px] overflow-hidden rounded-md bg-surface-container-high"
+    class="absolute top-[calc(var(--height)_*_0.5_+_24px)] isolate z-40 min-w-[180px] overflow-hidden rounded-md bg-surface-container-high"
     @click="emit('clicked')"
   >
     <div class="flex w-full flex-col flex-nowrap items-center">
-      <slot />
+      <slot name="trigger"/>
+      <slot name="content"/>
       <template v-for="icon in trailingIcons">
         <slot :icon="icon" name="trailingIcon">
           <button
@@ -32,14 +31,12 @@ const emit = defineEmits<{
             <span
               class="w-full flex-1 pt-0.5 text-left text-label-large text-on-surface"
             >
-              {{ icon.name }}
+              {{ icon.label }}
             </span>
           </button>
         </slot>
       </template>
-      <DarkToggleButton v-slot="{ mode }">
-        {{ mode.value === 'light' ? 'Donkere' : 'Lichte' }} modus
-      </DarkToggleButton>
+      <slot />
     </div>
   </div>
 </template>

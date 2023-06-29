@@ -29,7 +29,11 @@ const { data: item } = await useAsyncData(
       headers: useRequestHeaders(['cookie'])
     }),
   {
-    transform: ({ data }) => data as ITimelineItem
+    transform: (response) =>
+      ({
+        ...response.data,
+        dates: getDates(response.data)
+      } as ITimelineItem)
   }
 )
 

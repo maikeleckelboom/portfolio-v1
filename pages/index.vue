@@ -14,7 +14,7 @@ const { data } = await useAsyncData(
         ...item,
         children: [],
         dates: getDates(item)
-      }))
+      })) as ITimelineItem[]
   }
 )
 </script>

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ITimelineItem } from '~/types/portfolio'
-import { ComputedRef } from 'vue'
 
 const route = useRoute()
 
@@ -12,11 +11,10 @@ const { data: timelineData } = await useAsyncData(
       headers: useRequestHeaders(['cookie'])
     }),
   {
-    transform: (response) =>
-      response.data.map((item) => ({
-        ...item,
-        dates: getDates(item)
-      }))
+    transform: (res) => res.data?.map((item) => ({
+          ...item,
+          dates: getDates(item)
+        })) || []
   }
 )
 
@@ -28,14 +26,13 @@ const { data: itemData } = await useAsyncData(
       headers: useRequestHeaders(['cookie'])
     }),
   {
-    transform: (response) => ({
-      ...response.data,
-      dates: getDates(response.data)
-    })
+    transform: (response) =>
+      ({
+        ...response.data,
+        dates: getDates(response.data)
+      } as ITimelineItem)
   }
 )
-
-console.log('itemData', itemData.value)
 
 // const {
 //   data: lazyFiles,
@@ -49,6 +46,60 @@ console.log('itemData', itemData.value)
 //     transform: ({ data }) => data
 //   }
 // )
+const router = useRouter()
+
+const trailingIcons = ref([
+  // {
+  //   icon: 'ic:round-favorite',
+  //   label: 'Favoriet',
+  //   name: 'favorite',
+  //   onClick: () => console.log('click')
+  // },
+  // {
+  //   icon: 'ic:round-share',
+  //   label: 'Delen',
+  //   name: 'share',
+  //   onClick: () => console.log('click')
+  // },
+  // {
+  //   icon: 'ic:round-get-app',
+  //   label: 'Downloaden',
+  //   name: 'download',
+  //   onClick: () => console.log('click')
+  // },
+  {
+    icon: 'ic:round-add',
+    label: 'Toevoegen',
+    name: 'add',
+    onClick: () => router.push(`/timeline/${itemData?.value?.slug}/files/create`)
+  },
+{
+    icon: 'ic:round-edit',
+    label: 'Aanpassen',
+    name: 'edit',
+    onClick: () => router.push(`/timeline/${itemData?.value?.slug}/edit`)
+  },
+  {
+    icon: 'ic:baseline-delete-outline',
+    label: 'Verwijderen',
+    name: 'delete',
+    onClick: () => router.push(`/timeline/${itemData?.value?.slug}/delete`)
+  },
+])
+
+
+const { Placeholder, toggle, hide, visible } = useMenu(
+    {
+      trailingIcons: trailingIcons.value,
+      top: `88px`,
+    },
+    {
+      emits: {
+        onClicked: () => setTimeout(hide, 100)
+      }
+    }
+)
+
 </script>
 
 <template>
@@ -60,11 +111,14 @@ console.log('itemData', itemData.value)
       <TheSignature />
     </div>
   </div>
+
   <PageContainer>
-    <div
-      class="mt-6 grid grid-cols-1 gap-4 px-4 pb-8 md:grid-cols-[380px,1fr] md:gap-8 xl:gap-14"
+    <div class=" mb-2 flex w-full max-w-5xl px-1 justify-end">
+      <Placeholder />
+    </div>
+     <div class="mt-6 grid grid-cols-1 gap-4   pb-8 md:grid-cols-[380px,1fr] md:gap-8 xl:gap-14"
     >
-      <div class="flex flex-col">
+      <div class=" flex-col hidden md:flex ">
         <Timeline v-if="timelineData" :data="timelineData">
           <template #title> Werkervaring</template>
           <template #item="{ item, index }">
@@ -78,119 +132,121 @@ console.log('itemData', itemData.value)
       </div>
       <div
         v-if="itemData"
-        class="relative flex flex-col gap-2 overflow-hidden pt-16"
+        class="relative flex flex-col gap-2 overflow-hidden xl:pt-16  md:col-start-2 md:row-start-1"
       >
-        <fieldset class="grid grid-cols-2 gap-4">
-          <div class="flex flex-col">
-            <sub
-              class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
-            >
-              Functietitel
-            </sub>
-            <h1 class="mb-4 text-body-large">{{ itemData.roleName }}</h1>
-          </div>
-          <div class="flex flex-col">
-            <sub
-              class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
-            >
-              Dienstverband
-            </sub>
-            <h1 class="mb-4 text-body-large capitalize">
-              {{ itemData.type === 'job' ? 'Baan' : 'Stage' }}
-              <span>- {{ itemData.contractType }}</span>
-            </h1>
-          </div>
-        </fieldset>
-        <fieldset class="grid grid-cols-2 gap-4">
-          <div class="flex flex-col">
-            <sub
-              class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
-            >
-              Bedrijf
-            </sub>
-            <h1 class="mb-4 text-body-large">{{ itemData.companyName }}</h1>
-          </div>
-          <div class="flex flex-col">
-            <sub
-              class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
-            >
-              Locatie
-            </sub>
-            <h1 class="mb-4 text-body-large">{{ itemData.companyLocation }}</h1>
-          </div>
-        </fieldset>
-        <fieldset>
-          <sub
-            class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
-          >
-            Bedrijfsomschrijving
-          </sub>
-          <h1 class="mb-4 text-body-large">
-            {{ itemData.companyDescription }}
-          </h1>
-        </fieldset>
-        <fieldset>
-          <sub
-            class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
-          >
-            Periode
-          </sub>
-          <h1 class="mb-4 text-body-large">
-            {{ itemData.dates.start }} - {{ itemData.dates.end }} ({{
-              itemData.dates.duration
-            }})
-          </h1>
-        </fieldset>
-        <fieldset>
-          <sub
-            class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
-          >
-            Taken en verantwoordelijkheden
-          </sub>
-          <ul class="">
-            <li
-              v-for="listItem in itemData.roleDescription.split('--').slice(1)"
-              class="list-disc pl-6 text-body-large"
-            >
-              {{ listItem }}
-            </li>
-          </ul>
-        </fieldset>
-        <fieldset class="mb-8 mt-6 flex">
-          <TheTags :tags="itemData.tags" />
-        </fieldset>
-        <div class="absolute right-0 flex justify-end">
-          <NuxtLink :to="`/timeline/${itemData.slug}/files/create`">
-            <button
-              class="flex h-[72px] w-[72px] items-center justify-center rounded-[18px] bg-primary-container text-on-primary-container"
-            >
-              <Icon class="h-6 w-6" name="ic:round-upload" />
+        <div v-if="itemData" class="absolute top-0  col-start-2 h-16 w-full">
+          <div class="flex justify-end gap-4">
+
+            <button @click="toggle" class="group grid h-12 w-12 place-content-center">
+              <span
+                class="grid h-10 w-10 place-content-center rounded-md border border-outline-variant text-on-surface-variant transition-colors group-hover:bg-outline-variant/20 group-active:bg-outline-variant/30"
+              >
+                <Icon class="h-6 w-6" name="ic:round-more-vert" />
+              </span>
             </button>
-          </NuxtLink>
-          <NuxtLink :to="`/timeline/${itemData.slug}/edit`">
-            <button
-              class="flex h-[40px] min-w-[72px] items-center justify-center gap-3 rounded-lg border-1 border-primary-container pl-2 pr-1 text-on-primary-container transition-colors hover:bg-primary-container/20 active:bg-primary-container/30"
-            >
-              Edit
-              <Icon class="h-4 w-4 text-primary" name="ic:round-edit" />
-            </button>
-          </NuxtLink>
+          </div>
         </div>
-        <div v-if="itemData?.timeline_files" class="flex flex-col">
-          <h1 class="mb-4 text-headline-medium">Schermafbeeldingen</h1>
-          <div class="grid grid-cols-3 gap-4">
-            <NuxtLink
-              v-for="attachment in itemData.timeline_files"
-              :to="`/timeline/${itemData.slug}/files/${attachment.file.id}`"
-              class="relative flex h-full min-h-full w-full min-w-full overflow-hidden rounded-lg border outline-offset-2"
+
+        <div class="flex flex-col px-1 md:px-0">
+
+          <fieldset class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col">
+              <sub
+                  class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
+              >
+                Functietitel
+              </sub>
+              <h1 class="mb-4 text-body-large">{{ itemData.roleName }}</h1>
+            </div>
+            <div class="flex flex-col">
+              <sub
+                  class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
+              >
+                Dienstverband
+              </sub>
+              <h1 class="mb-4 text-body-large capitalize">
+                {{ itemData.type === 'job' ? 'Baan' : 'Stage' }}
+                <span>- {{ itemData.contractType }}</span>
+              </h1>
+            </div>
+          </fieldset>
+          <fieldset class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col">
+              <sub
+                  class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
+              >
+                Bedrijf
+              </sub>
+              <h1 class="mb-4 text-body-large">{{ itemData.companyName }}</h1>
+            </div>
+            <div class="flex flex-col">
+              <sub
+                  class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
+              >
+                Locatie
+              </sub>
+              <h1 class="mb-4 text-body-large">{{ itemData.companyLocation }}</h1>
+            </div>
+          </fieldset>
+          <fieldset>
+            <sub
+                class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
             >
-              <NuxtImg
-                :alt="attachment.file.filename"
-                :src="attachment.file.filepath"
-                class="mx-auto max-h-[260px] min-h-[200px] w-full rounded-md object-cover group-hover:opacity-90"
-              />
-            </NuxtLink>
-          </div>
+              Bedrijfsomschrijving
+            </sub>
+            <h1 class="mb-4 text-body-large">
+              {{ itemData.companyDescription }}
+            </h1>
+          </fieldset>
+          <fieldset>
+            <sub
+                class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
+            >
+              Periode
+            </sub>
+            <h1 class="mb-4 text-body-large">
+              {{ itemData.dates.start }} - {{ itemData.dates.end }} ({{
+                itemData.dates.duration
+              }})
+            </h1>
+          </fieldset>
+          <fieldset>
+            <sub
+                class="mb-1.5 flex flex-col -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"
+            >
+              Taken en verantwoordelijkheden
+            </sub>
+            <ul class="">
+              <li
+                  v-for="listItem in itemData.roleDescription.split('--').slice(1)"
+                  class="list-disc pl-6 text-body-large"
+              >
+                {{ listItem }}
+              </li>
+            </ul>
+          </fieldset>
+          <fieldset class="mb-8 mt-6 flex">
+            <TheTags :tags="itemData.tags" />
+          </fieldset>
+        </div>
+      </div>
+      <div
+        v-if="itemData?.timeline_files"
+        class="col-span-full col-start-1 flex flex-col px-2"
+      >
+        <h1 class="mb-4 text-headline-medium">Schermafbeeldingen</h1>
+        <div class="grid grid-cols-3 gap-4">
+          <NuxtLink
+            v-for="attachment in itemData.timeline_files"
+            :to="`/timeline/${itemData.slug}/files/${attachment.file.id}`"
+            class="relative flex h-full max-h-[160px] min-h-[80px] w-full min-w-full overflow-hidden rounded-lg border outline-offset-2"
+          >
+            <NuxtImg
+              :alt="attachment.file.filename"
+              :src="attachment.file.filepath"
+              class="mx-auto rounded-md object-cover group-hover:opacity-80"
+            />
+          </NuxtLink>
         </div>
       </div>
     </div>

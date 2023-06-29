@@ -1,15 +1,22 @@
 <script lang="ts" setup>
 useHead({
-  title: 'Maikel - Portfolio'
+  title: 'Portfolio | Maikel Eckelboom',
 })
+
+const onReportError = (error: Error|unknown ) => {
+  console.log('Reporting error from app.vue')
+  console.error(error)
+}
 </script>
 
 <template>
-  <NuxtLayout>
-    <NuxtLoadingIndicator :color="useColorGradient()" />
-    <NuxtPage />
-  </NuxtLayout>
-  <VitePwaManifest />
+  <NuxtErrorBoundary @error="onReportError">
+    <NuxtLayout>
+      <NuxtLoadingIndicator :color="useColorGradient()" />
+      <NuxtPage />
+    </NuxtLayout>
+    <VitePwaManifest />
+  </NuxtErrorBoundary>
 </template>
 
 <style lang="postcss">
@@ -18,8 +25,6 @@ body {
 }
 
 ul:has(.list-disc) {
-  //list-style-position: inside;
-
   .list-disc {
     position: relative;
     list-style: none;
