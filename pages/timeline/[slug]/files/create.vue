@@ -1,6 +1,23 @@
 <script lang="ts" setup>
 import FilePlaceholderImage from '~/components/FilePlaceholderImage.vue'
 import { ITimelineItem } from '~/types/portfolio'
+import { WritableComputedRef } from '@vue/reactivity'
+import { ComputedRef } from 'vue'
+
+type FileMeta = {
+  name: string
+  description: string
+}
+
+interface FormModel {
+  id: string
+  file: Blob
+  url: string
+  meta: FileMeta
+  selected: boolean
+}
+
+type FormModelArray = FormModel[]
 
 const route = useRoute()
 
@@ -16,25 +33,39 @@ const { data: item } = await useAsyncData(
   }
 )
 
-const files = shallowRef<FileList>()
+const files = shallowRef<FileList | null>()
 
-const fileCounter = computed(() => files.value?.length ?? 0)
+const fileCounter = computed(() => formModel.value?.length ?? 0)
 
-const filePreviews = computed(() => {
-  if (!files.value) return
-  return Array.from(files.value).map((file: Blob) => useObjectUrl(file))
+const formModel = ref<FormModelArray>([])
+
+const buildFileModel = (file: Blob) => ({
+  id: window.crypto.randomUUID(),
+  file,
+  url: useObjectUrl(file).value,
+  selected: false,
+  meta: {
+    name: '',
+    description: ''
+  }
 })
 
-const onFilesChange = (_files) => {
-  files.value = _files
-}
+watch(files, () => {
+  if (!process.client || !files.value) return
+  const newData = Array.from(files.value).map((file: Blob) =>
+    buildFileModel(file)
+  )
+  formModel.value = [...formModel.value, ...newData]
+  files.value = null
+})
 
 const upload = async () => {
-  if (!files.value) return
+  console.log('uploading', formModel.value, files.value)
+  if (!formModel.value.length) return
   const formData = new FormData()
-  Array.from(files.value).forEach((file: Blob, index) =>
-    formData.append(String(index), file)
-  )
+  formModel.value
+    .map((f) => f.file)
+    .forEach((file: Blob, index) => formData.append(String(index), file))
   formData.append('id', item.value!.id.toString())
   const { data, error } = await $fetch(
     `/api/timeline/${route.params.slug}/files`,
@@ -49,39 +80,20 @@ const upload = async () => {
     console.error(error)
   }
 
+  formModel.value = []
+
   return { data, error }
 }
 
 const router = useRouter()
 
 const onSubmit = async () => {
-  const { data, error } = await upload()
-  if (error) {
-    console.error(error)
-    return
-  }
-
-  console.log('uploaded', data)
+  await upload()
   await router.push(`/timeline/${route.params.slug}`)
 }
 
-const selected = ref<{
-  file: File
-  index: number
-  metaData?: Record<string, string>
-}>()
-
-const metaData = ref()
-
-const onFileClick = (index: number) => {
-  if (!filePreviews.value) return
-  const selectedFile = filePreviews.value?.[index]
-  console.log('clicked', index, selectedFile)
-  selected.value = {
-    file: files.value?.item(index),
-    index,
-    metaData: metaData.value[index]
-  }
+const onFilesChange = (_files) => {
+  formModel.value = [...formModel.value, ..._files.map(buildFileModel)]
 }
 </script>
 
@@ -101,24 +113,23 @@ const onFileClick = (index: number) => {
       <h1 class="mb-4 mt-6 text-headline-large font-bold text-secondary">
         Bestanden toevoegen
       </h1>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-1">
         <div>
           <form @submit.prevent="onSubmit">
             <h2 class="mb-4 text-headline-small">Upload afbeeldingen</h2>
             <Dropzone
-              class="flex h-[280px] w-full flex-wrap gap-4 rounded-md border-2 border-dashed p-4"
+              class="flex h-[280px] w-full min-w-fit flex-wrap gap-4 rounded-md border-2 border-dashed p-4"
               @drop="onFilesChange"
             >
               <div
                 v-for="(_, key) in fileCounter"
                 :key="key"
                 class="relative grid aspect-square w-[180px] flex-shrink-0 flex-grow place-content-center overflow-clip rounded-md border border-outline bg-surface-level-1"
-                @click="onFileClick(key)"
               >
                 <img
-                  v-if="filePreviews[key]?.value"
+                  v-if="formModel[key].url"
                   :alt="`Upload #${key}`"
-                  :src="filePreviews[key]?.value"
+                  :src="formModel[key].url"
                   class="h-full w-full rounded-md object-cover"
                 />
                 <div
@@ -136,10 +147,7 @@ const onFileClick = (index: number) => {
             </div>
           </form>
         </div>
-        <div>
-          <h2 class="mb-4 text-headline-small">Options for [selected]</h2>
-          {{ selected }}
-        </div>
+        <div></div>
       </div>
     </PageContainer>
   </div>
