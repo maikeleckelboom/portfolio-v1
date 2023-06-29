@@ -14,7 +14,7 @@
     textarea,
     select,
     input {
-        @apply rounded-xl border border-outline-variant bg-surface p-2 min-h-[48px] ;
+        @apply rounded-xl border border-outline-variant bg-surface p-4 min-h-[48px] ;
     }
 
 

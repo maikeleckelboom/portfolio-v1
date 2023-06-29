@@ -22,7 +22,7 @@ watch(isOverDropZone, (isOver) => {
 <template>
   <div
     ref="dropZoneRef"
-    class="flex h-auto max-h-fit w-fit max-w-fit flex-wrap gap-4 rounded-md border border-dashed p-4"
+    class="flex h-auto max-h-fit w-fit max-w-full flex-wrap gap-4 rounded-md border border-dashed p-4"
   >
     <slot />
     <DropzoneCard>
@@ -33,7 +33,7 @@ watch(isOverDropZone, (isOver) => {
         multiple
         name="files"
         type="file"
-        @change="onDrop($event.target.files)"
+        @change.prevent="onDrop($event.target.files)"
       />
     </DropzoneCard>
   </div>

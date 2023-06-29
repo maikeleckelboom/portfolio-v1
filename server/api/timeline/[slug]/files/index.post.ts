@@ -57,12 +57,14 @@ export default defineEventHandler(async (event) => {
 
   if (!fileIDCollection) return { data, error: rlError }
 
-  const { error: err } = await client.from('timeline_files').insert(
-    fileIDCollection.map((file) => ({
-      file_id: file.id,
-      timeline_id: context.fields.id.at(0)
-    }))
-  )
+  const insertRows = fileIDCollection.map((file) => ({
+    file_id: file.id,
+    timeline_id: context.fields.id.at(0)
+  }))
+
+  console.log({ insertRows })
+
+  const { error: err } = await client.from('timeline_files').insert(insertRows)
 
   if (err) return { data, error: err }
 

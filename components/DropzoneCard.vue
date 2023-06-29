@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative grid aspect-square w-[180px] place-content-center overflow-clip rounded-md border border-outline-variant bg-surface-level-1"
+    class="relative grid w-full min-w-[180px] place-content-center overflow-clip rounded-md border border-outline-variant bg-surface-level-1 py-8"
   >
     <slot />
     <div class="grid place-items-center gap-2 px-4">

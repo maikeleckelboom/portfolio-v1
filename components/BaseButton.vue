@@ -1,10 +1,8 @@
 <template>
   <button
-    class="group h-[32px] rounded-full border-thin border-outline-variant px-4 py-1 text-label-large hover:bg-surface-level-2 focus-visible:bg-surface-level-4 focus-visible:outline-none active:bg-surface-level-5 disabled:pointer-events-none disabled:opacity-60"
+    class="group h-[32px] rounded-full border-thin px-2 py-1 text-label-large disabled:pointer-events-none disabled:opacity-60"
   >
-    <span
-      class="text-label-large text-on-surface-variant group-hover:text-on-secondary-container"
-    >
+    <span class="text-label-large">
       <slot />
     </span>
   </button>

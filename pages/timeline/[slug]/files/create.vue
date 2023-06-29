@@ -29,7 +29,7 @@ const { data: item } = await useAsyncData(
       headers: useRequestHeaders(['cookie'])
     }),
   {
-    transform: ({ data }) => data[0] as ITimelineItem
+    transform: ({ data }) => data as ITimelineItem
   }
 )
 
@@ -60,7 +60,6 @@ watch(files, () => {
 })
 
 const upload = async () => {
-  console.log('uploading', formModel.value, files.value)
   if (!formModel.value.length) return
   const formData = new FormData()
   formModel.value
@@ -109,12 +108,13 @@ const onFilesChange = (_files) => {
         <TheSignature />
       </div>
     </div>
-    <PageContainer class="">
+    <PageContainer class="px-4">
       <h1 class="mb-6 mt-3 text-headline-large font-bold">
         Bestanden toevoegen
       </h1>
-      <div class="grid grid-cols-1">
+      <div class="grid grid-cols-2">
         <div>
+          <!-- Files -->
           <form @submit.prevent="onSubmit">
             <Dropzone
               class="flex h-[280px] w-full min-w-fit flex-wrap gap-4 rounded-md border-2 border-dashed p-4"
@@ -139,14 +139,20 @@ const onFilesChange = (_files) => {
                 </div>
               </div>
             </Dropzone>
-            <div>
-              <BaseButton :disabled="!fileCounter" class="mt-4" type="submit">
+            <div class="mt-4 flex justify-end">
+              <BaseButton
+                :disabled="!fileCounter"
+                class="mt-4 h-[40px]"
+                type="submit"
+              >
                 Upload
               </BaseButton>
             </div>
           </form>
         </div>
-        <div></div>
+        <div>
+          <!-- Meta -->
+        </div>
       </div>
     </PageContainer>
   </div>

@@ -30,7 +30,7 @@ const emit = defineEmits<{
 
 const { modelValue = '', maxLimit = 0 } = defineProps<{
   modelValue: string
-  maxLimit: number
+  maxLimit?: number
 }>()
 
 const editor = useEditor({
@@ -38,14 +38,13 @@ const editor = useEditor({
   extensions: [
     Underline,
     Focus.configure({
-      className: 'bg-tertiary-container/50 text-on-tertiary-container',
+      className:
+        'bg-secondary-container text-on-secondary-container rounded-md outline outline-[2px] outline-secondary-container',
       forceSelection: true,
       onBlur: removeKeepFocused,
       onFocus: keepFocused,
       onMousedown: focusContentEditor
     }),
-    Document,
-    Text,
     Link.configure({
       HTMLAttributes: {
         class: 'text-primary'
@@ -79,6 +78,7 @@ const onActionClick = (slug, option = null) => {
     align: () => vm.setTextAlign(option).run(),
     undo: () => vm.undo().run(),
     redo: () => vm.redo().run(),
+    unorderedList: () => vm.toggleBulletList().run(),
     link: () => {
       const url = prompt('URL')
       vm.toggleLink({ href: url }).run()
@@ -109,71 +109,76 @@ const textActions = ref([
     active: 'italic'
   },
   {
-    slug: 'underline',
-    icon: 'ic:baseline-format-underlined',
-    active: 'underline'
-  },
-  {
-    slug: 'strike',
-    icon: 'ic:baseline-strikethrough-s',
-    active: 'strike'
-  },
-  {
     slug: 'link',
     icon: 'ic:baseline-link',
     active: 'link'
-  },
-  {
-    slug: 'align',
-    option: 'left',
-    icon: 'ic:baseline-format-align-left',
-    active: {
-      textAlign: 'left'
-    }
-  },
-  {
-    slug: 'align',
-    option: 'center',
-    icon: 'ic:baseline-format-align-center',
-    active: { textAlign: 'center' }
-  },
-  {
-    slug: 'align',
-    option: 'right',
-    icon: 'ic:baseline-format-align-right',
-    active: { textAlign: 'right' }
-  },
-  {
-    slug: 'align',
-    option: 'justify',
-    icon: 'ic:baseline-format-align-justify',
-    active: { textAlign: 'justify' }
-  },
-  {
-    slug: 'bulletList',
-    icon: 'ic:baseline-format-list-bulleted',
-    active: 'bulletList'
-  },
-  {
-    slug: 'orderedList',
-    icon: 'ic:baseline-format-list-numbered',
-    active: 'orderedList'
-  },
-  {
-    slug: 'undo',
-    icon: 'ic:baseline-undo',
-    active: 'undo'
-  },
-  {
-    slug: 'redo',
-    icon: 'ic:baseline-redo',
-    active: 'redo'
   },
   {
     slug: 'clear',
     icon: 'ic:baseline-clear',
     active: 'clear'
   }
+  // {
+  //   slug: 'underline',
+  //   icon: 'ic:baseline-format-underlined',
+  //   active: 'underline'
+  // },
+  // {
+  //   slug: 'strike',
+  //   icon: 'ic:baseline-strikethrough-s',
+  //   active: 'strike'
+  // },
+  // {
+  //   slug: 'align',
+  //   option: 'left',
+  //   icon: 'ic:baseline-format-align-left',
+  //   active: {
+  //     textAlign: 'left'
+  //   }
+  // }
+  // {
+  //   slug: 'align',
+  //   option: 'center',
+  //   icon: 'ic:baseline-format-align-center',
+  //   active: { textAlign: 'center' }
+  // },
+  // {
+  //   slug: 'align',
+  //   option: 'right',
+  //   icon: 'ic:baseline-format-align-right',
+  //   active: { textAlign: 'right' }
+  // },
+  // {
+  //   slug: 'align',
+  //   option: 'justify',
+  //   icon: 'ic:baseline-format-align-justify',
+  //   active: { textAlign: 'justify' }
+  // },
+  // {
+  //   slug: 'bulletList',
+  //   icon: 'ic:baseline-format-list-bulleted',
+  //   active: 'bulletList'
+  // },
+  // {
+  //   slug: 'orderedList',
+  //   icon: 'ic:baseline-format-list-numbered',
+  //   active: 'orderedList'
+  // },
+  // {
+  //   slug: 'undo',
+  //   icon: 'ic:baseline-undo',
+  //   active: 'undo'
+  // },
+  // {
+  //   slug: 'redo',
+  //   icon: 'ic:baseline-redo',
+  //   active: 'redo'
+  // },
+  // {
+  //   slug: 'unorderedList',
+  //   icon: 'ic:baseline-format-list-bulleted',
+  //   active: 'bulletList'
+  // }
 ])
 
 watch(
@@ -183,6 +188,7 @@ watch(
     editor.value?.commands.setContent(value, false)
   }
 )
+
 const onHeadingClick = (index) => {
   const vm = editor.value?.chain().focus()
   vm.toggleHeading({ level: index }).run()
@@ -190,68 +196,69 @@ const onHeadingClick = (index) => {
 </script>
 
 <template>
-  <div v-if="editor" class="grid w-full grid-flow-col">
-    <div
-      class="border-tl-outline-variant group group relative flex w-full flex-nowrap"
-    >
-      <button
-        class="flex h-[48px] w-full flex-nowrap items-center justify-center gap-4 rounded-tl-md border-l border-r border-t border-l-outline-variant border-r-transparent border-t-outline-variant bg-surface px-2 group-hover:border-r-outline-variant focus-visible:z-10"
-        tabindex="0"
-      >
-        Heading
-        <Icon name="ic:round-keyboard-arrow-down" />
-      </button>
+  <div v-if="editor">
+    <div class="flex w-full">
       <div
-        class="absolute inset-x-0 z-20 mt-12 hidden flex-col rounded-b-xl border border-t-transparent bg-surface group-hover:flex hover:border-r"
+        class="border-tl-outline-variant group group relative flex w-full flex-nowrap"
       >
-        <a
-          v-for="index in 6"
-          :class="{ active: editor.isActive('heading', { level: index }) }"
-          :style="{ fontSize: 20 - index + 'px' }"
-          class="flex items-center px-4 py-2 hover:bg-surface-level-3"
-          role="button"
-          @click.prevent="onHeadingClick(index)"
+        <button
+          class="flex h-[48px] w-full flex-nowrap items-center justify-center gap-4 rounded-tl-md border-l border-r border-t border-l-outline-variant border-r-transparent border-t-outline-variant bg-surface px-2 group-hover:border-r-outline-variant focus-visible:z-10"
+          tabindex="0"
         >
-          H{{ index }}
-        </a>
+          Heading
+          <Icon name="ic:round-keyboard-arrow-down" />
+        </button>
+        <div
+          class="absolute inset-x-0 z-20 mt-12 hidden flex-col rounded-b-xl border border-t-transparent bg-surface group-hover:flex hover:border-r"
+        >
+          <a
+            v-for="index in 6"
+            :class="{ active: editor.isActive('heading', { level: index }) }"
+            :style="{ fontSize: 20 - index + 'px' }"
+            class="flex items-center px-4 py-2 hover:bg-surface-level-3"
+            role="button"
+            @click.prevent="onHeadingClick(index)"
+          >
+            H{{ index }}
+          </a>
+        </div>
       </div>
+
+      <button
+        v-for="{ slug, option, active, icon } in textActions"
+        :key="slug"
+        :class="{
+          'bg-primary-container text-on-primary-container':
+            editor.isActive(active),
+          'bg-surface text-on-surface-variant': !editor.isActive(active)
+        }"
+        class="flex aspect-square h-12 w-full items-center justify-center border-t border-outline-variant p-2 last:rounded-tr-md last:border-r focus-visible:z-10 active:z-10"
+        @click.prevent="onActionClick(slug, option)"
+      >
+        <Icon :name="icon" />
+      </button>
     </div>
 
-    <button
-      v-for="{ slug, option, active, icon } in textActions"
-      :key="slug"
-      :class="{
-        'bg-primary-container text-on-primary-container':
-          editor.isActive(active),
-        'bg-surface text-on-surface-variant': !editor.isActive(active)
-      }"
-      class="flex aspect-square h-12 w-full items-center justify-center border-t border-outline-variant p-2 last:rounded-tr-md last:border-r focus-visible:z-10 active:z-10"
-      @click.prevent="onActionClick(slug, option)"
+    <div class="text-body-large">
+      <EditorContent :editor="editor" spellcheck="false" />
+    </div>
+
+    <div
+      class="relative -mt-10 flex h-fit w-full items-center justify-end gap-1 px-4 py-3 text-body-small"
     >
-      <Icon :name="icon" />
-    </button>
-  </div>
-
-  <div v-if="editor">
-    <EditorContent :editor="editor" />
-  </div>
-
-  <div
-    v-if="editor"
-    class="flex h-fit w-full items-center justify-end gap-1 px-2 py-3"
-  >
-    <span :class="maxLimit ? 'text-on-surface-variant' : 'text-on-surface'">
-      {{ charactersCount }}
-      {{ maxLimit ? `/ ${maxLimit} characters` : 'characters' }}
-    </span>
-    <span class="mx-1 text-label-small text-on-surface-variant">|</span>
-    <span> {{ wordsCount }} words </span>
+      <span :class="maxLimit ? 'text-on-surface-variant' : 'text-on-surface'">
+        {{ charactersCount }}
+        {{ maxLimit ? `/ ${maxLimit} characters` : 'characters' }}
+      </span>
+      <span class="mx-1 text-on-surface-variant">|</span>
+      <span> {{ wordsCount }} words </span>
+    </div>
   </div>
 </template>
 
 <style lang="postcss">
 .ProseMirror[contenteditable='true'] {
-  @apply min-h-[180px] overflow-y-auto rounded-t-[0px]  border-x border-b border-outline-variant px-2 py-1 outline-none focus-visible:border-t-0 focus-visible:bg-surface-level-2;
+  @apply min-h-[180px] overflow-y-auto rounded-t-[0px]  border-x border-b border-outline-variant px-4 py-2 outline-none  focus-visible:bg-surface;
 
   > p:first-child {
     @apply mt-1;

@@ -169,10 +169,10 @@ console.log('itemData', itemData.value)
           </NuxtLink>
           <NuxtLink :to="`/timeline/${itemData.slug}/edit`">
             <button
-              class="flex w-[72px] items-center justify-center rounded-[18px] border-1 border-primary-container text-on-primary-container"
+              class="flex h-[40px] min-w-[72px] items-center justify-center gap-3 rounded-lg border-1 border-primary-container pl-2 pr-1 text-on-primary-container transition-colors hover:bg-primary-container/20 active:bg-primary-container/30"
             >
               Edit
-              <Icon class="h-6 w-4" name="ic:round-edit" />
+              <Icon class="h-4 w-4 text-primary" name="ic:round-edit" />
             </button>
           </NuxtLink>
         </div>
@@ -187,7 +187,7 @@ console.log('itemData', itemData.value)
               <NuxtImg
                 :alt="attachment.file.filename"
                 :src="attachment.file.filepath"
-                class="h-full max-h-[400px] w-full object-cover"
+                class="mx-auto max-h-[260px] min-h-[200px] w-full rounded-md object-cover group-hover:opacity-90"
               />
             </NuxtLink>
           </div>
