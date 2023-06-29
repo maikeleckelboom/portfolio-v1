@@ -20,9 +20,22 @@ const { data: timelineData } = await useAsyncData(
   }
 )
 
-const itemData = computed(() =>
-  timelineData.value?.find((item) => item.slug === route.params.slug)
-) as ComputedRef<ITimelineItem>
+const { data: itemData } = await useAsyncData(
+  'timeline-item',
+  async () =>
+    await $fetch(`/api/timeline/${route.params.slug}`, {
+      method: 'GET',
+      headers: useRequestHeaders(['cookie'])
+    }),
+  {
+    transform: (response) => ({
+      ...response.data,
+      dates: getDates(response.data)
+    })
+  }
+)
+
+console.log('itemData', itemData.value)
 
 // const {
 //   data: lazyFiles,
@@ -63,7 +76,10 @@ const itemData = computed(() =>
           </template>
         </Timeline>
       </div>
-      <div class="relative flex flex-col gap-2 overflow-hidden pt-16">
+      <div
+        v-if="itemData"
+        class="relative flex flex-col gap-2 overflow-hidden pt-16"
+      >
         <fieldset class="grid grid-cols-2 gap-4">
           <div class="flex flex-col">
             <sub
@@ -151,6 +167,14 @@ const itemData = computed(() =>
               <Icon class="h-6 w-6" name="ic:round-upload" />
             </button>
           </NuxtLink>
+          <NuxtLink :to="`/timeline/${itemData.slug}/edit`">
+            <button
+              class="flex w-[72px] items-center justify-center rounded-[18px] border-1 border-primary-container text-on-primary-container"
+            >
+              Edit
+              <Icon class="h-6 w-4" name="ic:round-edit" />
+            </button>
+          </NuxtLink>
         </div>
         <div v-if="itemData?.timeline_files" class="flex flex-col">
           <h1 class="mb-4 text-headline-medium">Schermafbeeldingen</h1>
@@ -158,12 +182,12 @@ const itemData = computed(() =>
             <NuxtLink
               v-for="attachment in itemData.timeline_files"
               :to="`/timeline/${itemData.slug}/files/${attachment.file.id}`"
-              class="relative flex h-full min-h-full w-full min-w-full overflow-hidden rounded-lg border outline-offset-2 last:col-span-2 [&:nth-child(3)]:col-span-1"
+              class="relative flex h-full min-h-full w-full min-w-full overflow-hidden rounded-lg border outline-offset-2"
             >
               <NuxtImg
                 :alt="attachment.file.filename"
                 :src="attachment.file.filepath"
-                class="h-full w-full object-cover"
+                class="h-full max-h-[400px] w-full object-cover"
               />
             </NuxtLink>
           </div>

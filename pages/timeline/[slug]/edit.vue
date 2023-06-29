@@ -1,0 +1,185 @@
+<script lang="ts" setup>
+const route = useRoute()
+
+const { data } = await useAsyncData(
+  'timeline-item',
+  async () =>
+    await $fetch(`/api/timeline/${route.params.slug}`, {
+      method: 'GET',
+      headers: useRequestHeaders(['cookie'])
+    }),
+  {
+    transform: (response) => ({
+      ...response.data,
+      dates: getDates(response.data)
+    })
+  }
+)
+const onDeleteFile = async (id: string) => {
+  setCurrentLoadingAction('delete')
+
+  const { error } = await $fetch(
+    `/api/timeline/${route.params.slug}/files/${id}`,
+    {
+      method: 'DELETE',
+      headers: useRequestHeaders(['cookie'])
+    }
+  )
+
+  setCurrentLoadingAction(null)
+
+  if (error) {
+    console.error(error)
+  }
+
+  // TODO: Toast a message
+  console.info(`TODO: Toast a message`)
+
+  await refresh()
+}
+
+const currentLoadingAction = ref<string | null>(null)
+
+type LoadingAction = 'delete' | 'edit' | null
+const setCurrentLoadingAction = (action: LoadingAction) => {
+  currentLoadingAction.value = action
+}
+
+const onEditFileMetadata = async (id: number) => {
+  // TODO: Implement when API is ready
+  console.info(`TODO: Implement when API is ready`, id)
+
+  setCurrentLoadingAction('edit')
+  await refresh()
+  setTimeout(() => {
+    setCurrentLoadingAction(null)
+  }, 1000)
+}
+</script>
+
+<template>
+  <div class="flex h-16 w-full items-start justify-start bg-surface-container">
+    <div
+      class="mx-auto flex h-full w-full max-w-5xl items-center justify-between px-2"
+    >
+      <Breadcrumbs />
+      <TheSignature />
+    </div>
+  </div>
+  <PageContainer>
+    <div class="mt-6">
+      <div
+        v-if="data"
+        class="relative flex flex-col gap-2 overflow-hidden pt-16"
+      >
+        <!--        <fieldset class="grid grid-cols-2 gap-4">-->
+        <!--          <div class="flex flex-col">-->
+        <!--            <sub-->
+        <!--              class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"-->
+        <!--            >-->
+        <!--              Functietitel-->
+        <!--            </sub>-->
+        <!--            <h1 class="mb-4 text-body-large">{{ data.roleName }}</h1>-->
+        <!--          </div>-->
+        <!--          <div class="flex flex-col">-->
+        <!--            <sub-->
+        <!--              class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"-->
+        <!--            >-->
+        <!--              Dienstverband-->
+        <!--            </sub>-->
+        <!--            <h1 class="mb-4 text-body-large capitalize">-->
+        <!--              {{ data.type === 'job' ? 'Baan' : 'Stage' }}-->
+        <!--              <span>- {{ data.contractType }}</span>-->
+        <!--            </h1>-->
+        <!--          </div>-->
+        <!--        </fieldset>-->
+        <!--        <fieldset class="grid grid-cols-2 gap-4">-->
+        <!--          <div class="flex flex-col">-->
+        <!--            <sub-->
+        <!--              class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"-->
+        <!--            >-->
+        <!--              Bedrijf-->
+        <!--            </sub>-->
+        <!--            <h1 class="mb-4 text-body-large">{{ data.companyName }}</h1>-->
+        <!--          </div>-->
+        <!--          <div class="flex flex-col">-->
+        <!--            <sub-->
+        <!--              class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"-->
+        <!--            >-->
+        <!--              Locatie-->
+        <!--            </sub>-->
+        <!--            <h1 class="mb-4 text-body-large">{{ data.companyLocation }}</h1>-->
+        <!--          </div>-->
+        <!--        </fieldset>-->
+        <!--        <fieldset>-->
+        <!--          <sub-->
+        <!--            class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"-->
+        <!--          >-->
+        <!--            Bedrijfsomschrijving-->
+        <!--          </sub>-->
+        <!--          <h1 class="mb-4 text-body-large">-->
+        <!--            {{ data.companyDescription }}-->
+        <!--          </h1>-->
+        <!--        </fieldset>-->
+        <!--        <fieldset>-->
+        <!--          <sub-->
+        <!--            class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"-->
+        <!--          >-->
+        <!--            Periode-->
+        <!--          </sub>-->
+        <!--        </fieldset>-->
+        <!--        <fieldset>-->
+        <!--          <sub-->
+        <!--            class="mb-1.5 flex -skew-x-6 text-label-small text-on-surface-variant md:text-label-medium"-->
+        <!--          >-->
+        <!--            Taken en verantwoordelijkheden-->
+        <!--          </sub>-->
+
+        <!--          <pre>{{ data.roleDescription }}</pre>-->
+        <!--        </fieldset>-->
+
+        <div v-if="data?.timeline_files" class="flex flex-col">
+          <h1 class="mb-4 text-headline-medium">Schermafbeeldingen</h1>
+          <ul class="grid grid-cols-3 gap-4">
+            <li
+              v-for="attachment in data.timeline_files"
+              class="group relative flex w-full min-w-full overflow-clip rounded-lg border outline-offset-2"
+            >
+              <NuxtImg
+                :alt="attachment.file.filename"
+                :src="attachment.file.filepath"
+                class="mx-auto max-h-[200px] w-full rounded-md object-cover group-hover:opacity-90"
+              />
+
+              <!-- File Crud Bar -->
+              <div
+                class="absolute inset-x-2 bottom-2 z-20 grid grid-flow-col-dense justify-end gap-2"
+              >
+                <BaseButton
+                  class="invisible w-fit border-secondary-container bg-secondary-container text-on-secondary-container group-hover:visible hover:bg-secondary-container/90 active:bg-secondary-container/80"
+                  @click="onEditFileMetadata(attachment.file.id)"
+                >
+                  <span v-if="currentLoadingAction === 'edit'">
+                    <Icon class="h-5 w-5" name="line-md:loading-loop" />
+                  </span>
+                  <span v-else> Edit Metadata </span>
+                </BaseButton>
+                <BaseButton
+                  class="invisible w-fit border-error-container bg-error-container text-on-error-container group-hover:visible hover:bg-error-container/90 active:bg-error-container/80"
+                  @click="onDeleteFile(attachment.file.id)"
+                >
+                  <span v-if="currentLoadingAction === 'delete'" class="mx-4">
+                    <Icon class="h-5 w-5" name="line-md:loading-loop" />
+                  </span>
+                  <span v-else> Delete File </span>
+                </BaseButton>
+              </div>
+              <!-- / X File Crud Bar -->
+            </li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </PageContainer>
+</template>

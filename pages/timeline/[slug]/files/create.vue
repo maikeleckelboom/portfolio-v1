@@ -110,13 +110,12 @@ const onFilesChange = (_files) => {
       </div>
     </div>
     <PageContainer class="">
-      <h1 class="mb-4 mt-6 text-headline-large font-bold text-secondary">
+      <h1 class="mb-6 mt-3 text-headline-large font-bold">
         Bestanden toevoegen
       </h1>
       <div class="grid grid-cols-1">
         <div>
           <form @submit.prevent="onSubmit">
-            <h2 class="mb-4 text-headline-small">Upload afbeeldingen</h2>
             <Dropzone
               class="flex h-[280px] w-full min-w-fit flex-wrap gap-4 rounded-md border-2 border-dashed p-4"
               @drop="onFilesChange"
@@ -134,9 +133,9 @@ const onFilesChange = (_files) => {
                 />
                 <div
                   v-else
-                  class="relative z-10 h-full w-full bg-secondary-container/50 text-on-secondary-container"
+                  class="relative z-10 h-full w-full animate-pulse bg-secondary-container/50 text-on-secondary-container"
                 >
-                  <FilePlaceholderImage />
+                  <!-- -->
                 </div>
               </div>
             </Dropzone>
