@@ -2,12 +2,15 @@ import { serverSupabaseServiceRole } from '#supabase/server'
 import { Database } from '~/types/database.types'
 
 export default defineEventHandler(async (event) => {
+  const url = new URL(getRequestURL(event))
+  const slug = url.pathname.split('/').at(-2)
   const client = serverSupabaseServiceRole<Database>(event)
 
-  const body = await readBody(event)
-
-  console.log('body', body)
-
-  const { data, error } = await client.from('gallery').insert([])
-  return { data, error }
+  return {
+    data: {
+      message: 'Not implemented yet 😄',
+      slug
+    },
+    error: null
+  }
 })

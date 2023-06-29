@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const client = serverSupabaseServiceRole<Database>(event)
   const { data, error } = await client
     .from('timeline')
-    .select('*, gallery(*)')
+    .select(`*, timeline_files(file: files(*))`)
     .eq('slug', slug)
   return { data, error }
 })

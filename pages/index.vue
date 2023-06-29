@@ -17,20 +17,6 @@ const { data } = await useAsyncData(
       }))
   }
 )
-
-const groupByCompany = (d) =>
-  d.reduce((acc, item) => {
-    const lastItem = acc[acc.length - 1]
-    if (lastItem?.companyName === item.companyName) {
-      lastItem.children.push(item)
-    } else {
-      acc.push({
-        ...item,
-        children: []
-      })
-    }
-    return acc
-  }, [] as ITimelineItem[])
 </script>
 
 <template>
@@ -50,7 +36,7 @@ const groupByCompany = (d) =>
       <div class="flex flex-col">
         <ProfileHeroCard />
       </div>
-      <div class="flex flex-col">
+      <div class="relative flex flex-col">
         <Timeline v-if="data" :data="data">
           <template #title> Werkervaring</template>
           <template #item="{ item, index }">

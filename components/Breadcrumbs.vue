@@ -4,10 +4,10 @@ const { breadcrumbs, isNotFirstCrumb, isNotCurrentCrumb } = useBreadcrumbs()
 
 <template>
   <div
-    class="flex flex-nowrap items-center py-4 capitalize"
+    class="relative flex flex-nowrap items-center overflow-hidden py-4 capitalize"
     data-component="breadcrumbs"
   >
-    <ul class="flex flex-row items-center">
+    <ul class="flex flex-row flex-wrap items-center">
       <li
         v-for="(crumb, index) in breadcrumbs"
         :key="index"

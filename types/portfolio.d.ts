@@ -1,8 +1,17 @@
 import { JSONContent } from '@tiptap/vue-3'
 
+export interface IFile {
+  id: number
+  originalFilename: string
+  filename: string
+  filepath: string
+  size: number
+  mimetype: string
+  created_at: string
+}
+
 export interface ITimelineItem {
   id: number
-  tags?: string[]
   roleName: string
   roleDescription: string
   companyName: string
@@ -11,16 +20,15 @@ export interface ITimelineItem {
   companyLocation: string
   createdAt: string
 
+  contractType: string
+
   dateStart: string
   dateEnd: string
 
-  gallery?: {
-    id: number
-    name: string
-    path: string
-    size: number
-    mime: string
-    createdAt: string
+  tags: string[]
+
+  timeline_files?: {
+    file: IFile
   }[]
 
   type: 'internship' | 'job'

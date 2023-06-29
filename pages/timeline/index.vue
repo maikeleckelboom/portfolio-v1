@@ -10,6 +10,8 @@
     </div>
   </div>
   <PageContainer>
-    <h1>This is a nice free space to put a overview of all items.</h1>
+    <div class="p-4">
+      <h1>This is a nice free space to put a overview of all items.</h1>
+    </div>
   </PageContainer>
 </template>
