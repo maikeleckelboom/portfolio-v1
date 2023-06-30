@@ -105,8 +105,9 @@ onMounted(() => onOpen())
     ref="sheet"
     :class="{ isSwiping }"
     :style="{ transform }"
-    class="md-sheet"
+    class="md-sheet touch-none "
   >
+    {{isSwiping}}
     <PageContainer>
       <slot></slot>
       <BaseButton v-on:click="onClose" class="mt-8 w-fit px-6 mx-2"> Close</BaseButton>
@@ -148,11 +149,7 @@ onMounted(() => onOpen())
   }
 
   &.isSwiping {
-    @apply cursor-grabbing touch-none;
-  }
-
-  &.isSwiping > * {
-    @apply pointer-events-none;
+    @apply cursor-grabbing touch-none [&>*]:pointer-events-none;
   }
 }
 </style>

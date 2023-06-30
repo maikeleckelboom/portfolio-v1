@@ -119,6 +119,16 @@ const toggleSheet = () => {
     </div>
   </div>
 
+    <BottomSheet v-if="isOpened && itemData"
+                 @close="toggleSheet">
+      <div
+          class="relative flex flex-col gap-2 overflow-hidden xl:pt-16 md:col-start-2 md:row-start-1"
+      >
+        <TimelineItemTextContent
+            :data="itemData"
+        />
+      </div>
+    </BottomSheet>
   <PageContainer>
     <div class=" flex w-full max-w-5xl px-1 justify-end">
       <Placeholder/>
@@ -160,16 +170,5 @@ const toggleSheet = () => {
       </BaseButton>
     </div>
   </PageContainer>
-  <BottomSheet v-if="isOpened && itemData && device.isMobile"
-    @close="toggleSheet">
-    <div
-        v-if="itemData"
-        class="relative flex flex-col gap-2 overflow-hidden xl:pt-16 md:col-start-2 md:row-start-1"
-    >
-      <TimelineItemTextContent
-          :data="itemData"
-      />
-    </div>
-  </BottomSheet>
   </div>
 </template>
