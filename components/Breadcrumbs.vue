@@ -4,7 +4,7 @@ const { breadcrumbs, isNotFirstCrumb, isNotCurrentCrumb } = useBreadcrumbs()
 
 <template>
   <div
-    class="relative flex flex-nowrap items-center overflow-hidden py-4 capitalize"
+    class=" relative flex flex-nowrap items-center overflow-hidden py-4 capitalize"
     data-component="breadcrumbs"
   >
     <ul class="flex flex-row flex-wrap items-center">
@@ -30,7 +30,7 @@ const { breadcrumbs, isNotFirstCrumb, isNotCurrentCrumb } = useBreadcrumbs()
           </NuxtLink>
         </div>
         <div v-else class="flex flex-row items-center">
-          <span class="rounded-md font-bold text-on-surface-variant/90">
+          <span class="rounded-md text-shadow-bold text-on-surface-variant/90">
             {{ crumb.name }}
           </span>
         </div>
@@ -38,3 +38,9 @@ const { breadcrumbs, isNotFirstCrumb, isNotCurrentCrumb } = useBreadcrumbs()
     </ul>
   </div>
 </template>
+
+<style scoped lang="postcss">
+.text-shadow-bold {
+  text-shadow: 0 1px var(--md-sys-color-on-surface-variant);
+}
+</style>

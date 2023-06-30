@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@nuxtjs/color-mode',
     '@nuxt/image-edge',
+    '@nuxtjs/device',
     '@nuxtjs/google-fonts',
     '~/modules/theme/module.ts',
     '~/modules/toast/module.ts'

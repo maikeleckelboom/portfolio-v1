@@ -9,9 +9,9 @@ const props = defineProps<{
 <template>
   <div class="relative">
     <div
-      class="absolute bottom-0 left-0 top-6 flex h-full min-h-[50vh] w-[1px] bg-outline-variant md:-left-[1px]"
+      class="absolute bottom-0 left-0 -translate-x-1/2 top-0 flex h-full min-h-[50vh] w-[1px] bg-outline-variant"
     />
-    <ol class="timeline-start-stripes relative flex h-full flex-col md:pl-0">
+    <ol class=" relative flex h-full flex-col ">
       <li>
         <h1 class="mb-6 mt-2 pl-6 text-headline-small md:text-headline-large">
           <span class="relative -top-2">

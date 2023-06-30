@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import FilePlaceholderImage from '~/components/FilePlaceholderImage.vue'
 import { ITimelineItem } from '~/types/portfolio'
-import { WritableComputedRef } from '@vue/reactivity'
-import { ComputedRef } from 'vue'
 
 type FileMeta = {
   name: string
@@ -21,19 +18,17 @@ type FormModelArray = FormModel[]
 
 const route = useRoute()
 
-const { data: item } = await useAsyncData(
-  'timeline-item',
-  async () =>
-    await $fetch(`/api/timeline/${route.params.slug}`, {
+const { data: item } = await useAsyncData('timeline-item',
+  async () => await $fetch(`/api/timeline/${route.params.slug}`, {
       method: 'GET',
       headers: useRequestHeaders(['cookie'])
     }),
   {
-    transform: (response) =>
+    transform: ({data}: {data: ITimelineItem}) =>
       ({
-        ...response.data,
-        dates: getDates(response.data)
-      } as ITimelineItem)
+        ...data,
+        dates: getDates(data)
+      }) as ITimelineItem
   }
 )
 
@@ -46,12 +41,7 @@ const formModel = ref<FormModelArray>([])
 const buildFileModel = (file: Blob) => ({
   id: window.crypto.randomUUID(),
   file,
-  url: useObjectUrl(file).value,
-  selected: false,
-  meta: {
-    name: '',
-    description: ''
-  }
+  url: useObjectUrl(file).value
 })
 
 watch(files, () => {
@@ -95,7 +85,8 @@ const onSubmit = async () => {
   await router.push(`/timeline/${route.params.slug}`)
 }
 
-const onFilesChange = (_files) => {
+const onFilesChange = (_files: File[] | null) => {
+  if (!_files) return
   formModel.value = [...formModel.value, ..._files.map(buildFileModel)]
 }
 </script>
@@ -113,8 +104,8 @@ const onFilesChange = (_files) => {
       </div>
     </div>
     <PageContainer class="px-4">
-      <h1 class="mb-6 mt-3 text-headline-large font-bold">
-        Bestanden toevoegen
+      <h1 class="mb-6 mt-3 text-headline-medium ">
+        Upload files
       </h1>
       <div class="grid grid-cols-2">
         <div>
@@ -163,6 +154,7 @@ const onFilesChange = (_files) => {
 </template>
 
 <style>
+/*noinspection ALL*/
 .text-wrap-balance {
   text-wrap: balance;
 }

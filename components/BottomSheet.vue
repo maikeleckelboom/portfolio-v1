@@ -107,10 +107,10 @@ onMounted(() => onOpen())
     :style="{ transform }"
     class="md-sheet"
   >
-    <div class="sheet--container">
+    <PageContainer>
       <slot></slot>
-      <BaseButton v-on:click="onClose"> Close</BaseButton>
-    </div>
+      <BaseButton v-on:click="onClose" class="mt-8 w-fit px-6 mx-2"> Close</BaseButton>
+    </PageContainer>
   </div>
   <div
     ref="scrim"
