@@ -133,7 +133,7 @@ onMounted(() => onOpen())
   background: var(--md-sys-color-surface);
   transform: translate3d(0, 0, 0);
   contain: layout style paint;
-  @apply absolute inset-[auto_0_0_0] z-30 flex
+  @apply absolute inset-[auto_0_0_0] z-30 flex touch-none
   h-[calc(100vh_-_var(--sheet-inset-top))] cursor-grab overscroll-contain rounded-tl-[--sheet-border-radius] rounded-tr-[--sheet-border-radius]
   pt-[--sheet-inset-top] will-change-transform after:pointer-events-none after:absolute after:left-2/4 after:top-[18px] after:h-0.5 after:w-7
   after:-translate-x-2/4 after:rounded-[28px] after:content-[''] supports-[height:100dvh]:h-[calc(100dvh_-_var(--sheet-inset-top))];
