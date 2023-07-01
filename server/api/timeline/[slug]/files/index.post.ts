@@ -4,15 +4,7 @@ import { Files, readFiles } from 'h3-formidable'
 import path from 'pathe'
 import * as fs from 'fs'
 
-interface IFile {
-  id?: string
-  created_at?: string
-  filename: string
-  originalName: string
-  mimetype: string
-  size: number
-  filepath: string
-}
+
 
 export default defineEventHandler(async (event) => {
   const context = await readFiles(event, {
@@ -61,8 +53,6 @@ export default defineEventHandler(async (event) => {
     file_id: file.id,
     timeline_id: context.fields.id.at(0)
   }))
-
-  console.log({ insertRows })
 
   const { error: err } = await client.from('timeline_files').insert(insertRows)
 

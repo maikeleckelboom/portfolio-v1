@@ -3,7 +3,7 @@ import path from 'path'
 export default defineNuxtConfig({
   experimental: { viewTransition: true },
 
-  css: ['~/assets/css/tailwind.css', '~/assets/css/transitions.css'],
+  css: ['~/assets/css/tailwind.css'],
 
   modules: [
     'nuxt-icon',
@@ -16,7 +16,6 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     '@nuxtjs/google-fonts',
     '~/modules/theme/module.ts',
-    '~/modules/toast/module.ts'
   ],
 
   postcss: {

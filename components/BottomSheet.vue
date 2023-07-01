@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { animate, snap } from 'popmotion'
-import { Ref } from 'vue'
+import { type Ref } from 'vue'
 
 const emit = defineEmits<{ (e: 'close'): void; (e: 'opened'): void }>()
 
@@ -16,7 +16,7 @@ const getThresholdValues = () => {
   const { round } = Math
   const thresholds = {
     expanded: 0,
-    halfExpanded: screenHeight - round(screenHeight * 0.5),
+    // halfExpanded: screenHeight - round(screenHeight * 0.5),
     collapsed: screenHeight - round(screenHeight * 0.25),
     hidden: screenHeight
   }
@@ -36,8 +36,8 @@ const onOpen = () => {
   const to = 0
   const onUpdate = (latest: number) => (offset.value = latest)
   const onComplete = () => {
-    isReady.value = true
     emit('opened')
+    isReady.value = true
   }
   const options = { from, to, onUpdate, onComplete }
   animate(options)
@@ -73,7 +73,6 @@ const onSwipeStart = (ev: PointerEvent) => {
 }
 
 const onSwipe = () => {
-  console.log('onSwipe')
   updateOffsetTop()
 }
 
@@ -97,7 +96,7 @@ const transform = computed(() => `translate3d(0, ${offset.value}px, 0)`)
 
 const opacity = computed(() => 1 - offset.value / endOffsetTop.value)
 
-onMounted(() => onOpen())
+onMounted(onOpen)
 </script>
 
 <template>
@@ -107,8 +106,7 @@ onMounted(() => onOpen())
     :style="{ transform }"
     class="md-sheet touch-none "
   >
-    {{isSwiping}}
-    <PageContainer>
+    <PageContainer class="px-7">
       <slot></slot>
       <BaseButton v-on:click="onClose" class="mt-8 w-fit px-6 mx-2"> Close</BaseButton>
     </PageContainer>
@@ -128,28 +126,23 @@ onMounted(() => onOpen())
 }
 
 .md-sheet {
+  @apply absolute inset-[auto_0_0_0] z-30 flex touch-none
+  h-[calc(100vh_-_var(--sheet-inset-top))] cursor-grab overscroll-contain rounded-tl-[--sheet-border-radius] rounded-tr-[--sheet-border-radius]
+  pt-[--sheet-inset-top] will-change-transform after:pointer-events-none after:absolute after:left-2/4 after:top-[18px] after:h-0.5 after:w-7
+  after:bg-on-surface after:-translate-x-2/4 after:rounded-[28px] after:content-[''] supports-[height:100dvh]:h-[calc(100dvh_-_var(--sheet-inset-top))];
+
   --sheet-inset-top: 40px;
   --sheet-border-radius: 28px;
   background: var(--md-sys-color-surface);
   transform: translate3d(0, 0, 0);
   contain: layout style paint;
-  @apply absolute inset-[auto_0_0_0] z-30 flex touch-none
-  h-[calc(100vh_-_var(--sheet-inset-top))] cursor-grab overscroll-contain rounded-tl-[--sheet-border-radius] rounded-tr-[--sheet-border-radius]
-  pt-[--sheet-inset-top] will-change-transform after:pointer-events-none after:absolute after:left-2/4 after:top-[18px] after:h-0.5 after:w-7
-  after:-translate-x-2/4 after:rounded-[28px] after:content-[''] supports-[height:100dvh]:h-[calc(100dvh_-_var(--sheet-inset-top))];
-
-  &::after {
-    background: var(--md-sys-color-surface-variant);
-  }
-
-  .sheet--container {
-    @apply flex w-full select-none overflow-hidden;
-    flex-flow: row wrap;
-    padding-inline: 28px;
-  }
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-sys-color-surface) transparent;
+  overscroll-behavior-y: contain;
 
   &.isSwiping {
-    @apply cursor-grabbing touch-none [&>*]:pointer-events-none;
+    @apply cursor-grabbing touch-none [&*]:pointer-events-none;
   }
 }
 </style>

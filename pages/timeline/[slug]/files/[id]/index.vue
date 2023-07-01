@@ -64,7 +64,7 @@ const onDelete = async () => {
     >
       <div class="flex">
         <div class="md:max-h-1/2">
-          <NuxtImg :src="data.filepath" class="rounded-md"/>
+          <NuxtImg :src="data.filepath" class="selected-image rounded-md"/>
         </div>
       </div>
       <!-- If is admin -->
@@ -99,3 +99,9 @@ const onDelete = async () => {
     </div>
   </PageContainer>
 </template>
+
+<style>
+.selected-image {
+  view-transition-name: 'selected-image';
+}
+</style>
