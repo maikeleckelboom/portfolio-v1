@@ -37,7 +37,7 @@ const isAtCurrentRoute = computed(() => route.path === props.to)
         isAtCurrentRoute
     }"
     :to="to"
-    class="group ml-6 flex max-w-full flex-col rounded-lg border-thin transition-all hover:border-primary hover:bg-surface-level-1"
+    class="group ml-6 flex w-full flex-col rounded-lg border-thin transition-all hover:border-primary hover:bg-surface-level-1"
   >
     <TimelineItemMilestone
       :class="isAtCurrentRoute ? ' bg-primary' : 'bg-surface'"

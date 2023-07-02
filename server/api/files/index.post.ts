@@ -1,10 +1,8 @@
 import { serverSupabaseServiceRole } from '#supabase/server'
 import { Database } from '~/types/database.types'
-import { Files, readFiles } from 'h3-formidable'
+import { type Files, readFiles } from 'h3-formidable'
 import path from 'pathe'
 import * as fs from 'fs'
-
-
 
 export default defineEventHandler(async (event) => {
   const context = await readFiles(event, {
@@ -17,7 +15,7 @@ export default defineEventHandler(async (event) => {
     fileList.push(context.files[file].at(0))
   }
 
-  if (!fileList.length) return
+  console.log(fileList)
 
   const files: IFile[] = fileList.reduce((acc, file, index) => {
     const { newFilename, originalFilename, mimetype, size, filepath } = file

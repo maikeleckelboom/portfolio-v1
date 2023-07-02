@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ITimelineItem } from '~/types/portfolio'
-
 type FileMeta = {
   name: string
   description: string
@@ -18,17 +16,18 @@ type FormModelArray = FormModel[]
 
 const route = useRoute()
 
-const { data: item } = await useAsyncData('timeline-item',
-  async () => await $fetch(`/api/timeline/${route.params.slug}`, {
+const { data: item } = await useAsyncData(
+  'timeline-item',
+  async () =>
+    await $fetch(`/api/timeline/${route.params.slug}`, {
       method: 'GET',
       headers: useRequestHeaders(['cookie'])
     }),
   {
-    transform: ({data}: {data: ITimelineItem}) =>
-      ({
-        ...data,
-        dates: getDates(data)
-      }) as ITimelineItem
+    transform: (response) => ({
+      ...response.data,
+      dates: getDates(response.data)
+    })
   }
 )
 
@@ -60,14 +59,11 @@ const upload = async () => {
     .map((f) => f.file)
     .forEach((file: Blob, index) => formData.append(String(index), file))
   formData.append('id', item.value!.id.toString())
-  const { data, error } = await $fetch(
-    `/api/timeline/${route.params.slug}/files`,
-    {
-      method: 'POST',
-      headers: useRequestHeaders(['cookie']),
-      body: formData
-    }
-  )
+  const { data, error } = await $fetch(`/api/files`, {
+    method: 'POST',
+    headers: useRequestHeaders(['cookie']),
+    body: formData
+  })
 
   if (error) {
     console.error(error)
@@ -85,9 +81,9 @@ const onSubmit = async () => {
   await router.push(`/timeline/${route.params.slug}`)
 }
 
-const onFilesChange = (_files: File[] | null) => {
-  if (!_files) return
-  formModel.value = [...formModel.value, ..._files.map(buildFileModel)]
+const onFilesChange = (pickedFiles: File[] | null) => {
+  if (!pickedFiles) return
+  formModel.value = [...formModel.value, ...pickedFiles.map(buildFileModel)]
 }
 </script>
 
@@ -104,9 +100,7 @@ const onFilesChange = (_files: File[] | null) => {
       </div>
     </div>
     <PageContainer class="px-4">
-      <h1 class="mb-6 mt-3 text-headline-medium ">
-        Upload files
-      </h1>
+      <h1 class="mb-6 mt-3 text-headline-medium">Upload files</h1>
       <div class="grid grid-cols-2">
         <div>
           <!-- Files -->

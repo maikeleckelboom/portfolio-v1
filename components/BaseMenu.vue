@@ -1,14 +1,17 @@
 <script lang="ts" setup>
-
-import {MenuItem} from "~/types/menu";
+import { MenuItem } from '~/types/menu'
 
 const { trailingIcons, top } = defineProps<{
   trailingIcons?: MenuItem[]
   top?: string
+  // to be implemented
+  anchorElement?: HTMLElement
+  // to be implemented
+  maxHeight?: number
 }>()
 
 const emit = defineEmits<{
-  (event: 'clicked'): void
+  (ev: 'close'): void
 }>()
 </script>
 
@@ -16,11 +19,11 @@ const emit = defineEmits<{
   <div
     :style="{ top }"
     class="absolute top-[calc(var(--height)_*_0.5_+_24px)] isolate z-40 min-w-[180px] overflow-hidden rounded-md bg-surface-container-high"
-    @click="emit('clicked')"
+    @click="emit('close')"
   >
     <div class="flex w-full flex-col flex-nowrap items-center">
-      <slot name="trigger"/>
-      <slot name="content"/>
+      <slot name="trigger" />
+      <slot name="content" />
       <template v-for="icon in trailingIcons">
         <slot :icon="icon" name="trailingIcon">
           <button

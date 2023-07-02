@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 const route = useRoute()
 
 const { data, error } = await useAsyncData(
@@ -26,8 +25,6 @@ const { data, error } = await useAsyncData(
     </div>
   </div>
   <PageContainer>
-    <div class="p-4">
-      <pre>{{ data }}</pre>
-    </div>
+    <Timeline :data="data" />
   </PageContainer>
 </template>

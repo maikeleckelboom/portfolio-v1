@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ITimelineItem } from '~/types/portfolio'
-
 const { data } = await useAsyncData(
   'timeline',
   async () =>
@@ -9,18 +7,18 @@ const { data } = await useAsyncData(
       headers: useRequestHeaders(['cookie'])
     }),
   {
-    transform: ({ data }) =>
-      (data as any[]).map((item) => ({
+    transform: (response) =>
+      response.data.map((item) => ({
         ...item,
         children: [],
         dates: getDates(item)
-      })) as ITimelineItem[]
+      }))
   }
 )
 </script>
 
 <template>
-  <div class="flex h-16 w-full items-start justify-start bg-surface-container">
+  <div class="flex h-16 w-full items-start justify-start bg-surface">
     <div
       class="mx-auto flex h-full w-full max-w-5xl items-center justify-between px-4 py-4"
     >
@@ -54,16 +52,6 @@ const { data } = await useAsyncData(
 
 <style scoped>
 html:not(.is-transitioning) img.selected {
-  view-transition-name: picture;
-}
-
-html:not(.is-transitioning) #home-content {
-  view-transition-name: home-content;
-  mix-blend-mode: normal;
-}
-
-html:not(.is-transitioning) #detail-content {
-  view-transition-name: detail-content;
-  mix-blend-mode: normal;
+  view-transition-name: selected-img;
 }
 </style>
