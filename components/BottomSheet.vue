@@ -100,23 +100,27 @@ onMounted(onOpen)
 </script>
 
 <template>
-  <div
-    ref="sheet"
-    :class="{ isSwiping }"
-    :style="{ transform }"
-    class="md-sheet touch-none "
-  >
-    <PageContainer class="px-7">
-      <slot></slot>
-      <BaseButton v-on:click="onClose" class="mt-8 w-fit px-6 mx-2"> Close</BaseButton>
-    </PageContainer>
+  <div>
+    <div
+      ref="sheet"
+      :class="{ isSwiping }"
+      :style="{ transform }"
+      class="md-sheet touch-none"
+    >
+      <PageContainer class="px-7">
+        <slot></slot>
+        <BaseButton v-on:click="onClose" class="mx-2 mt-8 w-fit px-6">
+          Close</BaseButton
+        >
+      </PageContainer>
+    </div>
+    <div
+      ref="scrim"
+      :style="{ opacity }"
+      class="sheet--scrim"
+      v-on:click="onClose"
+    />
   </div>
-  <div
-    ref="scrim"
-    :style="{ opacity }"
-    class="sheet--scrim"
-    v-on:click="onClose"
-  />
 </template>
 
 <style lang="postcss">
@@ -126,10 +130,10 @@ onMounted(onOpen)
 }
 
 .md-sheet {
-  @apply absolute inset-[auto_0_0_0] z-30 flex touch-none
-  h-[calc(100vh_-_var(--sheet-inset-top))] cursor-grab overscroll-contain rounded-tl-[--sheet-border-radius] rounded-tr-[--sheet-border-radius]
+  @apply absolute inset-[auto_0_0_0] z-30 flex h-[calc(100vh_-_var(--sheet-inset-top))]
+  cursor-grab touch-none overscroll-contain rounded-tl-[--sheet-border-radius] rounded-tr-[--sheet-border-radius]
   pt-[--sheet-inset-top] will-change-transform after:pointer-events-none after:absolute after:left-2/4 after:top-[18px] after:h-0.5 after:w-7
-  after:bg-on-surface after:-translate-x-2/4 after:rounded-[28px] after:content-[''] supports-[height:100dvh]:h-[calc(100dvh_-_var(--sheet-inset-top))];
+  after:-translate-x-2/4 after:rounded-[28px] after:bg-on-surface after:content-[''] supports-[height:100dvh]:h-[calc(100dvh_-_var(--sheet-inset-top))];
 
   --sheet-inset-top: 40px;
   --sheet-border-radius: 28px;

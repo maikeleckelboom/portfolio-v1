@@ -10,10 +10,15 @@ export default defineEventHandler(async (event) => {
     .from('timeline')
     .update(withoutDates)
     .match({ slug })
-
-  console.log('withoutDates', withoutDates)
-  console.log('data', data, 'error', error)
-
+  if (error) {
+    console.error(error)
+    return {
+      error: {
+        status: 500,
+        message: 'Something went wrong'
+      }
+    }
+  }
   return {
     data,
     error

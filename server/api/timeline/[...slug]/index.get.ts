@@ -11,6 +11,5 @@ export default defineEventHandler(async (event) => {
     .eq('slug', slug)
     .single()
 
-  console.log(data)
   return { data, error }
 })
