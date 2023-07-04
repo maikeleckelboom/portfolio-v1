@@ -1,36 +1,35 @@
 <script lang="ts" setup>
+const timelineStore = useTimelineStore()
+
+const { setTimeline } = timelineStore
+
+const { timeline } = storeToRefs(timelineStore)
+
 const route = useRoute()
 
-const { data: timelineData } = await useAsyncData(
-  'timeline',
-  async () =>
-    await $fetch('/api/timeline', {
-      method: 'GET',
-      headers: useRequestHeaders(['cookie'])
-    }),
-  {
-    transform: (response) =>
-      response.data.map((item) => ({
-        ...item,
-        dates: getDates(item)
-      }))
-  }
-)
+if (!timeline.value?.length) {
+  const { data: timeline } = await useAsyncData(
+    'timeline',
+    async () =>
+      await $fetch('/api/timeline', {
+        method: 'GET',
+        headers: useRequestHeaders(['cookie'])
+      }),
+    {
+      transform: (response) =>
+        response.data.map((item) => ({
+          ...item,
+          dates: getDates(item)
+        }))
+    }
+  )
+  setTimeline(timeline.value)
+}
 
-const { data: itemData } = await useAsyncData(
-  'timeline-item',
-  async () =>
-    await $fetch(`/api/timeline/${route.params.slug}`, {
-      method: 'GET',
-      headers: useRequestHeaders(['cookie'])
-    }),
-  {
-    transform: (response) => ({
-      ...response.data,
-      dates: getDates(response.data)
-    })
-  }
-)
+const item = computed<TimelineItem>(() => {
+  if (!timeline.value && !Array.isArray(timeline.value)) return
+  return timeline.value.find((item) => item.slug === route.params.slug)
+})
 
 const router = useRouter()
 
@@ -39,41 +38,21 @@ const trailingIcons = ref([
     icon: 'ic:round-edit',
     label: 'Aanpassen',
     name: 'edit',
-    onClick: () => router.push(`/timeline/${itemData.value.slug}/edit`)
+    onClick: () => router.push(`/timeline/${item.value!.slug}/edit`)
   },
   {
     icon: 'ic:baseline-delete-outline',
     label: 'Verwijderen',
     name: 'delete',
-    onClick: () => router.push(`/timeline/${itemData.value.slug}/delete`)
-  },
-  {
-    icon: 'ic:round-share',
-    label: 'Delen',
-    name: 'share',
-    onClick: () => console.log('click')
-  },
-  {
-    icon: 'ic:outline-upload-file',
-    label: 'Uploaden',
-    name: 'add',
-    onClick: () => router.push(`/timeline/${itemData.value.slug}/files/create`)
-  },
-  {
-    icon: 'ic:round-print',
-    label: 'Afdrukken',
-    name: 'print',
-    onClick: () => window && window.print()
-  },
-  {
-    icon: 'ic:round-get-app',
-    label: 'Downloaden',
-    name: 'download',
-    onClick: () => console.log('click')
+    onClick: () => router.push(`/timeline/${item.value!.slug}/delete`)
   }
 ])
 
-const { Placeholder, toggle, hide } = useMenu(
+const {
+  Placeholder: MenuPlaceholder,
+  toggle,
+  hide
+} = useMenu(
   {
     trailingIcons: trailingIcons.value,
     top: `-24px`
@@ -90,7 +69,7 @@ const { Placeholder, toggle, hide } = useMenu(
   <div>
     <div class="mb-4 flex h-16 w-full items-start justify-start bg-surface">
       <div
-        class="mx-auto flex h-full w-full max-w-5xl items-center justify-between pl-1 pr-1"
+        class="mx-auto flex h-full w-full max-w-5xl items-center justify-between px-4 py-2"
       >
         <Breadcrumbs />
         <button
@@ -107,33 +86,31 @@ const { Placeholder, toggle, hide } = useMenu(
     </div>
     <PageContainer>
       <div class="flex w-full max-w-5xl justify-end px-1">
-        <Placeholder />
+        <MenuPlaceholder />
       </div>
       <div
-        class="grid grid-cols-1 gap-4 px-4 pb-8 md:grid-cols-[380px,1fr] md:gap-8 xl:gap-14"
+        class="grid grid-cols-[200px,1fr] gap-4 px-4 pb-8 md:grid-cols-[416px,1fr] md:gap-8 xl:gap-14"
       >
         <div class="col-start-1 row-start-1 flex flex-col">
-          <Timeline :data="timelineData">
-            <template #title> Werkervaring</template>
+          <Timeline :data="timeline">
+            <template #title> Experience</template>
             <template #item="{ item, index }">
               <TimelineItem
-                :index="index"
                 :item="item"
+                :index="index"
                 :to="`/timeline/${item.slug}`"
               />
             </template>
           </Timeline>
         </div>
         <div
+          v-if="item"
           class="relative flex flex-col gap-2 overflow-hidden md:col-start-2 md:row-start-1 xl:pt-16"
         >
-          <TimelineItemTextContent :data="itemData" />
+          <TimelineItemTextContent :item="item" />
         </div>
-        <div
-          v-if="itemData?.timeline_files"
-          class="col-span-full col-start-1 flex flex-col"
-        >
-          <TimelineItemFileContent :data="itemData" />
+        <div v-if="item" class="col-span-full col-start-2 flex flex-col">
+          <TimelineItemFiles :item="item" />
         </div>
       </div>
     </PageContainer>

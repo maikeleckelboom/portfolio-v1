@@ -17,6 +17,7 @@ const props = defineProps<{
           <span class="relative -top-2">
             <slot name="title" />
           </span>
+          <slot />
         </h1>
       </li>
       <li

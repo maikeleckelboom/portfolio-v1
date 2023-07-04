@@ -40,11 +40,13 @@ watch(files, () => {
 
 const onSubmit = async () => {
   if (!formModel.value) return
+
   const formData = new FormData()
   formData.append('id', String(props.timelineId))
   formModel.value.forEach((row, index) => {
     formData.append(String(index), row.file)
   })
+
   const { error: fileError } = await $fetch(
     `/api/timeline/${route.params.slug}/files`,
     {
@@ -58,8 +60,6 @@ const onSubmit = async () => {
     console.error(fileError)
     return
   }
-
-  // await toast('Bestanden geüpload', 'success')
 
   formModel.value = []
 
@@ -83,7 +83,7 @@ const onFilesChange = (_files) => {
       <div
         v-for="(_, key) in fileCounter"
         :key="key"
-        class="relative flex grid flex-shrink-0 flex-grow place-content-center overflow-clip rounded-md border border-outline bg-surface-level-1"
+        class="relative grid place-content-center overflow-clip rounded-md border border-outline bg-surface-level-1"
       >
         <NuxtImg
           v-if="formModel[key].url"

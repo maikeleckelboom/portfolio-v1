@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ITimelineItem } from '~/types/portfolio'
 import { Ref } from 'vue'
-import TimelineDropzone from '~/components/TimelineDropzone.vue'
 
 const route = useRoute()
 
@@ -110,8 +109,6 @@ const onUpload = async () => {
 
   formData.append('id', dataModel.value!.id.toString())
 
-  console.log({ formData })
-
   const { data, error } = await $fetch(
     `/api/timeline/${route.params.slug}/files`,
     {
@@ -124,8 +121,6 @@ const onUpload = async () => {
   if (error) {
     console.error(error)
   }
-
-  console.log('uploaded', data, error)
 
   files.value = null
 

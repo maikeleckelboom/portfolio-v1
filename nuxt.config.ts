@@ -1,7 +1,13 @@
 import path from 'path'
 
 export default defineNuxtConfig({
-  experimental: { viewTransition: true },
+  vue: {
+    defineModel: true
+  },
+
+  experimental: {
+    viewTransition: true
+  },
 
   css: ['~/assets/css/tailwind.css', '~/assets/css/transitions.css'],
 
@@ -22,6 +28,7 @@ export default defineNuxtConfig({
     plugins: {
       'postcss-import': {},
       'postcss-nested': {},
+      'postcss-custom-media': {},
       'tailwindcss/nesting': {},
       tailwindcss: {},
       autoprefixer: {}
@@ -80,50 +87,56 @@ export default defineNuxtConfig({
     dirs: ['stores']
   },
 
-  pwa: {
-    workbox: {
-      navigateFallback: '/'
-    },
-    client: {
-      installPrompt: true
-    },
-    registerType: 'autoUpdate',
-    manifest: {
-      name: 'Maikel Portfolio',
-      short_name: 'Maikel Portfolio',
-      theme_color: '#101418',
-      icons: [
-        {
-          src: '/assets/icon/icon-72-72.png',
-          sizes: '72x72',
-          type: 'image/png'
-        },
-        {
-          src: '/assets/icon/icon-96-96.png',
-          sizes: '96x96',
-          type: 'image/png'
-        },
-        {
-          src: '/assets/icon/icon-144-144.png',
-          sizes: '144x144',
-          type: 'image/png'
-        },
-        {
-          src: '/assets/icon/icon-192-192.png',
-          sizes: '192x192',
-          type: 'image/png'
-        },
-        {
-          src: '/assets/icon/icon-512-512.png',
-          sizes: '512x512',
-          type: 'image/png'
-        },
-        {
-          src: '/assets/icon/icon-512-512.png',
-          sizes: '512x512',
-          type: 'image/png'
-        }
-      ]
+  $production: {
+    pwa: {
+      workbox: {
+        navigateFallback: '/'
+      },
+      client: {
+        installPrompt: true
+      },
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'Maikel Portfolio',
+        short_name: 'Maikel Portfolio',
+        theme_color: '#101418',
+        icons: [
+          {
+            src: '/assets/icon/icon-72-72.png',
+            sizes: '72x72',
+            type: 'image/png'
+          },
+          {
+            src: '/assets/icon/icon-96-96.png',
+            sizes: '96x96',
+            type: 'image/png'
+          },
+          {
+            src: '/assets/icon/icon-144-144.png',
+            sizes: '144x144',
+            type: 'image/png'
+          },
+          {
+            src: '/assets/icon/icon-192-192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/assets/icon/icon-512-512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          },
+          {
+            src: '/assets/icon/icon-512-512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
     }
+  },
+
+  $development: {
+    //
   }
 })

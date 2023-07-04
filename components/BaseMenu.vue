@@ -18,12 +18,10 @@ const emit = defineEmits<{
 <template>
   <div
     :style="{ top }"
-    class="absolute top-[calc(var(--height)_*_0.5_+_24px)] isolate z-40 min-w-[180px] overflow-hidden rounded-md bg-surface-container-high"
+    class="absolute z-40 min-w-[180px] overflow-hidden rounded-xl bg-surface-container-high"
     @click="emit('close')"
   >
     <div class="flex w-full flex-col flex-nowrap items-center">
-      <slot name="trigger" />
-      <slot name="content" />
       <template v-for="icon in trailingIcons">
         <slot :icon="icon" name="trailingIcon">
           <button

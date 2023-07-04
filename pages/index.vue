@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-const { data } = await useAsyncData(
+const { setTimeline } = useTimelineStore()
+
+const { data: timeline } = await useAsyncData(
   'timeline',
   async () =>
     await $fetch('/api/timeline', {
@@ -10,17 +12,18 @@ const { data } = await useAsyncData(
     transform: (response) =>
       response.data.map((item) => ({
         ...item,
-        children: [],
         dates: getDates(item)
       }))
   }
 )
+
+setTimeline(timeline.value)
 </script>
 
 <template>
   <div class="flex h-16 w-full items-start justify-start bg-surface">
     <div
-      class="mx-auto flex h-full w-full max-w-5xl items-center justify-between px-4 py-4"
+      class="mx-auto flex h-full w-full max-w-5xl items-center justify-between p-4"
     >
       <Breadcrumbs />
       <TheSignature />
@@ -35,7 +38,7 @@ const { data } = await useAsyncData(
         <ProfileHeroCard />
       </div>
       <div class="relative flex flex-col">
-        <Timeline v-if="data" :data="data">
+        <Timeline v-if="timeline" :data="timeline">
           <template #title> Werkervaring</template>
           <template #item="{ item, index }">
             <TimelineItem

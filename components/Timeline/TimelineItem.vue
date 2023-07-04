@@ -17,10 +17,9 @@ const LinkOrButtonComponent = shallowRef(
 
 const navigateToWebsite = (item: ITimelineItem) => {
   if (!item.companyWebsite) return
-
-  console.log('Stopped opening website')
-
+  // TODO: Dialog!
   return
+
   // window.open(item.companyWebsite, '_blank')
 }
 
@@ -32,18 +31,22 @@ const isAtCurrentRoute = computed(() => route.path === props.to)
 <template>
   <Component
     :is="LinkOrButtonComponent"
+    data-component="TimelineItem"
     :class="{
-      'border-primary bg-surface-level-1 outline outline-1 outline-offset-2 outline-transparent hover:border-primary':
+      'selected border-primary bg-surface-level-1 outline outline-1 outline-offset-2 outline-transparent hover:border-primary':
         isAtCurrentRoute
     }"
     :to="to"
-    class="group ml-6 flex w-full flex-col rounded-lg border-thin transition-all hover:border-primary hover:bg-surface-level-1"
+    class="group ml-6 flex w-full flex-col rounded-lg border-1 bg-surface transition-all hover:bg-surface-level-1"
   >
     <TimelineItemMilestone
-      :class="isAtCurrentRoute ? ' bg-primary' : 'bg-surface'"
+      class="   "
+      :class="isAtCurrentRoute ? ' bg- border' : ' border bg-surface '"
     />
 
-    <span class="relative flex h-full w-full flex-col p-5">
+    <span
+      class="relative flex h-full w-full flex-col rounded-lg bg-surface p-5"
+    >
       <TimelineItemTitle>
         <span
           :class="
@@ -53,14 +56,13 @@ const isAtCurrentRoute = computed(() => route.path === props.to)
         >
           {{ item.roleName }}
         </span>
-        <span class="mb-0.5 w-full whitespace-nowrap">
-          <span class="ml-0.5 text-sm tracking-tight"> @ </span>
+        <span class="mb-0.5 w-full transform whitespace-nowrap">
           <button
-            class="text-title-medium text-primary"
+            class="-skew-x-3 pl-1.5 text-title-medium text-secondary"
             @click="navigateToWebsite(item)"
           >
-            {{ item.companyName }}
-            <Icon class="h-3 w-3 text-primary" name="ic:baseline-open-in-new" />
+            @{{ item.companyName }}
+            <Icon class="hidden h-3 w-3" name="ic:baseline-open-in-new" />
           </button>
         </span>
         <TimelineBadge v-if="indicateLatest && index === 0">
@@ -75,3 +77,5 @@ const isAtCurrentRoute = computed(() => route.path === props.to)
     </span>
   </Component>
 </template>
+
+<style scoped lang="postcss"></style>

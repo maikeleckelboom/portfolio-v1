@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import { ITimelineItem } from '~/types/portfolio'
-
 const props = defineProps<{
-  data: ITimelineItem
+  item: TimelineItem
 }>()
 
 const selected = useState('selected')
@@ -13,11 +11,11 @@ const selected = useState('selected')
     <h1 class="mb-4 text-headline-medium">
       <slot name="title">Schermafbeeldingen</slot>
     </h1>
-    <div v-if="data?.timeline_files?.length" class="grid grid-cols-3 gap-4">
+    <div v-if="item?.timeline_files?.length" class="grid grid-cols-3 gap-4">
       <NuxtLink
-        v-for="(attachment, index) in data.timeline_files"
-        :to="`/timeline/${data.slug}/files/${attachment.file.id}`"
-        class="relative flex h-full max-h-[160px] min-h-[80px] w-full min-w-full overflow-hidden rounded-lg border outline-offset-2"
+        v-for="(attachment, index) in item.timeline_files"
+        :to="`/timeline/${item.slug}/files/${attachment.file.id}`"
+        class="relative flex aspect-video h-full max-h-[160px] min-h-[80px] w-full min-w-full overflow-hidden rounded-lg border outline-offset-2"
         @click.native="selected = index"
       >
         <NuxtImg
