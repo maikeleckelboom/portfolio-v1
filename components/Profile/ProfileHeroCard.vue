@@ -5,18 +5,18 @@ const selected = useState()
 <template>
   <div class="flex flex-col">
     <div class="flex items-start">
-      <div
-        class="relative mr-4 flex w-fit items-start justify-start rounded-full"
-      >
-        <NuxtLink to="/picture">
-          <NuxtImg
-            class="w-[68px] rounded-full object-cover"
-            format="webp"
-            src="/assets/img/picture-alt-circle.webp"
-            width="68"
-          />
-        </NuxtLink>
-      </div>
+      <!--      <div-->
+      <!--        class="relative mr-4 flex w-fit items-start justify-start rounded-full"-->
+      <!--      >-->
+      <!--        <NuxtLink to="/picture">-->
+      <!--          <NuxtImg-->
+      <!--            class="w-[68px] rounded-full object-cover"-->
+      <!--            format="webp"-->
+      <!--            src="/assets/img/picture-alt-circle.webp"-->
+      <!--            width="68"-->
+      <!--          />-->
+      <!--        </NuxtLink>-->
+      <!--      </div>-->
       <ProfileHeroText>
         <template #title> Maikel Eckelboom</template>
         <template #subtitle>

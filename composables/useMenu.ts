@@ -1,6 +1,6 @@
 import { c2c } from 'vue-c2c'
-import BaseMenu from '~/components/BaseMenu.vue'
+import Menu from '~/components/Menu/Menu.vue'
 
-export const useMenu = c2c(BaseMenu, {
+export const useMenu = c2c(Menu, {
   withPlaceholder: true
 })

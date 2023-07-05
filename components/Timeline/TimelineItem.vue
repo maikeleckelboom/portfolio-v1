@@ -6,6 +6,7 @@ interface Props {
   item: ITimelineItem
   to?: string
   index?: number
+  active?: boolean
   indicateLatest?: boolean
 }
 
@@ -33,11 +34,11 @@ const isAtCurrentRoute = computed(() => route.path === props.to)
     :is="LinkOrButtonComponent"
     data-component="TimelineItem"
     :class="{
-      'selected border-primary bg-surface-level-1 outline outline-1 outline-offset-2 outline-transparent hover:border-primary':
+      'selected border-primary bg-surface-level-1 outline outline-1 outline-offset-2 outline-transparent':
         isAtCurrentRoute
     }"
     :to="to"
-    class="group ml-6 flex w-full flex-col rounded-lg border-1 bg-surface transition-all hover:bg-surface-level-1"
+    class="group ml-6 flex w-full flex-col rounded-lg border bg-surface hover:border-primary"
   >
     <TimelineItemMilestone
       class="   "
@@ -45,7 +46,7 @@ const isAtCurrentRoute = computed(() => route.path === props.to)
     />
 
     <span
-      class="relative flex h-full w-full flex-col rounded-lg bg-surface p-5"
+      class="relative flex h-full w-full flex-col rounded-lg bg-surface p-5 group-hover:bg-surface-level-1"
     >
       <TimelineItemTitle>
         <span

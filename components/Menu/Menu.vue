@@ -36,8 +36,8 @@ const emit = defineEmits<{
             </span>
           </button>
         </slot>
+        <slot />
       </template>
-      <slot />
     </div>
   </div>
 </template>

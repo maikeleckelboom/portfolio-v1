@@ -25,6 +25,21 @@ if (!timeline.value?.length) {
   )
   setTimeline(timeline.value)
 }
+
+const {
+  Placeholder: MenuPlaceholder,
+  toggle,
+  hide
+} = useMenu(
+  {
+    trailingIcons: []
+  },
+  {
+    emits: {
+      onClose: () => setTimeout(hide, 100)
+    }
+  }
+)
 </script>
 
 <template>
@@ -33,14 +48,17 @@ if (!timeline.value?.length) {
       class="mx-auto flex h-full w-full max-w-5xl items-center justify-between p-4"
     >
       <Breadcrumbs />
-      <TheSignature />
+      <MenuTrigger @click="toggle" />
     </div>
   </div>
   <PageContainer>
+    <div class="flex w-full max-w-5xl justify-end px-1">
+      <MenuPlaceholder />
+    </div>
     <div class="w-full max-w-md p-4">
-      <Timeline :data="timeline">
+      <Timeline :timeline="timeline">
         <template #title> Werkervaring</template>
-        <template #item="{ item, index }">
+        <template #item="{ item, index, active }">
           <TimelineItem
             :item="item"
             :index="index"

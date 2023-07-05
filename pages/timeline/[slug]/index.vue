@@ -72,16 +72,7 @@ const {
         class="mx-auto flex h-full w-full max-w-5xl items-center justify-between px-4 py-2"
       >
         <Breadcrumbs />
-        <button
-          class="group grid h-12 w-12 place-content-center"
-          @click="toggle"
-        >
-          <span
-            class="grid h-10 w-10 place-content-center rounded-full text-on-surface-variant transition-colors group-hover:bg-outline-variant/20 group-active:bg-outline-variant/30"
-          >
-            <Icon class="h-6 w-6" name="ic:round-more-vert" />
-          </span>
-        </button>
+        <MenuTrigger @click="toggle" />
       </div>
     </div>
     <PageContainer>
@@ -92,19 +83,20 @@ const {
         class="grid grid-cols-[200px,1fr] gap-4 px-4 pb-8 md:grid-cols-[416px,1fr] md:gap-8 xl:gap-14"
       >
         <div class="col-start-1 row-start-1 flex flex-col">
-          <Timeline :data="timeline">
-            <template #title> Experience</template>
-            <template #item="{ item, index }">
+          <Timeline :timeline="timeline">
+            <template #title> Werkervaring</template>
+            <template #item="{ item, index, active }">
               <TimelineItem
                 :item="item"
                 :index="index"
+                :active="active"
                 :to="`/timeline/${item.slug}`"
               />
             </template>
           </Timeline>
         </div>
         <div
-          v-if="item"
+          id="timeline-item"
           class="relative flex flex-col gap-2 overflow-hidden md:col-start-2 md:row-start-1 xl:pt-16"
         >
           <TimelineItemTextContent :item="item" />
@@ -116,3 +108,43 @@ const {
     </PageContainer>
   </div>
 </template>
+
+<style>
+#timeline-item {
+  view-transition-name: timeline-item;
+}
+
+@keyframes fade-in-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-out-to-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+::view-transition-new(timeline-item):only-child {
+  animation-name: fade-in-from-right;
+}
+
+::view-transition-old(timeline-item):only-child {
+  animation-name: fade-out-to-right;
+}
+
+::view-transition-old(timeline-item),
+::view-transition-new(timeline-item) {
+}
+</style>
