@@ -96,11 +96,11 @@ const transform = computed(() => `translate3d(0, ${offset.value}px, 0)`)
 
 const opacity = computed(() => 1 - offset.value / endOffsetTop.value)
 
-onMounted(onOpen)
+onMounted(updateOffsetTop)
 </script>
 
 <template>
-  <div>
+  <div class="flex h-screen">
     <div
       ref="sheet"
       :class="{ isSwiping }"
@@ -110,8 +110,8 @@ onMounted(onOpen)
       <PageContainer class="px-7">
         <slot></slot>
         <BaseButton v-on:click="onClose" class="mx-2 mt-8 w-fit px-6">
-          Close</BaseButton
-        >
+          Close
+        </BaseButton>
       </PageContainer>
     </div>
     <div
@@ -123,7 +123,9 @@ onMounted(onOpen)
   </div>
 </template>
 
-<style lang="postcss">
+<style>
+@import 'assets/css/keyframes.css';
+
 .sheet--scrim {
   @apply pointer-events-none absolute inset-0 cursor-pointer bg-[rgba(0,0,0,0.75)] will-change-[opacity];
   contain: layout style paint;
@@ -148,5 +150,16 @@ onMounted(onOpen)
   &.isSwiping {
     @apply cursor-grabbing touch-none [&*]:pointer-events-none;
   }
+
+  view-transition-name: sheet;
+}
+
+::view-transition-old(sheet):only-child {
+  animation-name: slide-out-to-bottom;
+}
+
+::view-transition-new(sheet):only-child {
+  animation-name: slide-in-from-bottom;
+  @apply transition-transform duration-500 ease-out;
 }
 </style>

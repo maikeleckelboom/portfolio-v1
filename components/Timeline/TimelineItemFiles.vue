@@ -4,24 +4,28 @@ const props = defineProps<{
 }>()
 
 const selected = useState('selected')
+
+const setSelected = async (index: number) => {
+  selected.value = index
+}
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div v-if="item?.timeline_files?.length" class="flex flex-col">
     <h1 class="mb-4 text-headline-medium">
       <slot name="title">Schermafbeeldingen</slot>
     </h1>
-    <div v-if="item?.timeline_files?.length" class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-3 gap-4" id="timeline-item-files">
       <NuxtLink
-        v-for="(attachment, index) in item.timeline_files"
-        :to="`/timeline/${item.slug}/files/${attachment.file.id}`"
+        v-for="(fileList, index) in item.timeline_files"
+        :to="`/${item.slug}/files/${fileList.file.id}`"
         class="relative flex aspect-video h-full max-h-[160px] min-h-[80px] w-full min-w-full overflow-hidden rounded-lg border outline-offset-2"
-        @click.native="selected = index"
+        @click.native="setSelected(index)"
       >
         <NuxtImg
-          :alt="attachment.file.filename"
+          :alt="fileList.file.filename"
           :class="{ selected: selected === index }"
-          :src="attachment.file.filepath"
+          :src="fileList.file.filepath"
           class="mx-auto rounded-md object-cover group-hover:opacity-80"
         />
       </NuxtLink>
@@ -29,9 +33,18 @@ const selected = useState('selected')
   </div>
 </template>
 
-<style scoped>
-img.selected {
-  view-transition-name: selected;
-  contain: layout;
+<style>
+@import 'assets/css/keyframes.css';
+
+#timeline-item-files {
+  view-transition-name: timeline-item-files;
+}
+
+::view-transition-new(timeline-item-files) {
+  animation-name: fade-in-up;
+}
+
+::view-transition-new(timeline-item-files):only-child {
+  animation-delay: 500ms;
 }
 </style>

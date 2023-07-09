@@ -1,23 +1,28 @@
 <script lang="ts" setup>
-const { setTimeline } = useTimelineStore()
+import TimelineMobile from '~/components/TimelineMobile.vue'
 
-const { data: timeline } = await useAsyncData(
-  'timeline',
-  async () =>
-    await $fetch('/api/timeline', {
-      method: 'GET',
-      headers: useRequestHeaders(['cookie'])
-    }),
-  {
-    transform: (response) =>
-      response.data.map((item) => ({
-        ...item,
-        dates: getDates(item)
-      }))
-  }
-)
+const store = useTimelineStore()
+const { timeline } = storeToRefs(store)
 
-setTimeline(timeline.value)
+if (!timeline.value) {
+  const { data } = await useAsyncData(
+    'timeline',
+    async () =>
+      await $fetch('/api/timeline', {
+        method: 'GET',
+        headers: useRequestHeaders(['cookie'])
+      }),
+    {
+      transform: (response) =>
+        response.data.map((item) => ({
+          ...item,
+          dates: getDates(item)
+        }))
+    }
+  )
+
+  store.setTimeline(data.value)
+}
 
 const {
   Placeholder: MenuPlaceholder,
@@ -40,6 +45,8 @@ const {
     }
   }
 )
+
+const device = useDevice()
 </script>
 
 <template>
@@ -60,46 +67,20 @@ const {
         <ProfileHeroCard />
       </div>
       <div class="relative flex flex-col">
-        <Timeline :timeline="timeline">
-          <template #title> Werkervaring</template>
-          <template #item="{ item, index }">
-            <TimelineItem
-              :index="index"
-              :item="item"
-              :to="`/timeline/${item.slug}`"
-            />
-          </template>
-        </Timeline>
+        <TimelineMobile :timeline="timeline" v-if="device.isMobileOrTablet" />
+        <TimelineDesktop :timeline="timeline" v-else />
       </div>
     </div>
   </PageContainer>
 </template>
 
 <style>
-@keyframes fade-out-to-left {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-}
+@import 'assets/css/keyframes.css';
 
-@keyframes fade-in-from-left {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
+html:not(:is(.prevent-pan-x, .is-transitioning)) {
+  #profile-card {
+    view-transition-name: profile-card;
   }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-#profile-card {
-  view-transition-name: profile-card;
 }
 
 ::view-transition-old(profile-card):only-child {
@@ -108,13 +89,5 @@ const {
 
 ::view-transition-new(profile-card):only-child {
   animation-name: fade-in-from-left;
-}
-</style>
-
-<style scoped>
-html:not(.is-transitioning) {
-  img.selected {
-    view-transition-name: selected-img;
-  }
 }
 </style>

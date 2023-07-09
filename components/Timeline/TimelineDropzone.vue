@@ -47,14 +47,11 @@ const onSubmit = async () => {
     formData.append(String(index), row.file)
   })
 
-  const { error: fileError } = await $fetch(
-    `/api/timeline/${route.params.slug}/files`,
-    {
-      method: 'POST',
-      headers: useRequestHeaders(['cookie']),
-      body: formData
-    }
-  )
+  const { error: fileError } = await $fetch(`/api/files`, {
+    method: 'POST',
+    headers: useRequestHeaders(['cookie']),
+    body: formData
+  })
 
   if (fileError) {
     console.error(fileError)

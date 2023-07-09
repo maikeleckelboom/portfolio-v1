@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ITimelineItem } from '~/types/portfolio'
 import { Ref } from 'vue'
+import { ITimelineItem } from '~/types/portfolio'
 
 const route = useRoute()
 
@@ -34,13 +34,10 @@ watch(
 const onDeleteFile = async (id: number) => {
   setAction(id, 'delete')
 
-  const { error } = await $fetch(
-    `/api/timeline/${route.params.slug}/files/${id}`,
-    {
-      method: 'DELETE',
-      headers: useRequestHeaders(['cookie'])
-    }
-  )
+  const { error } = await $fetch(`/api/files/${id}`, {
+    method: 'DELETE',
+    headers: useRequestHeaders(['cookie'])
+  })
 
   setAction(id, null)
 
@@ -57,6 +54,7 @@ const actionName = ref<LoadingAction>(null)
 const actionId = ref<number | null>(null)
 
 type LoadingAction = 'delete' | 'edit' | null
+
 const setAction = (id, action: LoadingAction) => {
   if (actionId.value === id && action === null) {
     actionId.value = null
@@ -66,16 +64,8 @@ const setAction = (id, action: LoadingAction) => {
   actionName.value = action
 }
 
-const onEditFileMetadata = async (id: number) => {
-  setAction(id, 'edit')
-  await refresh()
-  setTimeout(() => {
-    setAction(id, null)
-  }, 1000)
-}
-
 const onSubmit = async () => {
-  const response = await $fetch(`/api/timeline/${route.params.slug}`, {
+  const response = await $fetch(`/api/${route.params.slug}`, {
     method: 'POST',
     headers: useRequestHeaders(['cookie']),
     body: JSON.stringify(dataModel.value)
@@ -84,18 +74,11 @@ const onSubmit = async () => {
   if (response.error) {
     console.error(response.error)
   }
+
+  console.log('response', response)
 }
 
 const files = shallowRef<FileList | null>()
-
-const onDrop = (droppedFiles) => {
-  files.value = droppedFiles
-}
-
-const onSubmitFiles = () => {
-  console.log('submitting files', files.value)
-  // onUpload()
-}
 
 const onUpload = async () => {
   console.log('uploading', files.value)
@@ -109,14 +92,11 @@ const onUpload = async () => {
 
   formData.append('id', dataModel.value!.id.toString())
 
-  const { data, error } = await $fetch(
-    `/api/timeline/${route.params.slug}/files`,
-    {
-      method: 'POST',
-      headers: useRequestHeaders(['cookie']),
-      body: formData
-    }
-  )
+  const { data, error } = await $fetch(`/api/files`, {
+    method: 'POST',
+    headers: useRequestHeaders(['cookie']),
+    body: formData
+  })
 
   if (error) {
     console.error(error)
@@ -129,12 +109,11 @@ const onUpload = async () => {
 </script>
 
 <template>
-  <div class="flex h-16 w-full items-start justify-start bg-surface-container">
+  <div class="flex h-16 w-full items-start justify-start">
     <div
       class="mx-auto flex h-full w-full max-w-5xl items-center justify-between px-2"
     >
       <Breadcrumbs />
-      <TheSignature />
     </div>
   </div>
   <PageContainer class="px-4 pb-8 pt-6">
@@ -302,7 +281,7 @@ const onUpload = async () => {
               >
                 <NuxtLink
                   v-for="attachment in data.timeline_files"
-                  :to="`/timeline/${data.slug}/files/${attachment.file.id}`"
+                  :to="`/${data.slug}/files/${attachment.file.id}`"
                   class="relative flex h-full max-h-[160px] min-h-[80px] w-full min-w-full overflow-hidden rounded-lg border outline-offset-2"
                 >
                   <NuxtImg
@@ -317,7 +296,6 @@ const onUpload = async () => {
                 >
                   <button
                     class="w-fit overflow-clip rounded-md bg-secondary-container px-2.5 py-1.5 font-semibold text-on-secondary-container group-hover:visible"
-                    @click="onEditFileMetadata(attachment.file.id)"
                   >
                     <span
                       v-if="
@@ -333,7 +311,7 @@ const onUpload = async () => {
                   </button>
                   <button
                     class="w-fit rounded-md border-error-container bg-error-container px-2.5 py-1.5 font-semibold text-on-error-container group-hover:visible"
-                    @click="onDeleteFile(attachment.file.id)"
+                    @click="onDeleteFile(attachment.file.id!)"
                   >
                     <span
                       v-if="

@@ -1,4 +1,4 @@
-declare interface TimelineItem {
+export declare interface TimelineItem {
   id: number
   roleName: string
   roleDescription: string

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 const { breadcrumbs, isNotFirstCrumb, isNotCurrentCrumb } = useBreadcrumbs()
 
-const route = useRoute()
 const device = useDevice()
 </script>
 
@@ -10,9 +9,8 @@ const device = useDevice()
     class="relative z-10 flex w-full flex-nowrap items-center"
     data-component="Breadcrumbs"
   >
-    <ul class="flex w-full flex-row flex-wrap items-center gap-2 bg-surface">
-      <BreadcrumbsMenu v-if="device.isMobile && route.params.slug" />
-      <template v-else>
+    <ul class="flex w-full flex-row flex-wrap items-center gap-2">
+      <template v-if="device.isDesktopOrTablet">
         <li
           v-for="(crumb, index) in breadcrumbs"
           :key="index"
@@ -46,13 +44,3 @@ const device = useDevice()
     </ul>
   </div>
 </template>
-
-<style lang="postcss">
-.text-shadow-bold-variant {
-  text-shadow: 0 1px var(--md-sys-color-on-surface-variant);
-}
-
-.text-shadow-bold {
-  text-shadow: 0 1px var(--md-sys-color-on-surface);
-}
-</style>

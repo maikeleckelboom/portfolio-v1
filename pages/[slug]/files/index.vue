@@ -25,6 +25,6 @@ const { data, error } = await useAsyncData(
     </div>
   </div>
   <PageContainer>
-    <Timeline :data="data" />
+    <pre>{{ data }}</pre>
   </PageContainer>
 </template>

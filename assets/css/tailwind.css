@@ -2,10 +2,12 @@
 @tailwind utilities;
 @tailwind components;
 
-
 @custom-media --motionOK (prefers-reduced-motion: no-preference);
 
 @custom-media --dark (prefers-color-scheme: dark);
+
+@custom-media --light (prefers-color-scheme: light);
+
 
 body {
     @apply bg-background text-on-background;
@@ -31,9 +33,9 @@ ul:has(.list-disc) {
         &::before {
             content: '';
             position: absolute;
-            left: 0px;
+            left: 0;
             top: 8px;
-            background-image: url('/assets/list-bullet-dark.svg');
+            background-image: url('../../public/assets/list-bullet-dark.svg');
             background-size: cover;
             background-repeat: no-repeat;
             height: 8px;
@@ -66,30 +68,27 @@ ul:has(.list-disc) {
     }
 
 
-    a:focus-visible,
-    input[type="reset"]:focus-visible,
-    input[type="button"]:focus-visible,
-    input[type="submit"]:focus-visible,
-    button:focus-visible {
-    }
-
-    a:focus,
-    button:focus-visible,
-    input[type="reset"]:focus-visible,
-    input[type="button"]:focus-visible,
-    input[type="submit"]:focus-visible,
-    button:focus {
-    }
-
 }
 
 
 @layer utilities {
 
+    /*noinspection CssInvalidPropertyValue*/
+    .text-wrap-balance {
+        text-wrap: balance;
+    }
+
     .grid-cols-container {
         @apply grid grid-cols-[60px,1fr] md:grid-cols-[80px,1fr] gap-x-4;
     }
 
+    .text-shadow-bold-variant {
+        text-shadow: 0 1px var(--md-sys-color-on-surface-variant);
+    }
+
+    .text-shadow-bold {
+        text-shadow: 0 1px var(--md-sys-color-on-surface);
+    }
 
     .timeline-start-stripes {
         position: relative;
@@ -122,7 +121,7 @@ ul:has(.list-disc) {
     h4,
     h5,
     h6 {
-        text-wrap: balance;
+        @apply text-wrap-balance;
     }
 
     .ProseMirror,

@@ -78,7 +78,7 @@ const router = useRouter()
 
 const onSubmit = async () => {
   await upload()
-  await router.push(`/timeline/${route.params.slug}`)
+  await router.push(`/${route.params.slug}`)
 }
 
 const onFilesChange = (pickedFiles: File[] | null) => {
@@ -146,10 +146,3 @@ const onFilesChange = (pickedFiles: File[] | null) => {
     </PageContainer>
   </div>
 </template>
-
-<style>
-/*noinspection ALL*/
-.text-wrap-balance {
-  text-wrap: balance;
-}
-</style>

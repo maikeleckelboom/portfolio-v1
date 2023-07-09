@@ -16,14 +16,6 @@ const LinkOrButtonComponent = shallowRef(
   props.to ? resolveComponent('NuxtLink') : 'button'
 )
 
-const navigateToWebsite = (item: ITimelineItem) => {
-  if (!item.companyWebsite) return
-  // TODO: Dialog!
-  return
-
-  // window.open(item.companyWebsite, '_blank')
-}
-
 const route = useRoute()
 
 const isAtCurrentRoute = computed(() => route.path === props.to)
@@ -32,17 +24,16 @@ const isAtCurrentRoute = computed(() => route.path === props.to)
 <template>
   <Component
     :is="LinkOrButtonComponent"
-    data-component="TimelineItem"
+    :data-item-id="item.id"
     :class="{
-      'selected border-primary bg-surface-level-1 outline outline-1 outline-offset-2 outline-transparent':
+      'selected border-primary bg-surface-level-1 outline outline-1 outline-offset-2 outline-primary/90':
         isAtCurrentRoute
     }"
     :to="to"
     class="group ml-6 flex w-full flex-col rounded-lg border bg-surface hover:border-primary"
   >
     <TimelineItemMilestone
-      class="   "
-      :class="isAtCurrentRoute ? ' bg- border' : ' border bg-surface '"
+      :class="isAtCurrentRoute ? ' bg-surface-level-1' : ' border bg-surface '"
     />
 
     <span
@@ -58,10 +49,7 @@ const isAtCurrentRoute = computed(() => route.path === props.to)
           {{ item.roleName }}
         </span>
         <span class="mb-0.5 w-full transform whitespace-nowrap">
-          <button
-            class="-skew-x-3 pl-1.5 text-title-medium text-secondary"
-            @click="navigateToWebsite(item)"
-          >
+          <button class="-skew-x-3 pl-1.5 text-title-medium text-secondary">
             @{{ item.companyName }}
             <Icon class="hidden h-3 w-3" name="ic:baseline-open-in-new" />
           </button>

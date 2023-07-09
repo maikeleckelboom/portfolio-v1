@@ -1,8 +1,12 @@
-import { MaybeRef } from '@vueuse/core'
+const removeRedundantSlashes = (path: string) => {
+  path = path.endsWith('/') ? path.slice(0, -1) : path
+  return path.startsWith('/') ? path.slice(1) : path
+}
 
 export interface Breadcrumb {
   path: string
   name: string
+  icon?: string
 }
 
 export type Breadcrumbs = Breadcrumb[]
@@ -14,9 +18,9 @@ export const useBreadcrumbs = (options?: BreadCrumbOptions) => {
   const currentRoute = computed(() => router.currentRoute.value)
 
   const breadcrumbs = computed<Breadcrumb[]>(() => {
-    const crumbs = removeFirstSlash(currentRoute.value.path).split('/')
+    const crumbs = removeRedundantSlashes(currentRoute.value.path).split('/')
     return [
-      { path: '', name: 'Startpagina' },
+      { path: '', name: 'Portfolio' },
       ...crumbs.map((crumb, index) => ({
         path: crumbs.slice(0, index + 1).join('/'),
         name: crumb
@@ -24,9 +28,6 @@ export const useBreadcrumbs = (options?: BreadCrumbOptions) => {
     ]
   })
 
-  const removeFirstSlash = (path: string) => {
-    return path.startsWith('/') ? path.slice(1) : path
-  }
   const isLastCrumb = (crumb: Breadcrumb) =>
     crumb.path === currentRoute.value.path
   const isCurrentCrumb = (crumb: Breadcrumb) =>
@@ -37,7 +38,7 @@ export const useBreadcrumbs = (options?: BreadCrumbOptions) => {
   const isNotFirstCrumb = (crumb: Breadcrumb) =>
     crumb.path !== breadcrumbs.value[0].path
   const isNotCurrentCrumb = (crumb: Breadcrumb) =>
-    crumb.path !== removeFirstSlash(currentRoute.value.path)
+    crumb.path !== removeRedundantSlashes(currentRoute.value.path)
 
   return {
     breadcrumbs,

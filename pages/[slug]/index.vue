@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ITimelineItem } from '~/types/portfolio'
+
 const timelineStore = useTimelineStore()
 
 const { setTimeline } = timelineStore
@@ -26,27 +28,12 @@ if (!timeline.value?.length) {
   setTimeline(timeline.value)
 }
 
-const item = computed<TimelineItem>(() => {
+const item = computed<ITimelineItem>(() => {
   if (!timeline.value && !Array.isArray(timeline.value)) return
   return timeline.value.find((item) => item.slug === route.params.slug)
 })
 
 const router = useRouter()
-
-const trailingIcons = ref([
-  {
-    icon: 'ic:round-edit',
-    label: 'Aanpassen',
-    name: 'edit',
-    onClick: () => router.push(`/timeline/${item.value!.slug}/edit`)
-  },
-  {
-    icon: 'ic:baseline-delete-outline',
-    label: 'Verwijderen',
-    name: 'delete',
-    onClick: () => router.push(`/timeline/${item.value!.slug}/delete`)
-  }
-])
 
 const {
   Placeholder: MenuPlaceholder,
@@ -54,8 +41,14 @@ const {
   hide
 } = useMenu(
   {
-    trailingIcons: trailingIcons.value,
-    top: `-24px`
+    trailingIcons: [
+      {
+        icon: 'ic:round-edit',
+        label: 'Aanpassen',
+        name: 'edit',
+        onClick: () => router.push(`/${item.value!.slug}/edit`)
+      }
+    ]
   },
   {
     emits: {
@@ -63,6 +56,63 @@ const {
     }
   }
 )
+
+const timelineRefs = ref<HTMLElement[]>([])
+
+onMounted(() => {
+  useTimeoutFn(() => {
+    if (document.documentElement.classList.contains('prevent-pan-x')) {
+      document.documentElement.classList.remove('prevent-pan-x')
+    }
+  }, 100)
+})
+
+onBeforeRouteLeave(async (to, from, next) => {
+  if (to.params.id) {
+    document.documentElement.classList.add('prevent-pan-x')
+    next()
+    return
+  }
+
+  await Promise.all(
+    timelineRefs.value.map((el) => {
+      return new Promise((resolve) => {
+        el.addEventListener('animationend', () => {
+          resolve()
+        })
+        el.classList.add('animate-timeline-item-leave')
+      })
+    })
+  )
+  next()
+})
+
+whenever(timelineRefs, (refs) => {
+  refs.forEach((el) => {
+    el.addEventListener('animationend', () => {
+      console.log(
+        'animationend',
+        el.classList.contains('animate-timeline-item-leave')
+      )
+      el.classList.remove('animate-timeline-item-leave')
+    })
+  })
+})
+
+const setAllOrNoneSelected = () => {}
+
+const isAWithHref = (el: HTMLElement) =>
+  el.tagName === 'A' && el.getAttribute('href')
+
+const onBeforeRouteChange = (ev: PointerEvent) => {
+  const targetEl = ev.currentTarget as HTMLElement
+  if (!isAWithHref(targetEl)) {
+    return
+  }
+}
+
+const filterForTimelineItemAnimation = (event: AnimationEvent) =>
+  event.animationName.match(/timeline-item/)
 </script>
 
 <template>
@@ -80,17 +130,19 @@ const {
         <MenuPlaceholder />
       </div>
       <div
-        class="grid grid-cols-[200px,1fr] gap-4 px-4 pb-8 md:grid-cols-[416px,1fr] md:gap-8 xl:gap-14"
+        class="grid gap-4 px-4 pb-8 md:grid-cols-[416px,1fr] md:gap-8 xl:gap-14"
       >
         <div class="col-start-1 row-start-1 flex flex-col">
           <Timeline :timeline="timeline">
-            <template #title> Werkervaring</template>
+            <template #title></template>
             <template #item="{ item, index, active }">
               <TimelineItem
                 :item="item"
+                :ref="timelineRefs[item.id]"
                 :index="index"
                 :active="active"
-                :to="`/timeline/${item.slug}`"
+                @click.native="onBeforeRouteChange"
+                :to="`/${item.slug}`"
               />
             </template>
           </Timeline>
@@ -100,8 +152,6 @@ const {
           class="relative flex flex-col gap-2 overflow-hidden md:col-start-2 md:row-start-1 xl:pt-16"
         >
           <TimelineItemTextContent :item="item" />
-        </div>
-        <div v-if="item" class="col-span-full col-start-2 flex flex-col">
           <TimelineItemFiles :item="item" />
         </div>
       </div>
@@ -110,29 +160,11 @@ const {
 </template>
 
 <style>
-#timeline-item {
-  view-transition-name: timeline-item;
-}
+@import 'assets/css/keyframes.css';
 
-@keyframes fade-in-from-right {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fade-out-to-right {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(100%);
+html:not(:is(.prevent-pan-x, .is-transitioning)) {
+  #timeline-item {
+    view-transition-name: timeline-item;
   }
 }
 
@@ -142,9 +174,5 @@ const {
 
 ::view-transition-old(timeline-item):only-child {
   animation-name: fade-out-to-right;
-}
-
-::view-transition-old(timeline-item),
-::view-transition-new(timeline-item) {
 }
 </style>

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ITimelineItem } from '~/types/portfolio'
+
 const timelineStore = useTimelineStore()
 
 const { setTimeline } = timelineStore
@@ -26,13 +28,27 @@ if (!timeline.value?.length) {
   setTimeline(timeline.value)
 }
 
+const item = computed<ITimelineItem>(() => {
+  if (!timeline.value && !Array.isArray(timeline.value)) return
+  return timeline.value.find((item) => item.slug === route.params.slug)
+})
+
+const router = useRouter()
+
 const {
   Placeholder: MenuPlaceholder,
   toggle,
   hide
 } = useMenu(
   {
-    trailingIcons: []
+    trailingIcons: [
+      {
+        icon: 'ic:round-edit',
+        label: 'Aanpassen',
+        name: 'edit',
+        onClick: () => router.push(`/${item.value!.slug}/edit`)
+      }
+    ]
   },
   {
     emits: {
@@ -40,32 +56,21 @@ const {
     }
   }
 )
+
+const onClose = () => {
+  router.push('/')
+}
 </script>
 
 <template>
-  <div class="flex h-16 items-start justify-start bg-surface">
-    <div
-      class="mx-auto flex h-full w-full max-w-5xl items-center justify-between p-4"
-    >
-      <Breadcrumbs />
-      <MenuTrigger @click="toggle" />
+  <BottomSheet @close="onClose">
+    <div>
+      <TimelineItemTextContent :item="item" />
+      <TimelineItemFiles :item="item" />
     </div>
-  </div>
-  <PageContainer>
-    <div class="flex w-full max-w-5xl justify-end px-1">
-      <MenuPlaceholder />
-    </div>
-    <div class="w-full max-w-md p-4">
-      <Timeline :timeline="timeline">
-        <template #title> Werkervaring</template>
-        <template #item="{ item, index, active }">
-          <TimelineItem
-            :item="item"
-            :index="index"
-            :to="`/timeline/${item.slug}`"
-          />
-        </template>
-      </Timeline>
-    </div>
-  </PageContainer>
+  </BottomSheet>
 </template>
+
+<style scoped>
+@import 'assets/css/keyframes.css';
+</style>
